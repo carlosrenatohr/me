@@ -1,0 +1,4 @@
+# This repository is its own pnpm workspace root.
+# Without this file pnpm walks up to /home/renato/pnpm-workspace.yaml and installs
+# dependencies outside the repository, which would leave no committed lockfile.
+packages: []

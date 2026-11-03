@@ -1,0 +1,38 @@
+---
+// Phase 00 build-check page. It is intentionally not a design.
+// Real routes are implemented only after the owner approves a visual direction.
+import '../styles/base.css';
+import { SITE } from '../config/site';
+import { getAllProjects, getPublishedProjects } from '../lib/content';
+
+const projects = await getAllProjects();
+const published = await getPublishedProjects();
+---
+
+<!doctype html>
+<html lang={SITE.locale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>Tooling check — {SITE.name}</title>
+  </head>
+  <body>
+    <main style="max-width: 60ch; margin: 15vh auto; padding: 0 var(--page-gutter);">
+      <p style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-text-muted);">
+        Phase 00 — build check
+      </p>
+      <h1 style="font-family: var(--font-serif); font-size: clamp(2rem, 5vw, 3rem); line-height: 1.1; margin-block: 1rem;">
+        Tooling is wired up.
+      </h1>
+      <p style="color: var(--color-text-muted);">
+        Astro, strict TypeScript, content collections and CSS tokens are configured. The public site
+        is not built yet: visual direction approval comes first.
+      </p>
+      <p style="margin-top: 2rem; font-family: var(--font-mono); font-size: 0.8125rem;">
+        Entries loaded: {projects.length} · publishable: {published.length}
+      </p>
+    </main>
+  </body>
+</html>

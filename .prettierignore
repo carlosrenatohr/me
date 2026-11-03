@@ -1,0 +1,14 @@
+dist/
+.astro/
+node_modules/
+pnpm-lock.yaml
+.agents/
+docs/
+design-lab/evidence/
+
+# Owner-authored documents: never reformatted by tooling.
+AGENTS.md
+OPENCODE-START-PROMPT.md
+board.md
+README.md
+PRODUCT.md
