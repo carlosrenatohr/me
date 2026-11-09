@@ -1,0 +1,275 @@
+---
+// Phase 03 — Project case study template.
+import type { Project, ProjectWithSlug } from '@/lib/content';
+import { getAllProjects } from '@/lib/content';
+import '@/styles/base.css';
+import '@/styles/primitives.css';
+import { SITE } from '@/config/site';
+
+interface Props {
+  project: ProjectWithSlug;
+}
+
+export async function getStaticPaths() {
+  const projects = (await getAllProjects()) as ProjectWithSlug[];
+  return projects
+    .filter(
+      (project) => project.data.status === 'published' && project.data.contentStatus === 'verified'
+    )
+    .map((project) => ({
+      params: { slug: project.slug },
+      props: { project },
+    }));
+}
+
+const { project } = Astro.props as Props;
+---
+
+<!doctype html>
+<html lang={SITE.locale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{project.data.title} — {SITE.name}</title>
+    <meta name="description" content={project.data.summary} />
+    <link rel="canonical" href={new URL(`/projects/${project.slug}/`, SITE.origin).toString()} />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:title" content={project.data.title} />
+    <meta property="og:description" content={project.data.summary} />
+    <meta property="twitter:card" content="summary" />
+    <meta property="twitter:title" content={project.data.title} />
+    <meta property="twitter:description" content={project.data.summary} />
+  </head>
+  <body>
+    <a class="skip" href="#main">
+      Skip to content
+    </a>
+
+    <header class="site-head">
+      <a class="wordmark" href="/">
+        Carlos Renato
+      </a>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="/">Home</a>
+        <a href="/projects">Projects</a>
+        <a href="/about">About</a>
+        <a href="/contact">Contact</a>
+      </nav>
+    </header>
+
+    <main id="main">
+      <section class="hero" aria-labelledby="case-title">
+        <h1 id="case-title">{project.data.title}</h1>
+        <p class="lede">{project.data.summary}</p>
+        <p class="meta-note">
+          {project.data.category} · {project.data.period?.start ?? '[to confirm]'}
+        </p>
+      </section>
+
+      <section id="case" class="work band" aria-labelledby="case-body">
+        <div class="case-inner">
+          <div class="section-rule">
+            <h2 id="case-body">Case study</h2>
+          </div>
+
+          <div class="case-grid">
+            <div class="case-text">
+              {project.data.context ? (
+                <div class="case-section">
+                  <h3 class="case-section-title">Context</h3>
+                  <p class="case-body">{project.data.context}</p>
+                </div>
+              ) : (
+                <div class="case-section placeholder">
+                  <p class="placeholder-body">
+                    [Context placeholder. Replace with verified facts about the problem,
+                    stakeholders and operating environment.]
+                  </p>
+                </div>
+              )}
+
+              {project.data.contribution ? (
+                <div class="case-section">
+                  <h3 class="case-section-title">Contribution</h3>
+                  <p class="case-body">{project.data.contribution}</p>
+                </div>
+              ) : (
+                <div class="case-section placeholder">
+                  <p class="placeholder-body">
+                    [Contribution placeholder. State what Carlos personally designed, built and
+                    decided.]
+                  </p>
+                </div>
+              )}
+
+              {project.data.approach ? (
+                <div class="case-section">
+                  <h3 class="case-section-title">Approach and tradeoffs</h3>
+                  <p class="case-body">{project.data.approach}</p>
+                </div>
+              ) : (
+                <div class="case-section placeholder">
+                  <p class="placeholder-body">
+                    [Approach placeholder. Document the technical and product decisions, and why
+                    alternatives were weighed.]
+                  </p>
+                </div>
+              )}
+
+              {project.data.technicalDecisions.length ? (
+                <div class="case-section">
+                  <h3 class="case-section-title">Technical decisions</h3>
+                  <ul class="case-list">
+                    {project.data.technicalDecisions.map((decision: string) => (
+                      <li>{decision}</li>
+                    ))}
+                  </ul>
+                </div>
+              ) : (
+                <div class="case-section placeholder">
+                  <p class="placeholder-body">
+                    [Technical decisions placeholder. List the substantive choices behind the
+                    implementation.]
+                  </p>
+                </div>
+              )}
+
+              {project.data.outcomes.length ? (
+                <div class="case-section">
+                  <h3 class="case-section-title">Outcomes</h3>
+                  <ul class="case-list">
+                    {project.data.outcomes.map((outcome: string) => (
+                      <li>{outcome}</li>
+                    ))}
+                  </ul>
+                </div>
+              ) : (
+                <div class="case-section placeholder">
+                  <p class="placeholder-body">
+                    [Outcomes placeholder. Describe measurable results only once verified.]
+                  </p>
+                </div>
+              )}
+
+              {project.data.gallery.length ? (
+                <div class="case-section">
+                  <h3 class="case-section-title">Gallery</h3>
+                  <div class="gallery">
+                    {project.data.gallery.map((image) => (
+                      <figure class="gallery-figure">
+                        <img src={image.src} alt={image.alt} loading="lazy" />
+                        <figcaption>{image.caption ?? '[placeholder caption]'}</figcaption>
+                      </figure>
+                    ))}
+                  </div>
+                </div>
+              ) : null}
+
+              {project.data.links.length ? (
+                <div class="case-section">
+                  <h3 class="case-section-title">Links</h3>
+                  <ul class="case-links">
+                    {project.data.links.map((link) => (
+                      <li>
+                        <a
+                          class="text-link"
+                          href={link.url}
+                          target={
+                            link.kind === 'repository' || link.kind === 'case-study'
+                              ? '_blank'
+                              : undefined
+                          }
+                          rel={
+                            link.kind === 'repository' || link.kind === 'case-study'
+                              ? 'noopener noreferrer'
+                              : undefined
+                          }
+                        >
+                          {link.label}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ) : null}
+            </div>
+
+            {project.data.cover ? (
+              <div class="case-media">
+                <img
+                  src={project.data.cover.src}
+                  alt={project.data.cover.alt}
+                  fetchpriority="low"
+                />
+                <span class="media-note">{project.data.cover.alt}</span>
+              </div>
+            ) : (
+              <div class="case-media-placeholder">
+                <svg
+                  viewBox="0 0 600 400"
+                  role="img"
+                  aria-label="Abstract placeholder plate for the case study"
+                >
+                  <rect width="600" height="400" fill="#081226" />
+                  <g stroke="#eaf1ff" stroke-opacity="0.05">
+                    <line x1="0" y1="100" x2="600" y2="100" />
+                    <line x1="0" y1="200" x2="600" y2="200" />
+                    <line x1="0" y1="300" x2="600" y2="300" />
+                  </g>
+                  <circle cx="300" cy="200" r="140" stroke="#2f6bff" stroke-opacity="0.35" />
+                  <circle cx="300" cy="200" r="90" stroke="#2fd3dd" stroke-opacity="0.45" />
+                </svg>
+                <span class="media-note">Placeholder image</span>
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+
+      <div class="case-cta">
+        <a class="text-link" href="/projects">
+          &larr; Back to projects
+        </a>
+      </div>
+    </main>
+
+    <footer class="site-foot">
+      <div class="foot-grid">
+        <div>
+          <p class="foot-label">Get in touch</p>
+          <a class="foot-mail" href="mailto:hello@example.com">
+            hello@example.com
+          </a>
+        </div>
+        <ul class="foot-links">
+          <li>
+            <a
+              href="https://linkedin.com/in/carlos-renato"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              LinkedIn
+            </a>
+          </li>
+          <li>
+            <a href="https://github.com/carlos-renato" target="_blank" rel="noopener noreferrer">
+              GitHub
+            </a>
+          </li>
+          <li>
+            <a href="/cv.pdf">CV</a>
+          </li>
+        </ul>
+      </div>
+      <p class="colophon">Carlos Renato — direction C, 2026</p>
+    </footer>
+
+    <script>
+      // Deterministic capture state for review screenshots.
+      if (new URLSearchParams(location.search).has('static')) {
+        document.documentElement.classList.add('no-motion');
+      }
+    </script>
+  </body>
+</html>

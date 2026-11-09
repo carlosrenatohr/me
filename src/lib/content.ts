@@ -10,6 +10,18 @@ import { getCollection, getEntry, type CollectionEntry } from 'astro:content';
 
 export type Profile = CollectionEntry<'profile'>;
 export type Project = CollectionEntry<'project'>;
+
+/** A project with the `slug` property added, useful for pages that build slug-based URLs. */
+export type ProjectWithSlug = Project & { slug: string };
+
+/** Projects allowed on public routes: published and owner-verified. */
+export type PublicProject = ProjectWithSlug & {
+  data: {
+    status: 'published';
+    contentStatus: 'verified';
+    [key: string]: unknown;
+  };
+};
 export type Experience = CollectionEntry<'experience'>;
 
 function isPublicProject(project: Project): boolean {
@@ -40,8 +52,8 @@ export async function getAllProjects(): Promise<Project[]> {
 }
 
 /** Projects allowed on public routes: published and owner-verified. */
-export async function getPublishedProjects(): Promise<Project[]> {
-  const projects = await getCollection('project', isPublicProject);
+export async function getPublishedProjects(): Promise<PublicProject[]> {
+  const projects = (await getCollection('project', isPublicProject)) as PublicProject[];
   return projects.sort(byDisplayOrder);
 }
 

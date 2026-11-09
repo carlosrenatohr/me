@@ -1,0 +1,167 @@
+---
+// Phase 03 — Contact page.
+import '../styles/base.css';
+import '../styles/primitives.css';
+import { SITE } from '../config/site';
+---
+
+<!doctype html>
+<html lang={SITE.locale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{SITE.name} — Contact</title>
+    <meta name="description" content={SITE.description} />
+    <link rel="canonical" href={new URL('/contact', SITE.origin).toString()} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:title" content={SITE.defaultTitle} />
+    <meta property="og:description" content={SITE.description} />
+    <meta property="twitter:card" content="summary" />
+    <meta property="twitter:title" content={SITE.defaultTitle} />
+    <meta property="twitter:description" content={SITE.description} />
+  </head>
+  <body>
+    <a class="skip" href="#main">
+      Skip to content
+    </a>
+
+    <header class="site-head">
+      <a class="wordmark" href="/">
+        Carlos Renato
+      </a>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="/">Home</a>
+        <a href="/projects">Projects</a>
+        <a href="/about">About</a>
+        <a href="/contact" aria-current="page">
+          Contact
+        </a>
+      </nav>
+    </header>
+
+    <main id="main">
+      <section class="hero" aria-labelledby="contact-title">
+        <h1 id="contact-title">Contact</h1>
+        <p class="lede">{SITE.description}</p>
+        <p class="meta-note">
+          [Email address to confirm — replace `hello@example.com` with a verified address.]
+        </p>
+      </section>
+
+      <section id="contact" class="work band" aria-labelledby="contact-body">
+        <div class="contact-inner">
+          <div class="section-rule">
+            <h2 id="contact-body">Get in touch</h2>
+          </div>
+
+          <div class="contact-grid">
+            <div class="contact-card">
+              <p class="contact-label">Email</p>
+              <a class="foot-mail" href="mailto:hello@example.com">
+                hello@example.com
+              </a>
+            </div>
+
+            <div class="contact-card">
+              <p class="contact-label">Location</p>
+              <p class="contact-value">{SITE.locale.toUpperCase()}</p>
+            </div>
+
+            <div class="contact-card">
+              <p class="contact-label">Social</p>
+              <ul class="contact-links">
+                <li>
+                  <a
+                    class="text-link"
+                    href="https://linkedin.com/in/carlos-renato"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    LinkedIn
+                  </a>
+                </li>
+                <li>
+                  <a
+                    class="text-link"
+                    href="https://github.com/carlos-renato"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    GitHub
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="cv-band">
+        <div class="contact-inner">
+          <div class="cv-row">
+            <a class="text-link" href="/cv.pdf">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+                focusable="false"
+              >
+                <rect x="3" y="3" width="18" height="18" rx="2" />
+                <circle cx="12" cy="12" r="3" />
+                <line x1="12" y1="13" x2="12" y2="18" />
+                <line x1="12" y1="9" x2="12" y2="9" />
+              </svg>
+              Download CV
+            </a>
+            <p class="cv-note">
+              [CV file to confirm — replace `/cv.pdf` with a verified document.]
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-foot">
+      <div class="foot-grid">
+        <div>
+          <p class="foot-label">Get in touch</p>
+          <a class="foot-mail" href="mailto:hello@example.com">
+            hello@example.com
+          </a>
+        </div>
+        <ul class="foot-links">
+          <li>
+            <a
+              href="https://linkedin.com/in/carlos-renato"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              LinkedIn
+            </a>
+          </li>
+          <li>
+            <a href="https://github.com/carlos-renato" target="_blank" rel="noopener noreferrer">
+              GitHub
+            </a>
+          </li>
+          <li>
+            <a href="/cv.pdf">CV</a>
+          </li>
+        </ul>
+      </div>
+      <p class="colophon">Carlos Renato — direction C, 2026</p>
+    </footer>
+
+    <script>
+      // Deterministic capture state for review screenshots.
+      if (new URLSearchParams(location.search).has('static')) {
+        document.documentElement.classList.add('no-motion');
+      }
+    </script>
+  </body>
+</html>

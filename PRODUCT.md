@@ -45,6 +45,8 @@ public queries.
 
 ## Approval gate
 
-Two distinct dark editorial directions must be presented with desktop and mobile concepts for
-Home and Project Detail, then compared and recommended. Full implementation starts only after
-the owner approves a direction.
+Dark editorial directions must be presented with desktop and mobile concepts for Home and Project
+Detail, then compared and recommended. A and B were presented; the owner directed a third,
+Direction C (Dark Editorial, Vibrant Edition), which combines A's identity with a richer navy,
+electric-blue, aqua and coral system and selected structure from B. Full implementation starts
+only after the owner approves a direction.

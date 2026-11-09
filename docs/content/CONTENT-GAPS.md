@@ -6,6 +6,14 @@ Purpose: track every fact the owner must supply or approve before it can be publ
 Rules: nothing in this list may be filled with plausible-sounding guesses. Entries marked
 `contentStatus: placeholder` are excluded from public queries by `src/lib/content.ts`.
 
+## Phase 02 — Design foundation (this checklist)
+
+- [ ] Direction C approved as the foundation for the public site (owner-directed 2026-11-03).
+- [ ] Tokens frozen in `src/styles/tokens.css` after the owner confirms the palette volumes.
+- [ ] Type scale, grid, spacing, borders and motion frozen after the owner confirms the proportions.
+- [ ] Shared layout and UI primitives reviewed.
+- [ ] Responsive behaviour documented.
+
 ## Profile
 
 - [ ] Professional headline (current value is a placeholder).
@@ -58,3 +66,9 @@ Rules: nothing in this list may be filled with plausible-sounding guesses. Entri
 No images, logos, portraits or product screenshots exist in the repository. Every visual in
 Phase 01 exploration is a placeholder composed for layout testing, never presented as a real
 product screenshot.
+
+## Open questions
+
+- [ ] Should the footer email use coral?
+- [ ] Is the aqua italic emphasis in the hero headline right, or should it stay in the Approach statement?
+- [ ] Do approved project screenshots exist, or should the site plan for diagrams and abstract plates only?

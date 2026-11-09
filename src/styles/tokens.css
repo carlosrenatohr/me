@@ -1,25 +1,64 @@
-/*
- * PROVISIONAL tokens — Phase 00 only.
- * Values come from docs/design/PERSONAL-DESIGN-PROFILE.md and are NOT final.
- * Phase 02 replaces this file after the owner approves a visual direction.
- * Contrast ratios must be measured before these ship.
- */
+/* Direction C — Dark Editorial, Vibrant Edition (owner-directed 2026-11-03).
+   Frozen in Phase 02. This file is the only token source; import it as the first
+   CSS file, before any component CSS.
+   Palette is stable at 1440 px; measure again if the owner changes the display.
+   Electric blue fills and rules only — it fails AA as text (4.36:1) and is
+   never used for type. Links and labels use the lighter --blue-text. */
+
 :root {
   color-scheme: dark;
 
-  --color-bg: #080d18;
-  --color-surface: #101a2b;
-  --color-surface-raised: #17253b;
-  --color-border: #24334a;
-  --color-text: #e5eaf2;
-  --color-text-muted: #9aa8bd;
-  --color-accent: #6698d1;
-  --color-accent-strong: #315b91;
+  /* ------------------------------------------------------------------ */
+  /* Page ground                                                        */
+  /* ------------------------------------------------------------------ */
+  --bg: #060b1a;
+  --bg-deep: #040814;
 
-  --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  --font-serif: Georgia, 'Times New Roman', serif;
+  /* ------------------------------------------------------------------ */
+  /* Surfaces                                                           */
+  /* ------------------------------------------------------------------ */
+  --surface: #0a1428;
+  --surface-band: #0a1730;
+
+  /* ------------------------------------------------------------------ */
+  /* Text                                                               */
+  /* ------------------------------------------------------------------ */
+  --text: #eaf1ff;
+  --body: #c9d6ec;
+  --muted: #95a7c6;
+
+  /* ------------------------------------------------------------------ */
+  /* Accents — one job each                                             */
+  /* ------------------------------------------------------------------ */
+  --blue: #2f6bff;
+  --blue-text: #5b8dff;
+  --aqua: #2fd3dd;
+  --coral: #ff6a4d;
+  --coral-soft: #ff8f78;
+
+  /* ------------------------------------------------------------------ */
+  /* Structural rules, non-text                                         */
+  /* ------------------------------------------------------------------ */
+  --line: rgba(234, 241, 255, 0.14);
+  --line-soft: rgba(234, 241, 255, 0.08);
+
+  /* ------------------------------------------------------------------ */
+  /* Fonts                                                              */
+  /* ------------------------------------------------------------------ */
+  /* Newsreader must be loaded after the @font-face declarations below.
+     Archivo must be loaded after the @font-face declarations below.
+     These fall back to Georgia / system-ui so the site stays legible
+     before the self-hosted files resolve and in hostile networks.
+     Never replace the fallbacks with @import or a <link> to Google Fonts:
+     the whole point of Phase 02 is to remove that request. */
+
+  --font-serif: 'Newsreader', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Archivo', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
+  /* ------------------------------------------------------------------ */
+  /* Spacing                                                            */
+  /* ------------------------------------------------------------------ */
   --space-1: 0.25rem;
   --space-2: 0.5rem;
   --space-3: 0.75rem;
@@ -30,10 +69,252 @@
   --space-16: 4rem;
   --space-24: 6rem;
 
-  --measure: 68ch;
-  --page-gutter: clamp(1.25rem, 4vw, 4rem);
+  /* ------------------------------------------------------------------ */
+  /* Type, grid and motion                                              */
+  /* ------------------------------------------------------------------ */
+  /* Type scale (measured at 1440 px, Direction C).
+     One serif voice for display headlines; Archivo carries every label,
+     metadata value and index. The serif is doing the editorial identity
+     work; Archivo is infrastructure, not decoration. */
 
+  --type-headline: 5.9rem;
+  --type-headline-lh: 1.02;
+  --type-headline-lead: 4.6rem;
+  --type-headline-lead-lh: 1.04;
+  --type-feature: 2.35rem;
+  --type-feature-lh: 1.08;
+  --type-pair: 1.55rem;
+  --type-pair-lh: 1.12;
+  --type-statement: 1.6rem;
+  --type-statement-lh: 1.42;
+  --type-case: 1.75rem;
+  --type-case-lh: 1.2;
+  --type-case-body: 0.9375rem;
+  --type-case-body-lh: 1.68;
+  --type-section: 1.5rem;
+  --type-section-lh: 1.2;
+  --type-pull: 1.75rem;
+  --type-pull-lh: 1.28;
+  --type-footer: 1.75rem;
+  --type-footer-lh: 1.25;
+
+  /* Archivo labels: uppercase, letterspaced, aqua or muted */
+  --type-label: 0.5625rem;
+  --type-label-lh: 1.3;
+  --type-label-slab: 0.6875rem;
+  --type-label-mono: 0.6875rem;
+  --type-label-mono-lh: 1.3;
+
+  /* Archivo values and contents links */
+  --type-value: 0.75rem;
+  --type-contents: 0.7rem;
+  --type-contents-lh: 1.7;
+
+  /* Notes and figures */
+  --type-note: 0.75rem;
+  --type-note-lh: 1.53;
+  --type-figure: 0.625rem;
+
+  /* Type scale steps, used for section rhythm */
+  --scale-1: 0.25rem;
+  --scale-2: 0.5rem;
+  --scale-3: 0.75rem;
+  --scale-4: 1rem;
+  --scale-5: 1.5rem;
+  --scale-6: 2rem;
+  --scale-8: 3rem;
+
+  /* -------------------------------------------------------------------------- */
+  /* Layout — 12-column editorial grid (Direction C, measured at 1440 px)       */
+  /* Max content 1320 px. Gutter is clamp(1.25rem, 4.5vw, 4.5rem), 24 px gap.   */
+  /* -------------------------------------------------------------------------- */
+  --max-width: 1320px;
+  --gutter: clamp(1.25rem, 4.5vw, 4.5rem);
+  --gap: 1.5rem;
+
+  /* -------------------------------------------------------------------------- */
+  /* Motion                                                                   */
+  /* -------------------------------------------------------------------------- */
+  --ease: cubic-bezier(0.22, 0.61, 0.24, 1);
   --duration-fast: 120ms;
   --duration-base: 220ms;
-  --ease-out: cubic-bezier(0.2, 0.6, 0.2, 1);
+  --duration-entrance: 700ms;
+  --duration-hover: 180ms;
+
+  /* -------------------------------------------------------------------------- */
+  /* Focus and selection                                                      */
+  /* -------------------------------------------------------------------------- */
+  /* Focus: 2 px aqua outline, 4 px offset. Measured 10.73:1 against the base. */
+  --focus-ring: var(--aqua);
+  --focus-ring-width: 2px;
+  --focus-ring-offset: 4px;
+
+  /* Selection: electric blue fill, white text */
+  --selection-bg: var(--blue);
+  --selection-fg: #ffffff;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Self-hosted fonts                                                        */
+/* -------------------------------------------------------------------------- */
+/* These four files are the exact variants Phase 02 needs. Vendor-loading    */
+/* them keeps the site offline-resilient, removes the Google Fonts request,  */
+/* and stops the network from shifting the skeleton while the serif loads. */
+
+@font-face {
+  font-family: 'Newsreader';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url('/fonts/newsreader/numerals/newsreader-numerals-300.woff2') format('woff2');
+  /* Quotes preserved by adding space after colon */
+}
+
+@font-face {
+  font-family: 'Newsreader';
+  font-style: italic;
+  font-weight: 300;
+  font-display: swap;
+  src: url('/fonts/newsreader/numerals/newsreader-numerals-italic-300.woff2') format('woff2');
+  /* Quotes preserved by adding space after colon */
+}
+
+@font-face {
+  font-family: 'Newsreader';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/newsreader/numerals/newsreader-numerals-400.woff2') format('woff2');
+  /* Quotes preserved by adding space after colon */
+  /* Arabic: 0,6..72,400 */
+}
+
+@font-face {
+  font-family: 'Newsreader';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/newsreader/numerals/newsreader-numerals-500.woff2') format('woff2');
+  /* Quotes preserved by adding space after colon */
+  /* Arabic: 0,6..72,500 */
+}
+
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url('/fonts/archivo/archivo-300.woff2') format('woff2');
+  /* Quotes preserved by adding space after colon */
+}
+
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/archivo/archivo-400.woff2') format('woff2');
+  /* Quotes preserved by adding space after colon */
+}
+
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/archivo/archivo-500.woff2') format('woff2');
+  /* Quotes preserved by adding space after colon */
+}
+
+/* -------------------------------------------------------------------------- */
+/* Base                                                                     */
+/* -------------------------------------------------------------------------- */
+
+/* -------------------------------------------------------------------------- */
+/* Document kind, produced by Phase 02.                                     */
+/* -------------------------------------------------------------------------- */
+
+/* Google Fonts requests were removed in Phase 02. The site now self-hosts  */
+/* Newsreader (300/400/500 + italic) and Archivo (300/400/500) as .woff2   */
+/* with font-display: swap. The fallbacks in src/styles/tokens.css cover    */
+/* the moment the files have not resolved. There is no third-party font CDN */
+/* and no layout shift from an external stylesheet.                        */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html {
+  background-color: var(--bg);
+  color: var(--text);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  min-height: 100dvh;
+  font-family: var(--serif);
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Elements that belong to a content language read better in a serif. */
+h1,
+h2,
+h3,
+p,
+dl,
+dd,
+figure,
+blockquote {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img,
+picture,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Skip link and visually hidden utility                                    */
+/* -------------------------------------------------------------------------- */
+.skip {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 20;
+  padding: 0.75rem 1rem;
+  background: var(--text);
+  color: var(--bg);
+  font-family: var(--sans);
+  font-size: 0.8125rem;
+}
+
+.skip:focus {
+  left: 1rem;
+  top: 1rem;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }

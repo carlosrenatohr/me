@@ -32,6 +32,9 @@ playwright/.cache/
 .netlify/
 .wrangler/
 
+# Tool scratch
+.playwright-mcp/
+
 # Temporary files
 .tmp/
 .temp/

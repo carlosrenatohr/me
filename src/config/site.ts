@@ -12,9 +12,8 @@ export const SITE = {
   origin: import.meta.env.PUBLIC_SITE_URL ?? 'http://localhost:4321',
 } as const;
 
-/** Public routes. Only add a nav item once its page exists. */
-export const NAV_ITEMS = [
-  { label: 'Projects', href: '/projects' },
-  { label: 'About', href: '/about' },
-  { label: 'Contact', href: '/contact' },
-] as const;
+/** Public routes. Only a component or page may add a nav item once its page exists. */
+export const PAGE_ROUTES = ['/', '/projects', '/about', '/contact'] as const;
+
+/** In-page section ids used by the contents rail and anchor navigation. */
+export const SECTION_IDS = ['projects', 'about', 'contact'] as const;
