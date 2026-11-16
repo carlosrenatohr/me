@@ -22,7 +22,9 @@ export const SITE = {
  * navigation. Pages, navigation and the sitemap all read from here.
  */
 
-const BASE = import.meta.env.PUBLIC_BASE_URL ?? '/';
+const BASE = import.meta.env.BASE_URL.endsWith('/')
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
 
 export const ROUTES = {
   home: BASE,
