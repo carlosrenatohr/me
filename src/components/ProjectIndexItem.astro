@@ -1,0 +1,68 @@
+---
+/**
+ * One row of the work index.
+ *
+ * The index is a list, not a gallery: the cover, the screenshots and the whole
+ * argument belong to the case-study page, and the card exists to get a reader
+ * there with the smallest possible amount of chrome.
+ */
+import { projectPath } from '@/config/site';
+import { isSampleProject, type PublicProject } from '@/lib/content';
+
+interface Props {
+  project: PublicProject;
+  /** Position in the index, 1-based, rendered as 01, 02, … */
+  index: number;
+}
+
+const { project, index } = Astro.props;
+const { data } = project;
+const sample = isSampleProject(project);
+const pending = '[to confirm]';
+const period = data.period
+  ? `${data.period.start}${data.period.end ? ` — ${data.period.end}` : ''}`
+  : pending;
+---
+
+<article class="index-item">
+  <p class="index-num" aria-hidden="true">
+    {String(index).padStart(2, '0')}
+  </p>
+
+  <div class="index-body">
+    <p class="eyebrow">{data.category}</p>
+    <h3>
+      <a href={projectPath(project.slug)}>{data.title}</a>
+    </h3>
+    <p class="index-summary">{data.summary}</p>
+
+    {data.technologies.length > 0 && (
+      <ul class="chip-row" aria-label="Stack">
+        {data.technologies.slice(0, 5).map((technology) => (
+          <li class="chip">{technology}</li>
+        ))}
+      </ul>
+    )}
+
+    {sample && (
+      <p class="badge sample-flag">
+        <span class="dot" aria-hidden="true" />
+        Sample case study
+      </p>
+    )}
+  </div>
+
+  <div class="index-side">
+    <p class="index-fact">
+      <span>Role</span>
+      {data.role ?? pending}
+    </p>
+    <p class="index-fact">
+      <span>Period</span>
+      {period}
+    </p>
+    <a class="text-link" href={projectPath(project.slug)}>
+      Read the case study <span aria-hidden="true">→</span>
+    </a>
+  </div>
+</article>

@@ -1,8 +1,7 @@
 ---
-// Projects index — personal and side projects first, client work after.
+// Projects index — a list of entries that open into full case studies.
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import ProjectFeature from '@/components/ProjectFeature.astro';
-import ProjectPair from '@/components/ProjectPair.astro';
+import ProjectIndexItem from '@/components/ProjectIndexItem.astro';
 import { getPublishedProjects, isSampleProject } from '@/lib/content';
 import { ROUTES, SITE } from '@/config/site';
 
@@ -27,8 +26,8 @@ const description =
     <div class="hero-grid">
       <h1 id="page-title">Selected work</h1>
       <p class="hero-lede">
-        Each case study states the problem, what I personally owned, the decisions behind it, and
-        what changed.
+        Every entry opens into the same structure: the problem, the solution, what I personally
+        owned, the decisions behind it, and what changed.
       </p>
     </div>
   </section>
@@ -41,13 +40,13 @@ const description =
     </p>
   )}
 
-  {projects.length === 0 && (
-    <section class="work" aria-labelledby="work-title">
-      <div class="section-rule">
-        <h2 id="work-title">Projects</h2>
-        <p>{countLabel}</p>
-      </div>
+  <section class="work" aria-labelledby="projects-title">
+    <div class="section-rule">
+      <h2 id="projects-title">{bothKinds ? 'Projects' : 'Selected work'}</h2>
+      <p>{countLabel}</p>
+    </div>
 
+    {projects.length === 0 ? (
       <div class="empty">
         <p class="empty-body">
           No published projects yet. Case studies appear here once the owner confirms the role,
@@ -58,30 +57,12 @@ const description =
           <code>status: published</code> and <code>contentStatus: verified</code>.]
         </p>
       </div>
-    </section>
-  )}
-
-  {personal.length > 0 && (
-    <section class="work" aria-labelledby="personal-title">
-      <div class="section-rule">
-        <h2 id="personal-title">{bothKinds ? 'Personal & side projects' : 'Projects'}</h2>
-        <p>{personal.length === 1 ? '1 project' : `${personal.length} projects`}</p>
+    ) : (
+      <div class="index-list">
+        {projects.map((project, index) => (
+          <ProjectIndexItem project={project} index={index + 1} />
+        ))}
       </div>
-
-      <ProjectFeature project={personal[0]} priority showBadge={false} />
-      <ProjectPair projects={personal.slice(1)} />
-    </section>
-  )}
-
-  {client.length > 0 && (
-    <section class="work" aria-labelledby="client-title">
-      <div class="section-rule">
-        <h2 id="client-title">{bothKinds ? 'Client & product work' : 'Projects'}</h2>
-        <p>{client.length === 1 ? '1 project' : `${client.length} projects`}</p>
-      </div>
-
-      <ProjectFeature project={client[0]} showBadge={false} />
-      <ProjectPair projects={client.slice(1)} />
-    </section>
-  )}
+    )}
+  </section>
 </BaseLayout>
