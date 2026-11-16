@@ -14,18 +14,28 @@ export type Project = CollectionEntry<'project'>;
 /** A project with the `slug` property added, useful for pages that build slug-based URLs. */
 export type ProjectWithSlug = Project & { slug: string };
 
-/** Projects allowed on public routes: published and owner-verified. */
+/**
+ * Projects allowed on public routes: either owner-verified or explicitly marked as a
+ * sample. A sample renders the real layout with demonstration content and is labelled
+ * everywhere it appears, so it can never be mistaken for the owner's work.
+ */
 export type PublicProject = ProjectWithSlug & {
   data: {
-    status: 'published';
-    contentStatus: 'verified';
+    status: 'published' | 'sample';
+    contentStatus: 'verified' | 'placeholder';
     [key: string]: unknown;
   };
 };
 export type Experience = CollectionEntry<'experience'>;
 
 function isPublicProject(project: Project): boolean {
+  if (project.data.status === 'sample') return true;
   return project.data.status === 'published' && project.data.contentStatus === 'verified';
+}
+
+/** True when a public project is demonstration content, not the owner's work. */
+export function isSampleProject(project: { data: { status: string } }): boolean {
+  return project.data.status === 'sample';
 }
 
 /**

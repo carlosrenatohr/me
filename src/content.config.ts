@@ -75,7 +75,12 @@ const project = defineCollection({
     summary: z.string().min(1),
     category: z.string().min(1),
     kind: z.enum(['personal', 'client']).default('client'),
-    status: z.enum(['draft', 'published']).default('draft'),
+    /**
+     * `sample` publishes the layout with demonstration content: it must render the
+     * page but never pass for the owner's work, so every surface that shows it is
+     * labelled. Only `published` + `verified` counts as a real case study.
+     */
+    status: z.enum(['draft', 'published', 'sample']).default('draft'),
     contentStatus,
     featured: z.boolean().default(false),
     featuredOrder: z.number().int().optional(),
