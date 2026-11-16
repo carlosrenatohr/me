@@ -244,7 +244,9 @@ playwright-evals/projects-mobile.png  — dominant navy #081226
 
 **Typography and font loading verification:**
 
-- `public/fonts/` contains 7 woff2 files (Newsreader 300/400/500 + italic; Archivo 300/400/500).
+- `public/fonts/` contained 7 woff2 files (Newsreader 300/400/500 + italic; Archivo 300/400/500).
+  *Superseded in Phase 03: those files had no glyph tables and were replaced by three variable
+  faces — see the RESOLVED note below.*
 - Source CSS (`src/styles/tokens.css`) declares 7 `@font-face` rules with quoted `url('/fonts/...')`
   and `format('woff2')`.
 - **BLOCKING FINDING — font loading:** After the production build, the CSS minifier strips the
@@ -257,6 +259,11 @@ playwright-evals/projects-mobile.png  — dominant navy #081226
 - Note: a minimal test page served by a plain Python HTTP server loads the same CSS correctly,
   confirming the font files themselves are valid and reachable; the issue is specific to the Astro
   build output.
+- **RESOLVED (2026-11-15, Phase 03):** the diagnosis above was wrong. The minifier was never the
+  problem: the seven files had no `glyf`/`loca` tables, so Chromium rejected them with
+  `OTS parsing error: no supported glyph data table(s) present`. They were replaced with three
+  variable, latin-subset faces generated from the upstream Google Fonts sources and declared with
+  weight ranges in `src/styles/tokens.css`; `document.fonts` now reports every face as `loaded`.
 
 **OFL license files (added for Phase 02 closeout):**
 
@@ -289,28 +296,122 @@ pnpm format:check  → All matched files use Prettier code style!
 
 ## Phase 03 — Public website
 
-**Status: IN PROGRESS** — implementation started after owner approved Phase 02.
+**Status: IMPLEMENTED (2026-11-15); content still pending the owner (P03-07).** Direction C is
+ported component by component, all five routes render at 390 / 834 / 1440 px with zero horizontal
+overflow, and drafts never reach a public route. The original audit stays in
+`docs/architecture/PHASE-03-AUDIT.md` as the record of what was wrong.
 
-- [x] P03-01 Implement global layout and navigation  *(verified: site-head + site-nav flex, 3 nav items, focus states, skip link — responsive-final.cjs)*
-- [x] P03-02 Implement Home  *(verified: hero, tags, section rules, footer — see Phase 02 final review screenshots)*
-- [x] P03-03 Implement Projects listing  *(4 pages built: Home, Projects, About, Contact — pnpm build: 4 page(s) built; pnpm check: 0 errors)*
-- [x] P03-04 Implement Project detail template  *(dynamic route `[slug]/` scaffolded; no project content yet — placeholder fallbacks verified in build)*
-- [x] P03-05 Implement About and Experience  *(page exists; content is placeholder until owner supplies verified facts)*
-- [x] P03-06 Implement Contact and CV download  *(page exists; mailto/linkedin/github/cv.pdf links present in footer)*
-- [ ] P03-07 Add validated structured content for approved projects  *(content pending owner review — `contentStatus: placeholder` entries excluded from public queries)*
+- [x] P03-01 Implement global layout and navigation  *(`src/layouts/BaseLayout.astro`: container, skip link, `<details class="nav-compact">` under 900 px, footer from profile data)*
+- [x] P03-02 Implement Home  *(hero + selected work + approach band + contact, composed from `ProjectFeature`, `ProjectPair`, `Plate`)*
+- [x] P03-03 Implement Projects listing  *(`.section-rule`/`.feature`/`.pair` system, split into "Personal & side projects" and "Client & product work", plus the empty state)*
+- [x] P03-04 Implement Project detail template  *(`projects/[slug]/index.astro`: doc column + sticky contents, spec, decisions, outcomes, next project; verified with a temporary published entry)*
+- [x] P03-05 Implement About and Experience  *(profile with headline, years and availability; six verified roles split into primary and "Earlier"; education with institution and years; statement band)*
+- [x] P03-06 Implement Contact and CV download  *(email, location, profiles and CV read from `profile.json`; every missing value renders a marked placeholder instead of a dead link)*
+- [ ] P03-07 Add validated structured content for approved projects  *(profile and experience are now real and verified from the owner's CV; every project is still `draft` + `placeholder`. Shape ready, screenshots and case-study copy pending. Guide: `docs/content/PROJECT-AUTHORING.md`)*
+- [x] P03-08 Fix page container, port the direction C component system, add mobile navigation  *(`src/styles/primitives.css` now carries the full C system; no horizontal overflow at any tested width)*
+- [x] P03-09 Decide and implement the navigation model  *(owner chose static multipage + `<ClientRouter />`; prefetch all links on viewport, inline script marks the document `static` so the router keeps the current document state)*
+- [x] P03-10 Add `sitemap.xml` and `robots.txt`, correct canonicals and trailing-slash consistency  *(route endpoints using `SITE.origin`; canonical URLs built by `canonicalUrl()`, all internal links use the trailing-slash form)*
 
-Gate: all agreed public routes work with real/approved content or clearly marked placeholders. **Phase 03 pages scaffolded and verified with 0 TypeScript errors; content pending owner review.**
+Gate: all agreed public routes work with clearly marked placeholders, with zero horizontal
+overflow at 390 / 834 / 1440 px. **MET** — the content gate stays open until P03-07.
+
+### Phase 03 — evidence (2026-11-15)
+
+```
+pnpm check       → 20 files: 0 errors, 0 warnings, 0 hints
+pnpm build       → astro check passed; 4 pages + /robots.txt + /sitemap.xml; no project pages (drafts excluded)
+pnpm format:check→ All matched files use Prettier code style!
+node playwright-evals/responsive-audit.cjs → OK — all checks passed
+```
+
+| Viewport | Overflow | Main box | Navigation |
+|---|---|---|---|
+| 390 × 844 | `scrollWidth === clientWidth` on all 4 routes | `0 + 390` | `.site-nav` none, `.nav-compact` block |
+| 834 × 1112 | same | `0 + 834` | `.site-nav` none, `.nav-compact` block |
+| 1440 × 900 | same | `60 + 1320` | `.site-nav` flex, `.nav-compact` none |
+
+Client router: navigating Home → About keeps the document marker, one history entry, updated
+`<title>` and `<h1>`; no full reload.
+
+**Two defects found and fixed during this pass:**
+
+1. **Self-hosted fonts were unusable.** The seven `public/fonts/**/*.woff2` files from Phase 02
+had their outline tables stripped (`glyf`/`loca` absent), so Chromium logged `OTS parsing error: no
+supported glyph data table(s) present` and rendered every heading in the fallback serif. Replaced
+with three variable, latin-subset faces generated from the upstream Google Fonts sources
+(Newsreader roman + italic, Archivo) and declared with weight ranges in `src/styles/tokens.css`.
+All three now report `status: "loaded"`, which also restores `font-optical-sizing: auto`.
+2. **Project pages crashed on the first published entry.** `src/lib/content.ts` assumed
+`entry.slug`, which Astro 5+ no longer exposes, so `getStaticPaths` emitted
+`params: { slug: undefined }` — invisible while every project was a draft. The slug is now derived
+once in `withSlug()` from the entry id (falling back to a legacy `slug`), and
+`getFeaturedProjects()` carries it too.
+
+**Design review pass** (`impeccable`, 2026-11-15): detector clean after replacing the 3 px coral
+rule on the pull quote with 1 px; contrast re-checked for every text token on all three surfaces
+(`--muted` 8.05:1 worst case, `--blue-text` 6.26:1 on `--bg`, all pass AA); the mobile hero no
+longer joins sentences when the `<br>` elements collapse; the Contact section rule now reports the
+record state ("Nothing confirmed yet") instead of repeating the location.
+
+### Phase 03 — content architecture (2026-11-15, v0.4.0)
+
+**Status: DONE.** The structure the owner asked for is in place; the case-study copy and
+screenshots are his part. Decisions: `docs/decisions/ADR-005-content-shape.md`.
+
+- [x] `kind: personal | client` — personal and side projects lead `/projects/`, rendered as
+  "Personal & side projects" and "Client & product work". Ordering lives in `byDisplayOrder`.
+- [x] Experience in Markdown with `YYYY-MM` periods, `location`, `primary` / `additional`.
+  Six verified roles transcribed from the CV; About splits them and adds Education.
+- [x] Profile carries `yearsExperience`, `availability` and `education[]`; the Home hero strip
+  grew from three to four cells (location, experience, work, contact).
+- [x] `screenshots[]` on projects, rendered under "Screens", next to `cover`.
+- [x] Copy-ready template: `docs/content/templates/project-case-study.md` (+ experience role
+  template). Samples in the collection: `orbit-logistics.md`, `dredd.md`, three fictional drafts.
+- [x] Reference analysis (`docs/design/REFERENCE-ANALYSIS.md`): what is borrowed from a real
+  portfolio's information architecture, and what is refused.
+- [x] Charts of record: `CHANGELOG.md` (0.1.0 → 0.4.0, from the board's phase history), project
+  version bumped to 0.4.0.
+- [ ] Owner: publish the first case study (copy + approved screenshots). Template and samples
+  are ready; nothing else blocks it.
+
+**Tooling fix in the same pass:** `astro check` crashed on Astro 7.4.12
+(`this.bridge.setLastError is not a function`). `@astrojs/language-server` resolved
+`@astrojs/astro2tsx@0.1.3`, which pins `@napi-rs/wasm-runtime@1.2.4` against the
+`@emnapi/runtime@2.0.0-beta.2` the new compiler installs. Pinned `@astrojs/astro2tsx@0.1.4`
+via a pnpm override; `astro check` and `astro build` both pass again. The installed tree also
+had to be resynced — it was still on Astro 7.4.5 while the lockfile asked for 7.4.12.
 
 ## Phase 04 — Quality assurance
 
-**Status: PARTIALLY VERIFIED**
+**Status: IN PROGRESS**
 
-- [x] P04-02 Inspect tablet and mobile rendering  *(834px and 390px nav check — responsive-final.cjs)*
-- [x] P04-03 Run accessibility checks  *(skip link, focus states, reduced motion — responsive-final.cjs)*
+- [x] P04-02 Inspect tablet and mobile rendering  *(834px and 390px nav check — `playwright-evals/responsive-audit.cjs`)*
+- [x] P04-03 Run accessibility checks  *(skip link, focus states, reduced motion — `playwright-evals/responsive-audit.cjs`)*
 - [x] P04-04 Verify SEO and social metadata
-- [x] P04-06 Run type checks, tests, lint, and production build  *(pnpm check: 0 errors, 0 warnings, 0 hints; pnpm build: 4 pages built; pnpm format:check: clean)*
-- [ ] P04-05 Verify image loading and optimization
-- [ ] P04-07 Fix and re-check all critical/high findings
+- [x] P04-06 Run type checks, tests, lint, and production build  *(pnpm check: 21 files, 0 errors; pnpm build: 4 pages; pnpm format:check: clean)*
+- [ ] P04-05 Verify image loading and optimization  *(blocked on real screenshots — no image is
+  published yet; the plates are inline SVG)*
+- [ ] P04-07 Fix and re-check all critical/high findings  *(nothing open; run again after the
+  first case study lands)*
+
+## Next queue (ordered)
+
+Priority is the content structure first, then release hardening. Each item is small and
+independently verifiable.
+
+1. **P03-07 — first published case study.** Owner copy + approved screenshots; unblocks
+   image verification and gives the Work page its real density.
+2. **P04-05 — image pipeline.** Cover 1600×900 under 300 KB, WebP/AVIF, `width`/`height` to
+   avoid layout shift, alt text reviewed. Only measurable with real files.
+3. **P04-07 — re-run the audit** on all five routes including one published case study.
+4. **P05-01 — environment and build documentation** (Node ≥ 22.23.4, pnpm, `PUBLIC_SITE_URL`).
+5. **P05-02 — deployment options** (static host; `astro preview` is not production).
+6. **P05-03 — production build and route verification** against the chosen host.
+7. **P05-04 — final QA evidence** (screenshots at three widths, link check, metadata).
+8. **P05-05 — V2 CMS migration notes** (the `src/lib/content.ts` seam and the field contract).
+
+Owner decisions still open: final domain, whether the CV PDF may be published, and whether
+the email/phone on the CV may be public. Tracked in `docs/content/CONTENT-GAPS.md`.
 
 ## Phase 05 — Release
 
