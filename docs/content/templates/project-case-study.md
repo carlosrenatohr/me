@@ -61,6 +61,11 @@ context: |
 
   Second paragraph: the scale you can defend and the constraint that shaped the solution.
 
+# What the product does about it, capability by capability. Rendered as "Solution".
+solution:
+  - title: 'Capability or module'
+    body: 'What it does for the person using it, in one paragraph.'
+
 contribution: |
   First person and bounded: what you designed, built and decided — and what someone else owned.
 
@@ -68,8 +73,18 @@ approach: |
   The sequence of decisions, starting from the first constraint. Name the simpler option you
   rejected and why.
 
+# Where a model sits in the product and where a person stays in the loop. Delete the field
+# when there is no AI: the section is omitted rather than explained away.
+# aiRole: |
+#   What the model does, what it is never allowed to decide, and who confirms the result.
+
 # Optional. One sentence you would actually say about the work.
 quote: ''
+
+# The stack by layer for the case study. `technologies` above stays flat for cards.
+stackGroups:
+  - label: 'Backend'
+    items: ['TypeScript', 'PostgreSQL']
 
 technicalDecisions:
   - title: 'Decision title'

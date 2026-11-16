@@ -24,6 +24,8 @@ later breaks the link.
 | Needed | Goes into |
 | --- | --- |
 | The problem in the words of the people who had it | `context` |
+| What the product does about it, module by module | `solution` |
+| Where AI sits, and where a person stays in the loop | `aiRole` |
 | Your exact role and the edge of your scope | `role`, `contribution` |
 | Dates you can defend | `period` |
 | Two to four decisions you actually made | `technicalDecisions` |
@@ -96,14 +98,25 @@ splits them into "primary" and "Earlier" and lists education from
 
 ### Document body
 
-- `context` — the operating problem, not the technology.
+- `context` — the operating problem, not the technology. Rendered as "The problem".
+- `solution` — `{ title, body }` per capability, rendered as a numbered list. This is
+  what the product does, not how it is built.
 - `contribution` — first person, bounded. Not the team.
 - `approach` — the sequence of decisions and the simpler option rejected.
+- `aiRole` — what a model does in the product and where the human stays in the loop.
+  Omit it when there is no model: an absent section is a truer statement than a
+  paragraph explaining the absence, and the contents rail follows what the page states.
 - `quote` — optional, one sentence you would actually say.
-- `technicalDecisions` — `title` + `body`, rendered `D1…Dn`. Without them the section
-  shows a marked placeholder.
-- `outcomes` — rendered `O1…On`. Verified results or lessons only.
-- `confidentialityNote` — one sentence naming what is withheld, shown under outcomes.
+- `technicalDecisions` — `title` + `body`, rendered `D1…Dn`.
+- `stackGroups` — `{ label, items }` per layer (Backend, Data, Offline…), rendered as
+  labelled chips under "Stack". `technologies` stays flat because the work index and the
+  spec strip read it. Without groups, the flat list renders as one group.
+- `outcomes` — rendered `O1…On` under "Impact". Verified results or lessons only.
+- `confidentialityNote` — one sentence naming what is withheld, shown under Impact.
+
+Sections with no content are not rendered and do not appear in the contents rail, so a
+partially written case study never shows a column of placeholders. The problem section is
+the exception: it always renders, with a marked placeholder when it is empty.
 
 A blank line between paragraphs starts a new paragraph in all of these.
 
@@ -142,7 +155,7 @@ pnpm format:check
 ```
 
 4. Open `/projects/<slug>/` and confirm:
-   - the contents rail links to all five sections;
+   - the contents rail lists every section the entry actually has;
    - no section shows a placeholder;
    - the spec strip has no `[to confirm]`;
    - screenshots render, with alt text that describes them;

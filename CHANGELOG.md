@@ -6,6 +6,31 @@ Versions are internal milestones of this portfolio, not public releases. Dates c
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). The project
 version in `package.json` matches the newest entry.
 
+## [0.7.0] — 2026-11-16
+
+The structure of the work and contact pages follows a reference portfolio that also states AI
+work, skills and how the owner contributes to a team.
+
+### Added
+
+- `/ai`: what is built with AI (DREDD, MCP servers, support chatbot), tools used daily, skills
+  grouped by layer, and the six stages of the delivery loop, each with an example from the CV.
+  The route is in the navigation and in the sitemap.
+- `solution[]`, `aiRole` and `stackGroups[]` on projects. The case study renders the problem,
+  the solution capability by capability, the AI role, the grouped stack and the impact.
+- `LocationPin` on Home, About and Contact wherever the location is written.
+- Home: "All work" link in the Selected work rule and an AI teaser linking to `/ai`.
+
+### Changed
+
+- The work index is a list of minimal rows instead of a gallery: cover, screenshots and the
+  full argument live on the case-study page.
+- Case-study sections with no content are omitted and the contents rail follows, instead of
+  showing placeholders. `context` now renders as "The problem" and `outcomes` as "Impact".
+- Contact leads with the email address, with profiles and CV beside it, and a meta row for
+  location, phone, availability and CV. The CV preview band is unchanged.
+- The responsive audit covers `/ai/` as well.
+
 ## [0.6.0] — 2026-11-16
 
 Sample case studies, so the Work section can be reviewed with real pages instead of an empty

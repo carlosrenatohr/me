@@ -4,6 +4,7 @@
 - `/` Home
 - `/projects` Projects index
 - `/projects/[slug]` Project case study
+- `/ai` AI, engineering automation and how I would contribute to a team
 - `/about` About and experience
 - `/contact` Contact
 
@@ -11,7 +12,8 @@ Writing/blog is optional and should only be included if approved articles exist.
 
 ## Home
 - Clear professional introduction and positioning.
-- Selected projects with meaningful summaries.
+- Selected projects with meaningful summaries, plus a link to the full index.
+- Short AI teaser that links to `/ai`.
 - Short about preview.
 - Contact call to action.
 - Links to approved professional profiles and CV.
@@ -19,18 +21,24 @@ Writing/blog is optional and should only be included if approved articles exist.
 
 ## Projects index
 - Display approved, published projects.
+- One minimal card per project: category, title, summary, a short stack row, role,
+  period and the link into the case study.
+- No covers or galleries on the index: the media belongs to the case study.
 - Consistent project metadata.
 - Featured ordering controlled by content.
 - Avoid excessive filter UI unless the number of projects justifies it.
 
 ## Project case study
-- Project context and problem.
+- The problem, stated in operating terms.
+- What the product does about it, capability by capability.
 - Owner's verified role and contribution.
 - Approach and technical decisions.
+- Where AI sits in the product and where a person stays in the loop, when applicable.
 - Relevant architecture or workflow visuals.
-- Verified outcomes or lessons.
-- Technology metadata.
+- Stack grouped by layer, in addition to the flat technology metadata.
+- Verified outcomes or lessons, under "Impact".
 - Confidentiality-aware content.
+- Sections without content are omitted rather than filled with placeholders.
 
 ## About
 - Professional biography.
@@ -39,7 +47,16 @@ Writing/blog is optional and should only be included if approved articles exist.
 - Working philosophy.
 - Optional subtle portrait.
 
+## AI
+- How AI is used in production delivery, with the owner's stated starting year.
+- The systems built with it: review workflow, MCP servers, support chatbot.
+- Tools in daily use, listed without implying endorsement.
+- Skills grouped by layer.
+- What the owner would own across a delivery cycle, with examples drawn from the CV.
+- Every claim traceable to the published CV; no invented outcomes or client names.
+
 ## Contact
+- The email address is the primary action, not one item in a list.
 - Approved email and professional links.
 - CV download only when a current CV is supplied.
 - No fake contact forms. If a form is implemented, it must have a real delivery mechanism and spam protection; otherwise use direct contact links.

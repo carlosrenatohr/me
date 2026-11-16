@@ -405,6 +405,33 @@ layout before his own copy and captures are ready.
 - [ ] Owner: replace the samples with real case studies (delete the four files and their
   image folders), then re-run `P04-05` with real captures.
 
+### Phase 03 — reference structure pass (2026-11-16, v0.7.0)
+
+**Status: DONE.** The information architecture of `cesargaray.com` was studied as a reference
+(index cards that open into a full case study; problem / solution / AI role / stack / impact;
+a contact page that leads with the address; an AI section with skills and a delivery process)
+and applied inside direction C. The visual language did not change: navy ground, Newsreader and
+Archivo, hairline rules, one accent per job.
+
+- [x] Work index rebuilt as minimal rows: category, title, summary, five stack chips, role,
+  period and the link into the case study. Covers and galleries stay on the case-study page.
+- [x] Case study restructured: The problem → Solution (numbered capabilities) → Contribution →
+  Approach → AI role → Decisions → Stack (grouped by layer) → Impact → Screens → Links. A
+  section with no content is omitted, and the contents rail lists only what the page states.
+- [x] Schema additions `solution[]`, `aiRole`, `stackGroups[]`, plus the four samples updated:
+  Harbor Ledger carries a real AI role; the other three state why the product has no model.
+- [x] New `/ai` route: what is built (DREDD, MCP servers, support chatbot), tools in daily use,
+  skills by layer, and the six stages of the delivery loop with CV-backed examples. Nav gains AI.
+- [x] Contact leads with the email at display size, secondary links beside it, then a meta row
+  (location, phone, availability, CV) and the existing CV preview band.
+- [x] `LocationPin` component used wherever Managua, Nicaragua appears: Home, About, Contact.
+- [x] Home: "All work" link in the Selected work rule and an AI teaser between work and approach.
+- [x] The responsive audit covers `/ai/`; 390 / 834 / 1440 pass on all five routes.
+
+Evidence: `pnpm build` → 9 pages; `pnpm check` → 25 files, 0 errors; `pnpm format:check` clean;
+`playwright-evals/responsive-audit.cjs` → all checks passed. Screenshots reviewed at 1440 and
+390 px for Home, Work, case study, AI and Contact.
+
 ## Phase 04 — Quality assurance
 
 **Status: IN PROGRESS**

@@ -42,9 +42,12 @@ Filename = slug = URL. Template: `docs/content/templates/project-case-study.md`.
 | `cover` | Optional `{ src, alt }` — otherwise the abstract plate |
 | `screenshots[]` | `{ src, alt, caption? }`, rendered under "Screens" |
 | `context`, `contribution`, `approach` | Narrative, paragraph-separated |
+| `solution[]` | `{ title, body }` — what the product does, rendered under "Solution" |
+| `aiRole` | What the model does and where the human stays in the loop; omitted when none |
+| `stackGroups[]` | `{ label, items[] }` — the stack by layer, for the case study |
 | `quote` | Optional pull quote |
 | `technicalDecisions[]` | `{ title, body }` → `D1…Dn` |
-| `outcomes[]` | → `O1…On`; verified only |
+| `outcomes[]` | → `O1…On` under "Impact"; verified only |
 | `links[]` | `live` \| `repository` \| `case-study` \| `reference` |
 | `confidentialityNote` | What is withheld and why |
 
