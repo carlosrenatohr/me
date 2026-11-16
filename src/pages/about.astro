@@ -2,6 +2,7 @@
 // About and experience — profile, professional record and education.
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import ExperienceCard from '@/components/ExperienceCard.astro';
+import LocationPin from '@/components/LocationPin.astro';
 import { getExperienceGroups, getProfile } from '@/lib/content';
 import { ROUTES, SITE } from '@/config/site';
 
@@ -43,8 +44,15 @@ const description =
     <div class="section-rule">
       <h2 id="profile-title">Profile</h2>
       <p>
-        {[profile.data.location, profile.data.yearsExperience].filter(Boolean).join(' · ') ||
-          '[location to confirm]'}
+        {profile.data.location ? (
+          <span class="meta-location">
+            <LocationPin />
+            {profile.data.location}
+          </span>
+        ) : (
+          '[location to confirm]'
+        )}
+        {profile.data.yearsExperience && ` · ${profile.data.yearsExperience}`}
       </p>
     </div>
 
