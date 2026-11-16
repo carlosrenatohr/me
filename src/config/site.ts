@@ -27,11 +27,12 @@ const BASE = import.meta.env.BASE_URL.endsWith('/')
 export const ROUTES = {
   home: BASE,
   projects: `${BASE}projects/`,
+  ai: `${BASE}ai/`,
   about: `${BASE}about/`,
   contact: `${BASE}contact/`,
 } as const;
 
-export type NavKey = 'projects' | 'about' | 'contact';
+export type NavKey = 'projects' | 'ai' | 'about' | 'contact';
 
 export interface NavItem {
   label: string;
@@ -42,6 +43,7 @@ export interface NavItem {
 /** Primary navigation. The wordmark is the link home, so it is not listed. */
 export const NAV_ITEMS: ReadonlyArray<NavItem> = [
   { label: 'Work', href: ROUTES.projects, key: 'projects' },
+  { label: 'AI', href: ROUTES.ai, key: 'ai' },
   { label: 'About', href: ROUTES.about, key: 'about' },
   { label: 'Contact', href: ROUTES.contact, key: 'contact' },
 ];
