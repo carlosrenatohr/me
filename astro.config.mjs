@@ -10,4 +10,6 @@ export default defineConfig({
     prefetchAll: true,
     defaultStrategy: 'viewport',
   },
+  site: 'https://carlosrenatohr.github.io',
+  base: '/me',
 });
