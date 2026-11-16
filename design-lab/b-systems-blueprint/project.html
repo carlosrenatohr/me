@@ -1,0 +1,441 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>Orbit Logistics — Direction B concept</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Libre+Franklin:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+
+    <aside class="rail">
+      <div class="rail-top">
+        <a class="wordmark" href="index.html">Carlos Renato</a>
+        <p class="rail-role">Independent software engineer and product builder</p>
+      </div>
+
+      <nav class="rail-nav" aria-label="Primary">
+        <a href="index.html" aria-current="page"><span>Work</span><span class="count">03</span></a>
+        <a href="index.html#about"><span>About</span></a>
+        <a href="index.html#contact"><span>Contact</span></a>
+      </nav>
+
+      <div class="rail-foot">
+        <p class="rail-label">Elsewhere</p>
+        <ul>
+          <li><a href="#">LinkedIn</a></li>
+          <li><a href="#">GitHub</a></li>
+          <li><a href="#">CV</a></li>
+        </ul>
+        <p class="rail-note">
+          Concept prototype. Illustrative copy, unverified project details, placeholder imagery.
+        </p>
+      </div>
+    </aside>
+
+    <main id="main" class="page">
+      <article class="case">
+        <nav class="crumbs" aria-label="Breadcrumb">
+          <a href="index.html">Work</a><span>/</span>Orbit Logistics
+        </nav>
+
+        <header class="case-head">
+          <p class="mono-label">Logistics operations</p>
+          <h1>Orbit Logistics</h1>
+          <p class="case-lede">
+            Operations software for freight teams: shipment workflows, an internal panel, and the
+            worker layer underneath them.
+          </p>
+
+          <dl class="case-spec">
+            <div>
+              <dt>Role</dt>
+              <dd>[to confirm]</dd>
+            </div>
+            <div>
+              <dt>Period</dt>
+              <dd>[to confirm]</dd>
+            </div>
+            <div>
+              <dt>Surface</dt>
+              <dd>Public site, internal panel, worker</dd>
+            </div>
+            <div>
+              <dt>Stack</dt>
+              <dd>Astro, Workers, Postgres</dd>
+            </div>
+          </dl>
+        </header>
+
+        <div class="doc">
+          <nav class="toc" aria-label="Contents">
+            <p>Contents</p>
+            <ol>
+              <li><a href="#context">Context</a></li>
+              <li><a href="#contribution">Contribution</a></li>
+              <li><a href="#approach">Approach</a></li>
+              <li><a href="#decisions">Decisions</a></li>
+              <li><a href="#outcomes">Outcomes</a></li>
+            </ol>
+          </nav>
+
+          <div class="doc-body">
+            <section class="doc-section" id="context">
+              <h2>Context</h2>
+              <p>
+                Freight operations run on handoffs: a shipment changes hands, a document is checked,
+                a status moves forward. When those handoffs live in spreadsheets and chat, the team
+                loses the thread.
+              </p>
+              <p>
+                The work covered the public surface, the internal panel operators use daily, and the
+                worker architecture that keeps state consistent between them.
+              </p>
+            </section>
+
+            <section class="doc-section" id="contribution">
+              <h2>Contribution</h2>
+              <p class="placeholder">
+                [Contribution placeholder] Describe only what Carlos personally designed and built,
+                and where the scope ended.
+              </p>
+            </section>
+
+            <section class="doc-section" id="approach">
+              <h2>Approach</h2>
+              <p>
+                [Approach placeholder] The sequence of decisions, what was traded away, and why the
+                simpler option was rejected.
+              </p>
+
+              <figure class="doc-figure">
+                <svg
+                  class="diagram-wide"
+                  viewBox="0 0 900 440"
+                  role="img"
+                  aria-label="Illustrative data flow between shipment intake, normalisation, ledger, queries, panel and status feed"
+                >
+                  <defs>
+                    <pattern id="grid2" width="40" height="40" patternUnits="userSpaceOnUse">
+                      <path d="M40 0H0V40" fill="none" stroke="#dce6f2" stroke-opacity="0.05" />
+                    </pattern>
+                  </defs>
+                  <rect width="900" height="440" fill="#070d16" />
+                  <rect width="900" height="440" fill="url(#grid2)" />
+                  <g stroke="#4e8fd6" stroke-opacity="0.55" stroke-width="2" fill="none">
+                    <path d="M240 120 H360" />
+                    <path d="M560 120 H640" />
+                    <path d="M480 200 V300" />
+                    <path d="M680 200 V300" />
+                  </g>
+                  <g font-family="Libre Franklin, sans-serif" font-size="14" fill="#dce6f2">
+                    <rect
+                      x="60"
+                      y="80"
+                      width="180"
+                      height="80"
+                      fill="#0a1119"
+                      stroke="#dce6f2"
+                      stroke-opacity="0.2"
+                    />
+                    <text x="78" y="118">Intake</text>
+                    <text
+                      x="78"
+                      y="138"
+                      font-family="IBM Plex Mono, monospace"
+                      font-size="10"
+                      fill="#8494a8"
+                    >
+                      events
+                    </text>
+
+                    <rect
+                      x="360"
+                      y="80"
+                      width="200"
+                      height="80"
+                      fill="#0a1119"
+                      stroke="#dce6f2"
+                      stroke-opacity="0.2"
+                    />
+                    <text x="378" y="118">Validation</text>
+                    <text
+                      x="378"
+                      y="138"
+                      font-family="IBM Plex Mono, monospace"
+                      font-size="10"
+                      fill="#8494a8"
+                    >
+                      workers
+                    </text>
+
+                    <rect
+                      x="640"
+                      y="80"
+                      width="200"
+                      height="120"
+                      fill="#0a1119"
+                      stroke="#4e8fd6"
+                      stroke-opacity="0.6"
+                    />
+                    <text x="658" y="118">Shipment state</text>
+                    <text
+                      x="658"
+                      y="138"
+                      font-family="IBM Plex Mono, monospace"
+                      font-size="10"
+                      fill="#9fc4e8"
+                    >
+                      postgres
+                    </text>
+
+                    <rect
+                      x="360"
+                      y="300"
+                      width="200"
+                      height="80"
+                      fill="#0a1119"
+                      stroke="#dce6f2"
+                      stroke-opacity="0.2"
+                    />
+                    <text x="378" y="338">Panel API</text>
+                    <text
+                      x="378"
+                      y="358"
+                      font-family="IBM Plex Mono, monospace"
+                      font-size="10"
+                      fill="#8494a8"
+                    >
+                      internal
+                    </text>
+
+                    <rect
+                      x="640"
+                      y="300"
+                      width="200"
+                      height="80"
+                      fill="#0a1119"
+                      stroke="#dce6f2"
+                      stroke-opacity="0.2"
+                    />
+                    <text x="658" y="338">Status feed</text>
+                    <text
+                      x="658"
+                      y="358"
+                      font-family="IBM Plex Mono, monospace"
+                      font-size="10"
+                      fill="#8494a8"
+                    >
+                      public
+                    </text>
+                  </g>
+                </svg>
+                <svg
+                  class="diagram-narrow"
+                  viewBox="0 0 320 470"
+                  role="img"
+                  aria-label="Illustrative vertical data flow between intake, validation, shipment state, panel API and status feed"
+                >
+                  <defs>
+                    <pattern id="grid2n" width="32" height="32" patternUnits="userSpaceOnUse">
+                      <path d="M32 0H0V32" fill="none" stroke="#dce6f2" stroke-opacity="0.05" />
+                    </pattern>
+                  </defs>
+                  <rect width="320" height="470" fill="#070d16" />
+                  <rect width="320" height="470" fill="url(#grid2n)" />
+                  <g stroke="#4e8fd6" stroke-opacity="0.5" stroke-width="1.5">
+                    <line x1="160" y1="86" x2="160" y2="112" />
+                    <line x1="160" y1="174" x2="160" y2="200" />
+                    <line x1="160" y1="274" x2="160" y2="300" />
+                    <line x1="160" y1="362" x2="160" y2="388" />
+                  </g>
+                  <g fill="#4e8fd6">
+                    <circle cx="160" cy="112" r="2.5" />
+                    <circle cx="160" cy="200" r="2.5" />
+                    <circle cx="160" cy="300" r="2.5" />
+                    <circle cx="160" cy="388" r="2.5" />
+                  </g>
+                  <g font-family="Libre Franklin, sans-serif" font-size="13" fill="#dce6f2">
+                    <rect
+                      x="40"
+                      y="30"
+                      width="240"
+                      height="56"
+                      fill="#0a1119"
+                      stroke="#dce6f2"
+                      stroke-opacity="0.22"
+                    />
+                    <text x="58" y="55">Intake</text>
+                    <text
+                      x="58"
+                      y="72"
+                      font-family="IBM Plex Mono, monospace"
+                      font-size="9"
+                      fill="#8494a8"
+                    >
+                      events
+                    </text>
+
+                    <rect
+                      x="40"
+                      y="118"
+                      width="240"
+                      height="56"
+                      fill="#0a1119"
+                      stroke="#dce6f2"
+                      stroke-opacity="0.22"
+                    />
+                    <text x="58" y="143">Validation</text>
+                    <text
+                      x="58"
+                      y="160"
+                      font-family="IBM Plex Mono, monospace"
+                      font-size="9"
+                      fill="#8494a8"
+                    >
+                      workers
+                    </text>
+
+                    <rect
+                      x="40"
+                      y="206"
+                      width="240"
+                      height="68"
+                      fill="#0a1119"
+                      stroke="#4e8fd6"
+                      stroke-opacity="0.7"
+                    />
+                    <text x="58" y="235">Shipment state</text>
+                    <text
+                      x="58"
+                      y="252"
+                      font-family="IBM Plex Mono, monospace"
+                      font-size="9"
+                      fill="#9fc4e8"
+                    >
+                      postgres
+                    </text>
+
+                    <rect
+                      x="40"
+                      y="300"
+                      width="240"
+                      height="56"
+                      fill="#0a1119"
+                      stroke="#dce6f2"
+                      stroke-opacity="0.22"
+                    />
+                    <text x="58" y="325">Panel API</text>
+                    <text
+                      x="58"
+                      y="342"
+                      font-family="IBM Plex Mono, monospace"
+                      font-size="9"
+                      fill="#8494a8"
+                    >
+                      internal
+                    </text>
+
+                    <rect
+                      x="40"
+                      y="388"
+                      width="240"
+                      height="56"
+                      fill="#0a1119"
+                      stroke="#dce6f2"
+                      stroke-opacity="0.22"
+                    />
+                    <text x="58" y="413">Status feed</text>
+                    <text
+                      x="58"
+                      y="430"
+                      font-family="IBM Plex Mono, monospace"
+                      font-size="9"
+                      fill="#8494a8"
+                    >
+                      public
+                    </text>
+                  </g>
+                </svg>
+                <figcaption>
+                  Illustrative architecture diagram — placeholder, not a product screenshot.
+                </figcaption>
+              </figure>
+            </section>
+
+            <section class="doc-section" id="decisions">
+              <h2>Decisions</h2>
+              <ol class="decision-list">
+                <li>
+                  <span>D1</span>
+                  <div>
+                    <h3>[Decision one]</h3>
+                    <p>[What it solved, and what it cost.]</p>
+                  </div>
+                </li>
+                <li>
+                  <span>D2</span>
+                  <div>
+                    <h3>[Decision two]</h3>
+                    <p>[What it solved, and what it cost.]</p>
+                  </div>
+                </li>
+                <li>
+                  <span>D3</span>
+                  <div>
+                    <h3>[Decision three]</h3>
+                    <p>[What it solved, and what it cost.]</p>
+                  </div>
+                </li>
+              </ol>
+            </section>
+
+            <section class="doc-section" id="outcomes">
+              <h2>Outcomes</h2>
+              <ul class="outcome-list">
+                <li>
+                  <span>O1</span>
+                  <p>
+                    [Verified outcome — no metric, adoption claim or client name until approved.]
+                  </p>
+                </li>
+                <li>
+                  <span>O2</span>
+                  <p>[Verified outcome or lesson.]</p>
+                </li>
+              </ul>
+              <p class="confidential">
+                Some implementation details are withheld at the client's request.
+              </p>
+            </section>
+          </div>
+        </div>
+
+        <nav class="next-case" aria-label="Next project">
+          <p class="mono-label">Next project</p>
+          <a href="project.html">GrowthOptix</a>
+        </nav>
+
+        <footer class="page-foot">
+          <div>
+            <p class="mono-label">Get in touch</p>
+            <a class="foot-mail" href="mailto:hello@example.com">[email to confirm]</a>
+          </div>
+          <ul class="foot-links">
+            <li><a href="#">LinkedIn</a></li>
+            <li><a href="#">GitHub</a></li>
+            <li><a href="#">CV</a></li>
+          </ul>
+        </footer>
+      </article>
+    </main>
+  </body>
+</html>
