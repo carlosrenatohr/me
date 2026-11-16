@@ -11,12 +11,13 @@ const hasLinks = contact.links.length > 0;
 // visitors should see at a glance how much of this page is already confirmed.
 const confirmedChannels = [
   contact.email,
+  contact.phone,
   contact.location,
   hasLinks ? 'links' : '',
   contact.cvPath,
 ].filter(Boolean).length;
 const channelsMeta =
-  confirmedChannels === 0 ? 'Nothing confirmed yet' : `${confirmedChannels} of 4 confirmed`;
+  confirmedChannels === 0 ? 'Nothing confirmed yet' : `${confirmedChannels} of 5 confirmed`;
 
 const description =
   'Contact Carlos Renato: email and professional profiles. No forms, only direct channels that reach a person.';
@@ -53,6 +54,17 @@ const description =
           </a>
         ) : (
           <p class="contact-value is-pending">[email to confirm]</p>
+        )}
+      </div>
+
+      <div class="contact-card">
+        <p class="contact-label">Phone</p>
+        {contact.phone ? (
+          <a class="contact-value" href={contact.phoneHref}>
+            {contact.phone}
+          </a>
+        ) : (
+          <p class="contact-value is-pending">[phone to confirm]</p>
         )}
       </div>
 
@@ -96,17 +108,50 @@ const description =
           CV
         </p>
         {contact.cvPath ? (
-          <a class="text-link" href={contact.cvPath}>
-            Download CV (PDF) <span aria-hidden="true">↓</span>
-          </a>
+          <div class="cv-actions">
+            <a class="text-link" href={contact.cvPath} target="_blank" rel="noopener">
+              Open in a new tab <span aria-hidden="true">↗</span>
+            </a>
+            <a class="text-link" href={contact.cvPath} download>
+              Download (PDF) <span aria-hidden="true">↓</span>
+            </a>
+          </div>
         ) : (
           <p class="contact-value is-pending">[CV to be supplied]</p>
         )}
       </div>
       <p class="cv-note">
-        Only a current, owner-approved document is published here. No form, no tracking, no captured
-        address.
+        The pages below are a preview linked to the PDF. No embed library, no third-party frame, no
+        tracking: a current, owner-approved document is the only thing published here.
       </p>
     </div>
+
+    {contact.cvPath && (
+      <div class="cv-pages">
+        {[
+          {
+            file: 'cv-1.webp',
+            label: 'Page 1 of 2',
+            alt: 'CV page 1: summary, technical skills and current roles',
+          },
+          {
+            file: 'cv-2.webp',
+            label: 'Page 2 of 2',
+            alt: 'CV page 2: earlier roles, AI automation work and education',
+          },
+        ].map((page) => (
+          <a class="cv-page" href={contact.cvPath} target="_blank" rel="noopener">
+            <img
+              src={`/images/cv/${page.file}`}
+              alt={page.alt}
+              width="1347"
+              height="1743"
+              loading="lazy"
+            />
+            <span class="cv-page-label">{page.label}</span>
+          </a>
+        ))}
+      </div>
+    )}
   </section>
 </BaseLayout>

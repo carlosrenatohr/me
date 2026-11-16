@@ -162,6 +162,34 @@ main,
   color: var(--aqua);
 }
 
+/* Availability: one status line that reads as a state, not a job-board badge.
+   Static on purpose — a pulsing dot would be decoration, not information. */
+.status {
+  grid-column: 1 / -1;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  justify-self: start;
+  margin-bottom: clamp(1.5rem, 3vw, 2.25rem);
+  padding: 0.45rem 0.75rem;
+  font-family: var(--font-sans);
+  font-size: var(--type-label);
+  font-weight: 500;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--line);
+}
+
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--coral);
+  box-shadow: 0 0 0 3px rgba(255, 106, 77, 0.18);
+}
+
 .hero-lede {
   grid-column: 8 / span 5;
   margin-top: clamp(2rem, 4vw, 3.75rem);
@@ -1024,7 +1052,7 @@ a.foot-mail:hover {
 /* -------------------------------------------------------------------------- */
 .contact-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--gap);
   margin-top: clamp(2rem, 4vw, 3rem);
 }
@@ -1081,10 +1109,59 @@ a.foot-mail:hover {
   border: 1px solid var(--line);
 }
 
+.cv-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-6);
+  margin-top: 0.35rem;
+}
+
+.cv-actions .text-link {
+  white-space: nowrap;
+}
+
 .cv-note {
   margin: 0;
   font-size: var(--type-figure);
   color: var(--muted);
+}
+
+/* Rendered pages instead of a PDF embed: readable on every browser, including
+   the ones with no inline PDF viewer. Each page links to the PDF itself. */
+.cv-pages {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-6);
+  margin-top: var(--space-7);
+}
+
+.cv-page {
+  display: block;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  transition: border-color var(--duration-hover) var(--ease);
+}
+
+.cv-page:hover,
+.cv-page:focus-visible {
+  border-color: var(--aqua);
+}
+
+.cv-page img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.cv-page-label {
+  display: block;
+  padding: 0.6rem 0.75rem;
+  font-family: var(--font-sans);
+  font-size: var(--type-label);
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border-top: 1px solid var(--line-soft);
 }
 
 /* -------------------------------------------------------------------------- */
@@ -1298,6 +1375,10 @@ a.foot-mail:hover {
   .foot-grid {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .cv-pages {
+    grid-template-columns: 1fr;
   }
 
   .cv-row {
