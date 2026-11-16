@@ -46,6 +46,26 @@ approach: |
   The alternative was a single JSON-schema pass with per-format exceptions. Two formats with one
   shared model turned out to be less total code than one model with two exception paths.
 
+solution:
+  - title: 'One intermediate model'
+    body: 'OpenAPI and GraphQL are parsed into the same shape — types, fields, arguments, enums — so the diff rules are written once and behave identically for both formats.'
+  - title: 'Structural diff'
+    body: 'The comparison runs on the model, not on the generated file, so a reordered document or a reformatted comment never appears as a change.'
+  - title: 'Classified findings'
+    body: 'Every change is safe, additive or breaking, and arrives with the field, the consumers that read it and what to do. Exit codes follow the classification.'
+  - title: 'CI gate and review page'
+    body: 'The same run works locally against a branch and in CI against the merge base. The page exists so a reviewer who never opens a terminal can read the result.'
+
+aiRole: 'None. The rule set is declarative and every finding has to be explainable in one sentence, so the tool does not summarise, guess or generate. The value here is repetition, not judgement.'
+
+stackGroups:
+  - label: 'Engine'
+    items: ['TypeScript', 'Node.js']
+  - label: 'Contracts'
+    items: ['OpenAPI', 'GraphQL']
+  - label: 'Delivery'
+    items: ['CLI', 'GitHub Actions', 'Astro']
+
 technicalDecisions:
   - title: 'One intermediate model for OpenAPI and GraphQL'
     body: 'Both formats reduce to types, fields, arguments and enums. The cost is that format-specific detail is flattened; the gain is one set of rules instead of two that drift apart.'

@@ -1,5 +1,7 @@
 ---
-// Project case study — direction C document layout.
+// Project case study — direction C document layout, built around the questions a
+// reader brings: what was wrong, what answers it, what did I own, where does AI
+// sit, what is it built on, and what changed.
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Plate from '@/components/Plate.astro';
 import { getPublishedProjects, isSampleProject, type PublicProject } from '@/lib/content';
@@ -28,6 +30,10 @@ const next = projects.length > 1 ? projects[(index + 1) % projects.length] : und
 
 const pending = '[to confirm]';
 
+const period = data.period
+  ? `${data.period.start}${data.period.end ? ` — ${data.period.end}` : ''}`
+  : pending;
+
 /** Frontmatter strings keep their paragraph breaks; render them as paragraphs. */
 function paragraphs(value?: string): string[] {
   if (!value) return [];
@@ -37,17 +43,26 @@ function paragraphs(value?: string): string[] {
     .filter(Boolean);
 }
 
-const sections = [
-  { id: 'context', label: 'Context' },
-  { id: 'contribution', label: 'Contribution' },
-  { id: 'approach', label: 'Approach' },
-  { id: 'decisions', label: 'Decisions' },
-  { id: 'outcomes', label: 'Outcomes' },
-];
+const stack: Array<{ label: string; items: string[] }> = data.stackGroups.length
+  ? data.stackGroups
+  : data.technologies.length
+    ? [{ label: 'Stack', items: data.technologies }]
+    : [];
 
-const period = data.period
-  ? `${data.period.start}${data.period.end ? ` — ${data.period.end}` : ''}`
-  : pending;
+// The contents rail lists only what the page actually states: a section that
+// has nothing to show is not advertised.
+const sections = [
+  { id: 'problem', label: 'Problem', present: true },
+  { id: 'solution', label: 'Solution', present: data.solution.length > 0 },
+  { id: 'contribution', label: 'Contribution', present: Boolean(data.contribution) },
+  { id: 'approach', label: 'Approach', present: Boolean(data.approach) },
+  { id: 'ai', label: 'AI role', present: Boolean(data.aiRole) },
+  { id: 'decisions', label: 'Decisions', present: data.technicalDecisions.length > 0 },
+  { id: 'stack', label: 'Stack', present: stack.length > 0 },
+  { id: 'impact', label: 'Impact', present: data.outcomes.length > 0 },
+  { id: 'screens', label: 'Screens', present: data.screenshots.length > 0 },
+  { id: 'links', label: 'Links', present: data.links.length > 0 },
+].filter((section) => section.present);
 ---
 
 <BaseLayout
@@ -69,7 +84,13 @@ const period = data.period
       <a class="back" href={ROUTES.projects}>
         All work
       </a>
-      <p class="eyebrow">{data.category}</p>
+      <p class="eyebrow">
+        {data.category}
+        <span class="eyebrow-sep" aria-hidden="true">
+          ·
+        </span>
+        {data.kind === 'personal' ? 'Personal' : 'Client work'}
+      </p>
       <h1>{data.title}</h1>
       <p class="case-lede">{data.summary}</p>
 
@@ -126,29 +147,34 @@ const period = data.period
       </nav>
 
       <div class="doc-body">
-        <section class="doc-section" id="context">
-          <h2>Context</h2>
+        <section class="doc-section" id="problem">
+          <h2>The problem</h2>
           {paragraphs(data.context).length ? (
             paragraphs(data.context).map((paragraph) => <p>{paragraph}</p>)
           ) : (
             <p class="placeholder">
-              [Context placeholder — the problem, the people affected and the operating environment,
-              in verified terms.]
+              [Problem placeholder — the situation, the people affected and what it cost, in
+              verified terms.]
             </p>
           )}
         </section>
 
-        <section class="doc-section" id="contribution">
-          <h2>Contribution</h2>
-          {paragraphs(data.contribution).length ? (
-            paragraphs(data.contribution).map((paragraph) => <p>{paragraph}</p>)
-          ) : (
-            <p class="placeholder">
-              [Contribution placeholder — only what I personally designed, built and decided, with
-              the boundaries of that scope stated plainly.]
-            </p>
-          )}
-        </section>
+        {data.solution.length > 0 && (
+          <section class="doc-section" id="solution">
+            <h2>Solution</h2>
+            <ol class="solution-list">
+              {data.solution.map((item, itemIndex) => (
+                <li>
+                  <span aria-hidden="true">{String(itemIndex + 1).padStart(2, '0')}</span>
+                  <div>
+                    <h3>{item.title}</h3>
+                    <p>{item.body}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </section>
+        )}
 
         {data.quote && (
           <blockquote class="quote">
@@ -156,21 +182,41 @@ const period = data.period
           </blockquote>
         )}
 
-        <section class="doc-section" id="approach">
-          <h2>Approach</h2>
-          {paragraphs(data.approach).length ? (
-            paragraphs(data.approach).map((paragraph) => <p>{paragraph}</p>)
-          ) : (
-            <p class="placeholder">
-              [Approach placeholder — the sequence of decisions, what was traded away and why the
-              simpler option was not enough.]
-            </p>
-          )}
-        </section>
+        {data.contribution && (
+          <section class="doc-section" id="contribution">
+            <h2>Contribution</h2>
+            {paragraphs(data.contribution).map((paragraph) => (
+              <p>{paragraph}</p>
+            ))}
+          </section>
+        )}
 
-        <section class="doc-section" id="decisions">
-          <h2>Decisions</h2>
-          {data.technicalDecisions.length ? (
+        {data.approach && (
+          <section class="doc-section" id="approach">
+            <h2>Approach</h2>
+            {paragraphs(data.approach).map((paragraph) => (
+              <p>{paragraph}</p>
+            ))}
+          </section>
+        )}
+
+        {data.aiRole && (
+          <section class="doc-section" id="ai">
+            <h2>AI role</h2>
+            {paragraphs(data.aiRole).map((paragraph) => (
+              <p>{paragraph}</p>
+            ))}
+            <p class="section-note">
+              <a class="text-link" href={ROUTES.ai}>
+                How I work with AI <span aria-hidden="true">→</span>
+              </a>
+            </p>
+          </section>
+        )}
+
+        {data.technicalDecisions.length > 0 && (
+          <section class="doc-section" id="decisions">
+            <h2>Decisions</h2>
             <ol class="decision-list">
               {data.technicalDecisions.map((decision, decisionIndex) => (
                 <li>
@@ -182,17 +228,30 @@ const period = data.period
                 </li>
               ))}
             </ol>
-          ) : (
-            <p class="placeholder">
-              [Decisions placeholder — list the substantive choices, what each one solved and what
-              it cost.]
-            </p>
-          )}
-        </section>
+          </section>
+        )}
 
-        <section class="doc-section" id="outcomes">
-          <h2>Outcomes</h2>
-          {data.outcomes.length ? (
+        {stack.length > 0 && (
+          <section class="doc-section" id="stack">
+            <h2>Stack</h2>
+            <div class="stack-groups">
+              {stack.map((group) => (
+                <div class="stack-group">
+                  <h3>{group.label}</h3>
+                  <ul class="chip-row">
+                    {group.items.map((item) => (
+                      <li class="chip">{item}</li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {data.outcomes.length > 0 && (
+          <section class="doc-section" id="impact">
+            <h2>Impact</h2>
             <ul class="outcome-list">
               {data.outcomes.map((outcome, outcomeIndex) => (
                 <li>
@@ -201,19 +260,13 @@ const period = data.period
                 </li>
               ))}
             </ul>
-          ) : (
-            <p class="placeholder">
-              [Outcomes placeholder — verified results or lessons only. No adoption numbers, client
-              names or metrics before the owner confirms them.]
-            </p>
-          )}
-
-          {data.confidentialityNote && <p class="confidential">{data.confidentialityNote}</p>}
-        </section>
+            {data.confidentialityNote && <p class="confidential">{data.confidentialityNote}</p>}
+          </section>
+        )}
 
         {data.screenshots.length > 0 && (
-          <section class="doc-section" aria-labelledby="screens-title">
-            <h2 id="screens-title">Screens</h2>
+          <section class="doc-section" id="screens">
+            <h2>Screens</h2>
             <div class="case-gallery">
               {data.screenshots.map((image) => (
                 <figure>
@@ -232,8 +285,8 @@ const period = data.period
         )}
 
         {data.links.length > 0 && (
-          <section class="doc-section" aria-labelledby="links-title">
-            <h2 id="links-title">Links</h2>
+          <section class="doc-section" id="links">
+            <h2>Links</h2>
             <ul class="case-links">
               {data.links.map((link) => (
                 <li>

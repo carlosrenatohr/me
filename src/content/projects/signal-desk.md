@@ -53,6 +53,26 @@ approach: |
   alerts: filtering requires knowing the name of what you are looking for, and at 3 a.m.
   nobody does.
 
+solution:
+  - title: 'Triage queue'
+    body: 'One row per incident, grouped by the service it affects, with the number of signals attached and the age of the oldest one. The queue is ordered by what is still open, not by what arrived last.'
+  - title: 'Incident timeline'
+    body: 'Signals, deploys and runbook steps in the order they happened, on one clock. The first question on-call asks — what changed — is answered before the first click.'
+  - title: 'Signal contract'
+    body: 'Every monitor integration is a thin adapter that maps a payload to a common signal shape. Adding a monitor is a file, not a change to the grouping pass.'
+  - title: 'Handoff states'
+    body: 'Acknowledge, assign and resolve are explicit, so the next person on shift can see who owns the incident and what has already been ruled out.'
+
+aiRole: 'None, and that is deliberate. Grouping is a deterministic rule over service and time window: a responder needs to be able to explain why two alerts became one entry. A model would make that answer probabilistic, which is the wrong trade at 3 a.m.'
+
+stackGroups:
+  - label: 'Interface'
+    items: ['Astro', 'Preact', 'TypeScript']
+  - label: 'Runtime'
+    items: ['Cloudflare Workers', 'Durable Objects', 'D1']
+  - label: 'Ingestion'
+    items: ['Webhook adapters', 'Idempotent writes']
+
 quote: 'The queue should count incidents, not notifications.'
 
 technicalDecisions:

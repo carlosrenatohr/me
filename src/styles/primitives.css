@@ -224,6 +224,18 @@ main,
   color: var(--text);
 }
 
+/* A place name carries a pin; the icon is decorative and takes the label colour. */
+.meta-location {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.meta-location .pin {
+  flex: none;
+  color: var(--muted);
+}
+
 .hero-meta a {
   color: var(--blue-text);
   border-bottom: 1px solid rgba(47, 107, 255, 0.55);
@@ -274,6 +286,46 @@ main,
 .section-rule p {
   font-size: var(--type-value);
   color: var(--muted);
+}
+
+.rule-link {
+  margin-left: 0.9rem;
+  color: var(--blue-text);
+  border-bottom: 1px solid rgba(47, 107, 255, 0.45);
+  transition:
+    color var(--duration-hover) var(--ease),
+    border-color var(--duration-hover) var(--ease);
+}
+
+.rule-link:hover {
+  color: var(--aqua);
+  border-bottom-color: var(--aqua);
+}
+
+.rule-link span {
+  color: var(--aqua);
+}
+
+/* Home — the AI teaser sits between the work and the approach band. Two
+   columns: the claim, then the rule that keeps it honest. */
+.ai-teaser-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: clamp(1.5rem, 4vw, 4rem);
+  margin-top: clamp(1.75rem, 3.5vw, 2.75rem);
+  align-items: start;
+}
+
+.ai-teaser-lede {
+  max-width: 40ch;
+  font-size: clamp(1.3rem, 2.2vw, 1.75rem);
+  line-height: 1.4;
+  letter-spacing: -0.008em;
+  color: var(--text);
+}
+
+.ai-teaser .text-link {
+  grid-column: auto;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -434,6 +486,110 @@ main,
 
 .project-meta.compact {
   margin-top: 1.25rem;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Work index — a list, not a gallery                                         */
+/* -------------------------------------------------------------------------- */
+/* The index only carries what a reader needs to decide whether to open the
+   case study. Cover and screenshots stay on the case-study page. */
+.index-list {
+  margin-top: clamp(1.5rem, 3vw, 2.25rem);
+  border-top: 1px solid var(--line);
+}
+
+.index-item {
+  display: grid;
+  grid-template-columns: 3rem minmax(0, 1fr) 15rem;
+  gap: clamp(1rem, 2.5vw, 2.25rem);
+  padding-block: clamp(1.6rem, 3vw, 2.4rem);
+  border-bottom: 1px solid var(--line-soft);
+  align-items: start;
+}
+
+.index-num {
+  padding-top: 0.35rem;
+  font-family: var(--font-sans);
+  font-size: var(--type-label);
+  letter-spacing: 0.1em;
+  color: var(--muted);
+}
+
+.index-body h3 {
+  margin-top: 0.3rem;
+  font-family: var(--font-serif);
+  font-size: clamp(1.55rem, 2.6vw, 2.1rem);
+  font-weight: 300;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.index-body h3 a {
+  transition: color var(--duration-hover) var(--ease);
+}
+
+.index-body h3 a:hover {
+  color: var(--blue-text);
+}
+
+.index-summary {
+  margin-top: 0.65rem;
+  max-width: 58ch;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--body);
+}
+
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 1rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.chip {
+  padding: 0.22rem 0.55rem;
+  border: 1px solid var(--line);
+  font-family: var(--font-sans);
+  font-size: var(--type-figure);
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+
+.index-item .badge {
+  margin-top: 0.9rem;
+  margin-bottom: 0;
+}
+
+.index-side {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  padding-top: 0.35rem;
+}
+
+.index-fact {
+  font-family: var(--font-sans);
+  font-size: var(--type-note);
+  line-height: 1.45;
+  color: var(--text);
+}
+
+.index-fact span {
+  display: block;
+  margin-bottom: 0.2rem;
+  font-size: var(--type-label);
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.index-side .text-link {
+  align-self: flex-start;
+  margin-top: 0.25rem;
+  white-space: nowrap;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -861,6 +1017,70 @@ a.foot-mail:hover {
   color: var(--body);
 }
 
+/* The solution, module by module. A numbered list because the reader is
+   scanning for what the product actually does, not reading prose. */
+.solution-list {
+  display: grid;
+  gap: 1.35rem;
+  margin: 1.5rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.solution-list li {
+  display: grid;
+  grid-template-columns: 2.5rem minmax(0, 1fr);
+  gap: 0.75rem;
+  padding-top: 1.35rem;
+  border-top: 1px solid var(--line-soft);
+}
+
+.solution-list li > span {
+  padding-top: 0.3rem;
+  font-family: var(--font-sans);
+  font-size: var(--type-label);
+  letter-spacing: 0.09em;
+  color: var(--aqua);
+}
+
+.solution-list h3 {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  font-weight: 400;
+  color: var(--text);
+}
+
+.solution-list p {
+  margin-top: 0.35rem;
+  color: var(--body);
+}
+
+/* Stack grouped by layer: the case study explains the shape, the card lists
+   the names. */
+.stack-groups {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.75rem 2.5rem;
+  margin-top: 1.5rem;
+}
+
+.stack-group h3 {
+  font-family: var(--font-sans);
+  font-size: var(--type-label);
+  font-weight: 400;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.stack-group .chip-row {
+  margin-top: 0.65rem;
+}
+
+.section-note {
+  margin-top: 1.25rem;
+}
+
 /* Gallery: approved assets only. Placeholders keep the same frame. */
 .case-gallery {
   display: grid;
@@ -1146,6 +1366,142 @@ a.foot-mail:hover {
   margin-top: 0;
 }
 
+/* The primary action on Contact is the address itself, at a size that reads as
+   the answer rather than as one item in a list of channels. */
+.contact-hero-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1.25rem 2.25rem;
+  margin-top: clamp(1.75rem, 4vw, 2.75rem);
+}
+
+.contact-hero-actions .contact-links {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.75rem 1.75rem;
+}
+
+.mail-link {
+  font-family: var(--font-serif);
+  font-size: clamp(1.35rem, 3.2vw, 2.05rem);
+  font-weight: 300;
+  letter-spacing: -0.01em;
+  color: var(--text);
+  padding-bottom: 0.2rem;
+  border-bottom: 1px solid var(--line);
+  transition:
+    color var(--duration-hover) var(--ease),
+    border-color var(--duration-hover) var(--ease);
+}
+
+.mail-link:hover {
+  color: var(--blue-text);
+  border-bottom-color: var(--blue);
+}
+
+.contact-quiet {
+  font-family: var(--font-sans);
+  font-size: var(--type-note);
+  line-height: var(--type-note-lh);
+  color: var(--muted);
+}
+
+/* -------------------------------------------------------------------------- */
+/* AI page — what is built, what is used, what it changes for a team           */
+/* -------------------------------------------------------------------------- */
+.process-list {
+  margin: clamp(1.5rem, 3vw, 2.25rem) 0 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--line);
+}
+
+.process-step {
+  display: grid;
+  grid-template-columns: 3rem minmax(0, 1fr);
+  gap: clamp(0.75rem, 2vw, 1.75rem);
+  padding-block: clamp(1.35rem, 2.6vw, 1.9rem);
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.process-step > span {
+  padding-top: 0.35rem;
+  font-family: var(--font-sans);
+  font-size: var(--type-label);
+  letter-spacing: 0.1em;
+  color: var(--aqua);
+}
+
+.process-step h3 {
+  font-family: var(--font-serif);
+  font-size: clamp(1.2rem, 2vw, 1.45rem);
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--text);
+}
+
+.process-step p {
+  margin-top: 0.5rem;
+  max-width: 62ch;
+  color: var(--body);
+}
+
+.step-practice {
+  margin-top: 0.75rem;
+  padding-left: 0.85rem;
+  border-left: 2px solid var(--line);
+  font-family: var(--font-sans);
+  font-size: var(--type-note);
+  line-height: var(--type-note-lh);
+  color: var(--muted);
+}
+
+.step-practice strong {
+  font-weight: 400;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  font-size: var(--type-label);
+  color: var(--aqua);
+  margin-right: 0.4rem;
+}
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 2rem 2.5rem;
+  margin-top: clamp(1.5rem, 3vw, 2.25rem);
+}
+
+.skill-group h3 {
+  font-family: var(--font-sans);
+  font-size: var(--type-label);
+  font-weight: 400;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.skill-group ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0.75rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ai-note {
+  max-width: 68ch;
+  margin-top: clamp(1.5rem, 3vw, 2rem);
+  font-size: var(--type-note);
+  line-height: var(--type-note-lh);
+  color: var(--muted);
+}
+
 .cv-band {
   margin-top: clamp(3rem, 6vw, 5rem);
 }
@@ -1380,6 +1736,25 @@ a.foot-mail:hover {
   .contact-grid {
     grid-template-columns: 1fr;
   }
+
+  .index-item {
+    grid-template-columns: 2.5rem minmax(0, 1fr);
+    gap: 1rem 1.25rem;
+  }
+
+  .index-side {
+    grid-column: 2;
+  }
+
+  .stack-groups,
+  .skills-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .ai-teaser-body {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
 }
 
 @media (max-width: 640px) {
@@ -1435,6 +1810,36 @@ a.foot-mail:hover {
 
   .cv-row {
     align-items: flex-start;
+  }
+
+  .index-item {
+    grid-template-columns: 1fr;
+    gap: 0.6rem;
+  }
+
+  .index-num {
+    padding-top: 0;
+  }
+
+  .index-side {
+    grid-column: auto;
+    margin-top: 0.35rem;
+  }
+
+  .stack-groups,
+  .skills-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .solution-list li,
+  .process-step {
+    grid-template-columns: 1fr;
+    gap: 0.35rem;
+  }
+
+  .solution-list li > span,
+  .process-step > span {
+    padding-top: 0;
   }
 }
 

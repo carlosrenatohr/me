@@ -103,9 +103,34 @@ const project = defineCollection({
         })
       )
       .default([]),
+    /** The problem, in the owner's terms. Rendered under "The problem". */
     context: z.string().optional(),
+    /** What the product does about it, capability by capability. */
+    solution: z
+      .array(
+        z.object({
+          title: z.string().min(1),
+          body: z.string().min(1),
+        })
+      )
+      .default([]),
     contribution: z.string().optional(),
     approach: z.string().optional(),
+    /**
+     * What AI does inside the product, and where a person stays in the loop.
+     * Omitted when the product deliberately has no model in it — an absent
+     * section is a truer statement than a paragraph explaining the absence.
+     */
+    aiRole: z.string().optional(),
+    /** The stack grouped by layer, for the case study. `technologies` stays flat for cards. */
+    stackGroups: z
+      .array(
+        z.object({
+          label: z.string().min(1),
+          items: z.array(z.string().min(1)).min(1),
+        })
+      )
+      .default([]),
     /** A pull quote from the owner, published only when verified. */
     quote: z.string().optional(),
     /** Surfaces the work touched, e.g. "Internal panel", "Public site". */

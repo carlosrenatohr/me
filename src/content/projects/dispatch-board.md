@@ -46,6 +46,26 @@ approach: |
   load is in transit; assignment and timing belong to dispatch. Conflicts resolve by field, not
   by whole record, so a driver's status update never overwrites a dispatcher's reassignment.
 
+solution:
+  - title: 'Dispatch board'
+    body: 'Trucks as rows, loads as blocks across the working day, exceptions marked where they happen. Dispatchers read the day in one screen instead of a whiteboard and a phone tree.'
+  - title: 'Driver app that works offline'
+    body: 'Pickups, status changes and notes are recorded on the device first. The screen never waits for the network, and a dead zone delays the sync, not the work.'
+  - title: 'Sync layer'
+    body: 'A local queue with explicit states — queued, synced, retrying — so a driver can see whether the office has the update, instead of assuming it does.'
+  - title: 'Field-level conflict resolution'
+    body: 'Status, location and notes belong to the driver in transit; assignment and timing belong to dispatch. Edits compose by field instead of overwriting the whole record.'
+
+aiRole: 'None. The rules decide what the board shows, and dispatch has to be able to defend a reassignment to a driver without pointing at a model. Prediction was considered for arrival times and left out of this version: a wrong ETA is worse than no ETA when the phone is the only channel.'
+
+stackGroups:
+  - label: 'Interface'
+    items: ['Preact', 'TypeScript']
+  - label: 'Offline'
+    items: ['IndexedDB', 'Service Worker']
+  - label: 'Server'
+    items: ['Node.js', 'PostgreSQL']
+
 technicalDecisions:
   - title: 'Field-level conflict resolution'
     body: 'Whole-record last-write-wins lost real information: a status change could erase an assignment. Per-field ownership is more rules to state, and it makes the two edits compose instead of destroying each other.'
