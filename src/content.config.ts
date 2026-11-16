@@ -42,6 +42,8 @@ const profile = defineCollection({
     contentStatus,
     location: z.string().optional(),
     email: z.email().optional(),
+    /** Display form; `src/lib/contact.ts` strips it for the tel: link. */
+    phone: z.string().optional(),
     cvPath: z.string().optional(),
     /** "10+ years" — a claim the owner states, never inferred from the roles. */
     yearsExperience: z.string().optional(),

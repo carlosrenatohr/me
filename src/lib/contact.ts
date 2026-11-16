@@ -17,6 +17,9 @@ export interface ContactLink {
 
 export interface ContactDetails {
   email?: string;
+  phone?: string;
+  /** Dialable form of `phone`: digits and a leading `+` only. */
+  phoneHref?: string;
   cvPath?: string;
   location?: string;
   links: ContactLink[];
@@ -25,8 +28,12 @@ export interface ContactDetails {
 export async function getContactDetails(): Promise<ContactDetails> {
   const profile = await getProfile();
 
+  const phone = profile.data.phone;
+
   return {
     email: profile.data.email,
+    phone,
+    phoneHref: phone ? `tel:${phone.replace(/[^+\d]/g, '')}` : undefined,
     cvPath: profile.data.cvPath,
     location: profile.data.location,
     links: profile.data.links.map((link) => ({
