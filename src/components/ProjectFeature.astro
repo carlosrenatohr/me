@@ -5,7 +5,8 @@
  */
 import Plate from '@/components/Plate.astro';
 import { projectPath } from '@/config/site';
-import type { PublicProject } from '@/lib/content';
+import { publicAsset } from '@/config/assets';
+import { isSampleProject, type PublicProject } from '@/lib/content';
 
 interface Props {
   project: PublicProject;
@@ -17,6 +18,7 @@ interface Props {
 const { project, priority = false, showBadge = true } = Astro.props;
 const { data } = project;
 const pending = '[to confirm]';
+const sample = isSampleProject(project);
 ---
 
 <article class="feature">
@@ -27,8 +29,10 @@ const pending = '[to confirm]';
   >
     {data.cover ? (
       <img
-        src={data.cover.src}
+        src={publicAsset(data.cover.src)}
         alt={data.cover.alt}
+        width="1600"
+        height="900"
         loading={priority ? 'eager' : 'lazy'}
         fetchpriority={priority ? 'high' : undefined}
       />
@@ -36,15 +40,23 @@ const pending = '[to confirm]';
       <Plate variant="feature" label="Abstract placeholder plate: concentric blue arcs" />
     )}
     {!data.cover && <span class="media-note">Image placeholder</span>}
+    {sample && <span class="media-note">Sample mockup — not a product screenshot</span>}
   </a>
 
   <div class="feature-body">
     <div class="feature-title">
-      {showBadge && (
-        <p class="badge">
+      {sample ? (
+        <p class="badge sample-flag">
           <span class="dot" aria-hidden="true" />
-          Selected project
+          Sample case study
         </p>
+      ) : (
+        showBadge && (
+          <p class="badge">
+            <span class="dot" aria-hidden="true" />
+            Selected project
+          </p>
+        )
       )}
       <p class="eyebrow">{data.category}</p>
       <h3>

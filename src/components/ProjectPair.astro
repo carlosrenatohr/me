@@ -6,7 +6,8 @@
  */
 import Plate from '@/components/Plate.astro';
 import { projectPath } from '@/config/site';
-import type { PublicProject } from '@/lib/content';
+import { publicAsset } from '@/config/assets';
+import { isSampleProject, type PublicProject } from '@/lib/content';
 
 interface Props {
   projects: PublicProject[];
@@ -20,6 +21,7 @@ const pending = '[to confirm]';
   <div class="pair">
     {projects.map((project, index) => {
       const { data } = project;
+      const sample = isSampleProject(project);
       return (
         <article class="pair-item">
           <a
@@ -28,7 +30,13 @@ const pending = '[to confirm]';
             aria-label={`Read the ${data.title} case study`}
           >
             {data.cover ? (
-              <img src={data.cover.src} alt={data.cover.alt} loading="lazy" />
+              <img
+                src={publicAsset(data.cover.src)}
+                alt={data.cover.alt}
+                width="1600"
+                height="900"
+                loading="lazy"
+              />
             ) : (
               <Plate
                 variant={index % 2 === 0 ? 'bars' : 'bands'}
@@ -38,6 +46,12 @@ const pending = '[to confirm]';
             {!data.cover && <span class="media-note">Image placeholder</span>}
           </a>
 
+          {sample && (
+            <p class="badge sample-flag">
+              <span class="dot" aria-hidden="true" />
+              Sample case study
+            </p>
+          )}
           <p class="eyebrow">{data.category}</p>
           <h3>
             <a href={projectPath(project.slug)}>{data.title}</a>

@@ -3,11 +3,12 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import ProjectFeature from '@/components/ProjectFeature.astro';
 import ProjectPair from '@/components/ProjectPair.astro';
-import { getProfile, getPublishedProjects } from '@/lib/content';
+import { getProfile, getPublishedProjects, isSampleProject } from '@/lib/content';
 import { ROUTES, SITE } from '@/config/site';
 
 const profile = await getProfile();
 const projects = await getPublishedProjects();
+const hasSamples = projects.some(isSampleProject);
 
 const featured = projects.find((project) => project.data.featured) ?? projects[0];
 const secondary = projects.filter((project) => project.slug !== featured?.slug).slice(0, 2);
@@ -71,6 +72,14 @@ const workCount = projects.length === 1 ? '1 project' : `${projects.length} proj
       <h2 id="work-title">Selected work</h2>
       <p>{workCount}</p>
     </div>
+
+    {hasSamples && (
+      <p class="sample-notice">
+        <strong>Sample content</strong>
+        These entries demonstrate the case-study format. The layout, metadata and media pipeline are
+        real; the projects are not.
+      </p>
+    )}
 
     {featured ? (
       <ProjectFeature project={featured} priority />

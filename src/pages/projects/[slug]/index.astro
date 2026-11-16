@@ -2,8 +2,9 @@
 // Project case study — direction C document layout.
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Plate from '@/components/Plate.astro';
-import { getPublishedProjects, type PublicProject } from '@/lib/content';
+import { getPublishedProjects, isSampleProject, type PublicProject } from '@/lib/content';
 import { projectPath, ROUTES, SITE } from '@/config/site';
+import { publicAsset } from '@/config/assets';
 
 interface Props {
   project: PublicProject;
@@ -19,6 +20,7 @@ export async function getStaticPaths() {
 
 const { project } = Astro.props;
 const { data } = project;
+const sample = isSampleProject(project);
 
 const projects = await getPublishedProjects();
 const index = projects.findIndex((entry) => entry.slug === project.slug);
@@ -56,6 +58,13 @@ const period = data.period
   ogType="article"
 >
   <article class="case">
+    {sample && (
+      <p class="sample-banner">
+        <strong>Sample case study</strong>A fictional project written to demonstrate the format. The
+        layout, structure and media pipeline are real; the work is not.
+      </p>
+    )}
+
     <header class="case-head">
       <a class="back" href={ROUTES.projects}>
         All work
@@ -86,7 +95,13 @@ const period = data.period
 
     <figure class="case-figure">
       {data.cover ? (
-        <img src={data.cover.src} alt={data.cover.alt} fetchpriority="high" />
+        <img
+          src={publicAsset(data.cover.src)}
+          alt={data.cover.alt}
+          width="1600"
+          height="900"
+          fetchpriority="high"
+        />
       ) : (
         <Plate
           variant="case"
@@ -202,7 +217,13 @@ const period = data.period
             <div class="case-gallery">
               {data.screenshots.map((image) => (
                 <figure>
-                  <img src={image.src} alt={image.alt} loading="lazy" />
+                  <img
+                    src={publicAsset(image.src)}
+                    alt={image.alt}
+                    width="1600"
+                    height="900"
+                    loading="lazy"
+                  />
                   {image.caption && <figcaption>{image.caption}</figcaption>}
                 </figure>
               ))}

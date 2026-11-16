@@ -568,6 +568,52 @@ a.foot-mail:hover {
   padding-top: clamp(2rem, 4vw, 3rem);
 }
 
+/* Sample content is labelled on every surface that shows it: it must never
+   pass for the owner's work. One shared block for the index and the home page,
+   one banner for the case study itself. */
+.sample-notice {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.75rem;
+  align-items: baseline;
+  max-width: 72ch;
+  margin-top: clamp(1.5rem, 3vw, 2.25rem);
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--line-soft);
+  font-family: var(--font-sans);
+  font-size: var(--type-note);
+  line-height: var(--type-note-lh);
+  color: var(--muted);
+}
+
+.sample-notice strong,
+.sample-banner strong {
+  font-size: var(--type-label-slab);
+  font-weight: 400;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--coral);
+}
+
+.sample-banner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.75rem;
+  align-items: baseline;
+  margin-bottom: clamp(1.75rem, 4vw, 2.5rem);
+  padding: 0.85rem 1rem;
+  border: 1px solid rgba(255, 106, 77, 0.28);
+  background: rgba(255, 106, 77, 0.05);
+  font-family: var(--font-sans);
+  font-size: var(--type-note);
+  line-height: var(--type-note-lh);
+  color: var(--body);
+}
+
+.badge.sample-flag {
+  color: var(--coral-soft);
+}
+
 .back {
   display: inline-block;
   margin-bottom: clamp(2rem, 5vw, 3.5rem);
@@ -825,6 +871,12 @@ a.foot-mail:hover {
 
 .case-gallery figure {
   margin: 0;
+}
+
+/* A single screen is the whole gallery: it takes the full measure instead of
+   sitting in one half of a two-column grid. */
+.case-gallery figure:only-child {
+  grid-column: 1 / -1;
 }
 
 .case-gallery img,
