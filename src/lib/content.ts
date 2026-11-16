@@ -28,10 +28,68 @@ function isPublicProject(project: Project): boolean {
   return project.data.status === 'published' && project.data.contentStatus === 'verified';
 }
 
+/**
+ * Astro 5+ content collections expose the entry identifier as `id` and no longer
+ * carry a `slug` property, so the slug-based URL is derived here instead of being
+ * assumed on the entry. Keeping it in one place means pages and components can
+ * rely on `project.slug`.
+ */
+function withSlug(project: Project): ProjectWithSlug {
+  const legacySlug = (project as Project & { slug?: unknown }).slug;
+  const slug =
+    typeof legacySlug === 'string' && legacySlug.length > 0
+      ? legacySlug
+      : project.id.replace(/\.(md|mdx)$/, '');
+
+  return { ...project, slug };
+}
+
+/** Personal and side projects lead the work index; client work follows. */
+const KIND_RANK: Record<Project['data']['kind'], number> = { personal: 0, client: 1 };
+
 function byDisplayOrder(a: Project, b: Project): number {
+  const kindRank = KIND_RANK[a.data.kind] - KIND_RANK[b.data.kind];
+  if (kindRank !== 0) return kindRank;
+
   const orderA = a.data.featuredOrder ?? Number.MAX_SAFE_INTEGER;
   const orderB = b.data.featuredOrder ?? Number.MAX_SAFE_INTEGER;
   return orderA - orderB || a.data.title.localeCompare(b.data.title);
+}
+
+const MONTHS = [
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+  'Jul',
+  'Aug',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec',
+] as const;
+
+/** `2026-03` → `Mar 2026`. Anything else is returned untouched. */
+export function formatMonth(value?: string): string | undefined {
+  if (!value) return undefined;
+
+  const match = /^(\d{4})-(\d{2})$/.exec(value);
+  if (!match) return value;
+
+  const monthIndex = Number(match[2]) - 1;
+  const label = MONTHS[monthIndex];
+  return label ? `${label} ${match[1]}` : value;
+}
+
+/** Experience period in display form: `Mar 2026 — Present`. */
+export function formatPeriod(period?: { start: string; end?: string }): string | undefined {
+  if (!period) return undefined;
+
+  const start = formatMonth(period.start);
+  const end = period.end === 'present' ? 'Present' : formatMonth(period.end);
+  return end ? `${start} — ${end}` : start;
 }
 
 export async function getProfile(): Promise<Profile> {
@@ -53,11 +111,11 @@ export async function getAllProjects(): Promise<Project[]> {
 
 /** Projects allowed on public routes: published and owner-verified. */
 export async function getPublishedProjects(): Promise<PublicProject[]> {
-  const projects = (await getCollection('project', isPublicProject)) as PublicProject[];
-  return projects.sort(byDisplayOrder);
+  const projects = (await getCollection('project', isPublicProject)) as Project[];
+  return projects.map((project) => withSlug(project) as PublicProject).sort(byDisplayOrder);
 }
 
-export async function getFeaturedProjects(): Promise<Project[]> {
+export async function getFeaturedProjects(): Promise<PublicProject[]> {
   const projects = await getPublishedProjects();
   return projects.filter((project) => project.data.featured);
 }
@@ -72,10 +130,22 @@ export async function getProjectBySlug(slug: string): Promise<Project | undefine
   return project;
 }
 
-/** Experience entries that are safe to publish. */
+/** Experience entries that are safe to publish, newest first. */
 export async function getExperience(): Promise<Experience[]> {
   const entries = await getCollection('experience');
   return entries
     .filter((entry) => entry.data.contentStatus === 'verified')
     .sort((a, b) => b.data.period.start.localeCompare(a.data.period.start));
+}
+
+/** Verified experience split into professional history and earlier work. */
+export async function getExperienceGroups(): Promise<{
+  primary: Experience[];
+  additional: Experience[];
+}> {
+  const entries = await getExperience();
+  return {
+    primary: entries.filter((entry) => entry.data.group === 'primary'),
+    additional: entries.filter((entry) => entry.data.group === 'additional'),
+  };
 }

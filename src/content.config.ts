@@ -7,14 +7,29 @@ import { z } from 'astro/zod';
  *
  * Every collection carries `contentStatus`. Entries marked "placeholder" must not
  * be published; the repository layer refuses to return them to public pages.
+ *
+ * Periods use `YYYY-MM` so entries sort chronologically. `literal('present')` marks
+ * an ongoing role; formatting for display lives in `src/lib/content.ts`, never here.
  */
 
 const contentStatus = z.enum(['placeholder', 'verified']);
+
+const month = z.string().regex(/^\d{4}-(0[1-9]|1[0-2])$/, 'Use YYYY-MM, e.g. 2026-03.');
+
+const period = z.object({
+  start: month,
+  end: z.union([month, z.literal('present')]).optional(),
+});
 
 const link = z.object({
   label: z.string().min(1),
   url: z.url(),
   kind: z.enum(['live', 'repository', 'case-study', 'reference']),
+});
+
+const image = z.object({
+  src: z.string(),
+  alt: z.string().min(1),
 });
 
 const profile = defineCollection({
@@ -28,22 +43,36 @@ const profile = defineCollection({
     location: z.string().optional(),
     email: z.email().optional(),
     cvPath: z.string().optional(),
-    portrait: z
-      .object({
-        src: z.string(),
-        alt: z.string().min(1),
-      })
-      .optional(),
+    /** "10+ years" — a claim the owner states, never inferred from the roles. */
+    yearsExperience: z.string().optional(),
+    /** "Open to new work" — rendered as a status line when present. */
+    availability: z.string().optional(),
+    portrait: image.optional(),
+    education: z
+      .array(
+        z.object({
+          credential: z.string().min(1),
+          institution: z.string().min(1),
+          period: z.string().min(1),
+          location: z.string().optional(),
+        })
+      )
+      .default([]),
     links: z.array(link).default([]),
   }),
 });
 
+/**
+ * `kind` drives the order of the Work index: personal and side projects lead,
+ * client work follows. It never changes the case-study layout.
+ */
 const project = defineCollection({
   loader: glob({ base: './src/content/projects', pattern: '**/*.{md,mdx}' }),
   schema: z.object({
     title: z.string().min(1),
     summary: z.string().min(1),
     category: z.string().min(1),
+    kind: z.enum(['personal', 'client']).default('client'),
     status: z.enum(['draft', 'published']).default('draft'),
     contentStatus,
     featured: z.boolean().default(false),
@@ -56,18 +85,9 @@ const project = defineCollection({
       .optional(),
     role: z.string().optional(),
     technologies: z.array(z.string()).default([]),
-    cover: z
-      .object({
-        src: z.string(),
-        alt: z.string().min(1),
-      })
-      .optional(),
-    context: z.string().optional(),
-    contribution: z.string().optional(),
-    approach: z.string().optional(),
-    technicalDecisions: z.array(z.string()).default([]),
-    outcomes: z.array(z.string()).default([]),
-    gallery: z
+    cover: image.optional(),
+    /** Captures of the product. `src` under /images/projects/<slug>/. */
+    screenshots: z
       .array(
         z.object({
           src: z.string(),
@@ -76,21 +96,41 @@ const project = defineCollection({
         })
       )
       .default([]),
+    context: z.string().optional(),
+    contribution: z.string().optional(),
+    approach: z.string().optional(),
+    /** A pull quote from the owner, published only when verified. */
+    quote: z.string().optional(),
+    /** Surfaces the work touched, e.g. "Internal panel", "Public site". */
+    surfaces: z.array(z.string()).default([]),
+    technicalDecisions: z
+      .array(
+        z.object({
+          title: z.string().min(1),
+          body: z.string().min(1),
+        })
+      )
+      .default([]),
+    outcomes: z.array(z.string()).default([]),
     links: z.array(link).default([]),
     confidentialityNote: z.string().optional(),
   }),
 });
 
+/**
+ * Experience is Markdown so a role can carry prose when the bullets are not enough;
+ * `contributions` stays structured because the About page renders it as a list.
+ */
 const experience = defineCollection({
-  loader: glob({ base: './src/content/experience', pattern: '**/*.json' }),
+  loader: glob({ base: './src/content/experience', pattern: '**/*.{md,mdx}' }),
   schema: z.object({
     organization: z.string().min(1),
     role: z.string().min(1),
     contentStatus,
-    period: z.object({
-      start: z.string(),
-      end: z.string().optional(),
-    }),
+    /** `primary` is professional history; `additional` is earlier or partial work. */
+    group: z.enum(['primary', 'additional']).default('primary'),
+    location: z.string().optional(),
+    period,
     summary: z.string().optional(),
     contributions: z.array(z.string()).default([]),
     technologies: z.array(z.string()).default([]),
