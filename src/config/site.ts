@@ -12,8 +12,44 @@ export const SITE = {
   origin: import.meta.env.PUBLIC_SITE_URL ?? 'http://localhost:4321',
 } as const;
 
-/** Public routes. Only a component or page may add a nav item once its page exists. */
-export const PAGE_ROUTES = ['/', '/projects', '/about', '/contact'] as const;
+/**
+ * Public routes.
+ *
+ * Canonical form keeps the trailing slash: the static build writes
+ * `/projects/index.html`, so `/projects` would cost a redirect on every
+ * navigation. Pages, navigation and the sitemap all read from here.
+ */
+export const ROUTES = {
+  home: '/',
+  projects: '/projects/',
+  about: '/about/',
+  contact: '/contact/',
+} as const;
 
-/** In-page section ids used by the contents rail and anchor navigation. */
-export const SECTION_IDS = ['projects', 'about', 'contact'] as const;
+export type NavKey = 'projects' | 'about' | 'contact';
+
+export interface NavItem {
+  label: string;
+  href: string;
+  key: NavKey;
+}
+
+/** Primary navigation. The wordmark is the link home, so it is not listed. */
+export const NAV_ITEMS: ReadonlyArray<NavItem> = [
+  { label: 'Work', href: ROUTES.projects, key: 'projects' },
+  { label: 'About', href: ROUTES.about, key: 'about' },
+  { label: 'Contact', href: ROUTES.contact, key: 'contact' },
+];
+
+/** In-page section ids used by the home page and the contents rails. */
+export const SECTION_IDS = ['work', 'about', 'contact'] as const;
+
+/** Case-study route for a project slug. */
+export function projectPath(slug: string): string {
+  return `${ROUTES.projects}${slug}/`;
+}
+
+/** Absolute canonical URL for a site-relative path. */
+export function canonicalUrl(path: string): string {
+  return new URL(path, SITE.origin).toString();
+}

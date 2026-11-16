@@ -1,0 +1,61 @@
+---
+/**
+ * Secondary projects: a two-column row where every second item is offset, so
+ * the row never reads as a card table. Any number of items works; the layout
+ * keeps its rhythm because the offset is tied to the column, not the count.
+ */
+import Plate from '@/components/Plate.astro';
+import { projectPath } from '@/config/site';
+import type { PublicProject } from '@/lib/content';
+
+interface Props {
+  projects: PublicProject[];
+}
+
+const { projects } = Astro.props;
+const pending = '[to confirm]';
+---
+
+{projects.length > 0 && (
+  <div class="pair">
+    {projects.map((project, index) => {
+      const { data } = project;
+      return (
+        <article class="pair-item">
+          <a
+            class="pair-media"
+            href={projectPath(project.slug)}
+            aria-label={`Read the ${data.title} case study`}
+          >
+            {data.cover ? (
+              <img src={data.cover.src} alt={data.cover.alt} loading="lazy" />
+            ) : (
+              <Plate
+                variant={index % 2 === 0 ? 'bars' : 'bands'}
+                label="Abstract placeholder plate for a secondary project"
+              />
+            )}
+            {!data.cover && <span class="media-note">Image placeholder</span>}
+          </a>
+
+          <p class="eyebrow">{data.category}</p>
+          <h3>
+            <a href={projectPath(project.slug)}>{data.title}</a>
+          </h3>
+          <p class="pair-summary">{data.summary}</p>
+
+          <dl class="project-meta compact">
+            <div>
+              <dt>Role</dt>
+              <dd>{data.role ?? pending}</dd>
+            </div>
+            <div>
+              <dt>Stack</dt>
+              <dd>{data.technologies.length ? data.technologies.join(', ') : pending}</dd>
+            </div>
+          </dl>
+        </article>
+      );
+    })}
+  </div>
+)}

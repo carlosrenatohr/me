@@ -1,0 +1,36 @@
+---
+/**
+ * One role in the professional record. Primary and earlier roles share this card;
+ * only the list they appear in differs.
+ */
+import { formatPeriod, type Experience } from '@/lib/content';
+
+interface Props {
+  experience: Experience;
+}
+
+const { experience } = Astro.props;
+const { data } = experience;
+---
+
+<article class="experience-card">
+  <div class="experience-card-head">
+    <h3>{data.role}</h3>
+    <p class="experience-period">{formatPeriod(data.period)}</p>
+  </div>
+  <p class="experience-org">
+    {data.organization}
+    {data.location && <span class="experience-location"> — {data.location}</span>}
+  </p>
+  {data.summary && <p class="experience-summary">{data.summary}</p>}
+  {data.contributions.length > 0 && (
+    <ul class="experience-list">
+      {data.contributions.map((contribution) => (
+        <li>{contribution}</li>
+      ))}
+    </ul>
+  )}
+  {data.technologies.length > 0 && (
+    <p class="experience-tech">Stack: {data.technologies.join(', ')}</p>
+  )}
+</article>

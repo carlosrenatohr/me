@@ -1,207 +1,78 @@
 ---
-// Phase 03 — Projects index.
-import type { Project, ProjectWithSlug } from '@/lib/content';
+// Projects index — personal and side projects first, client work after.
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import ProjectFeature from '@/components/ProjectFeature.astro';
+import ProjectPair from '@/components/ProjectPair.astro';
 import { getPublishedProjects } from '@/lib/content';
-import '@/styles/base.css';
-import '@/styles/primitives.css';
-import { SITE } from '@/config/site';
+import { ROUTES, SITE } from '@/config/site';
 
-const projects = (await getPublishedProjects()) as ProjectWithSlug[];
-const hasProjects = projects.length > 0;
+const projects = await getPublishedProjects();
+const personal = projects.filter((project) => project.data.kind === 'personal');
+const client = projects.filter((project) => project.data.kind === 'client');
+const bothKinds = personal.length > 0 && client.length > 0;
+
+const countLabel = projects.length === 1 ? '1 project' : `${projects.length} projects`;
+const description =
+  'Products built and shipped, personal and client work: the problem, the role, the decisions and the verified outcomes.';
 ---
 
-<!doctype html>
-<html lang={SITE.locale}>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{SITE.name} — Projects</title>
-    <meta name="description" content={SITE.description} />
-    <link rel="canonical" href={new URL('/', SITE.origin).toString()} />
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content={SITE.name} />
-    <meta property="og:title" content={SITE.defaultTitle} />
-    <meta property="og:description" content={SITE.description} />
-    <meta property="twitter:card" content="summary" />
-    <meta property="twitter:title" content={SITE.defaultTitle} />
-    <meta property="twitter:description" content={SITE.description} />
-  </head>
-  <body>
-    <a class="skip" href="#main">
-      Skip to content
-    </a>
+<BaseLayout
+  title={`Work — ${SITE.name}`}
+  description={description}
+  path={ROUTES.projects}
+  current="projects"
+>
+  <section class="hero" aria-labelledby="page-title">
+    <div class="hero-grid">
+      <h1 id="page-title">Selected work</h1>
+      <p class="hero-lede">
+        Each case study states the problem, what I personally owned, the decisions behind it, and
+        what changed. Nothing is published before it is verified.
+      </p>
+    </div>
+  </section>
 
-    <header class="site-head">
-      <a class="wordmark" href="/">
-        Carlos Renato
-      </a>
-      <nav class="site-nav" aria-label="Primary">
-        <a href="/">Home</a>
-        <a
-          href="/projects"
-          aria-current={SITE.defaultTitle.includes('Projects') ? 'page' : undefined}
-        >
-          Projects
-        </a>
-        <a href="/about">About</a>
-        <a href="/contact">Contact</a>
-      </nav>
-    </header>
-
-    <main id="main">
-      <section class="hero" aria-labelledby="page-title">
-        <h1 id="page-title">Selected work</h1>
-        <p class="lede">
-          {hasProjects
-            ? `A portfolio of ${projects.length} owner-verified projects, ordered by publication.`
-            : 'No verified projects yet. Content is being reviewed for public release.'}
-        </p>
-        <p class="meta-note">
-          {hasProjects
-            ? `Ready when you are.`
-            : '[Placeholder — content to be confirmed by the owner.]'}
-        </p>
-      </section>
-
-      {hasProjects ? (
-        <section id="projects" class="work" aria-labelledby="work-title">
-          <div class="section-rule">
-            <h2 id="work-title">Projects</h2>
-            <p class="meta-note">{projects.length} published projects</p>
-          </div>
-
-          <div class="grid">
-            {projects.map((project: ProjectWithSlug) => (
-              <a class="project-card" href={`/projects/${project.slug}/`}>
-                <div class="project-card-media">
-                  {project.data.cover ? (
-                    <img
-                      src={project.data.cover.src}
-                      alt={project.data.cover.alt}
-                      fetchpriority="low"
-                    />
-                  ) : (
-                    <svg
-                      viewBox="0 0 800 500"
-                      role="img"
-                      aria-label="Abstract placeholder plate for {project.data.title}"
-                    >
-                      <rect width="800" height="500" fill="#081226" />
-                      <g stroke="#eaf1ff" stroke-opacity="0.05">
-                        <line x1="0" y1="100" x2="800" y2="100" />
-                        <line x1="0" y1="250" x2="800" y2="250" />
-                        <line x1="0" y1="400" x2="800" y2="400" />
-                        <line x1="0" y1="550" x2="800" y2="550" />
-                      </g>
-                      <g>
-                        <rect
-                          x="160"
-                          y="150"
-                          width="120"
-                          height="80"
-                          fill="#2f6bff"
-                          opacity="0.35"
-                        />
-                        <rect
-                          x="320"
-                          y="230"
-                          width="120"
-                          height="100"
-                          fill="#2f6bff"
-                          opacity="0.5"
-                        />
-                        <rect
-                          x="480"
-                          y="180"
-                          width="120"
-                          height="90"
-                          fill="#2fd3dd"
-                          opacity="0.45"
-                        />
-                      </g>
-                    </svg>
-                  )}
-                  <span class="media-note">
-                    {project.data.cover ? 'Project image' : 'Placeholder image'}
-                  </span>
-                </div>
-
-                <div class="project-card-body">
-                  <p class="eyebrow">{project.data.category}</p>
-                  <h3>
-                    <a href={`/projects/${project.slug}/`}>{project.data.title}</a>
-                  </h3>
-                  <dl class="project-meta">
-                    <div>
-                      <dt>Status</dt>
-                      <dd>{project.data.status}</dd>
-                    </div>
-                    <div>
-                      <dt>Role</dt>
-                      <dd>{project.data.role ?? '[to confirm]'}</dd>
-                    </div>
-                    <div>
-                      <dt>Stack</dt>
-                      <dd>
-                        {project.data.technologies.length
-                          ? project.data.technologies.join(', ')
-                          : '[to confirm]'}
-                      </dd>
-                    </div>
-                  </dl>
-                </div>
-              </a>
-            ))}
-          </div>
-        </section>
-      ) : (
-        <section class="empty" aria-label="No projects">
-          <p class="empty-body">
-            No published projects are available yet.
-            <br />
-            [Placeholder — add verified project content to `src/content/projects/` and set
-            <code>status: published</code> and <code>contentStatus: verified</code>.]
-          </p>
-        </section>
-      )}
-    </main>
-
-    <footer class="site-foot">
-      <div class="foot-grid">
-        <div>
-          <p class="foot-label">Get in touch</p>
-          <a class="foot-mail" href="mailto:hello@example.com">
-            hello@example.com
-          </a>
-        </div>
-        <ul class="foot-links">
-          <li>
-            <a
-              href="https://linkedin.com/in/carlos-renato"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              LinkedIn
-            </a>
-          </li>
-          <li>
-            <a href="https://github.com/carlos-renato" target="_blank" rel="noopener noreferrer">
-              GitHub
-            </a>
-          </li>
-          <li>
-            <a href="/cv.pdf">CV</a>
-          </li>
-        </ul>
+  {projects.length === 0 && (
+    <section class="work" aria-labelledby="work-title">
+      <div class="section-rule">
+        <h2 id="work-title">Projects</h2>
+        <p>{countLabel}</p>
       </div>
-      <p class="colophon">Carlos Renato — direction C, 2026</p>
-    </footer>
 
-    <script>
-      // Deterministic capture state for review screenshots.
-      if (new URLSearchParams(location.search).has('static')) {
-        document.documentElement.classList.add('no-motion');
-      }
-    </script>
-  </body>
-</html>
+      <div class="empty">
+        <p class="empty-body">
+          No published projects yet. Case studies appear here once the owner confirms the role,
+          dates, contribution and outcomes for each one.
+        </p>
+        <p class="empty-note">
+          [Content pending — verified entries go in <code>src/content/projects/</code> with
+          <code>status: published</code> and <code>contentStatus: verified</code>.]
+        </p>
+      </div>
+    </section>
+  )}
+
+  {personal.length > 0 && (
+    <section class="work" aria-labelledby="personal-title">
+      <div class="section-rule">
+        <h2 id="personal-title">{bothKinds ? 'Personal & side projects' : 'Projects'}</h2>
+        <p>{personal.length === 1 ? '1 project' : `${personal.length} projects`}</p>
+      </div>
+
+      <ProjectFeature project={personal[0]} priority showBadge={false} />
+      <ProjectPair projects={personal.slice(1)} />
+    </section>
+  )}
+
+  {client.length > 0 && (
+    <section class="work" aria-labelledby="client-title">
+      <div class="section-rule">
+        <h2 id="client-title">{bothKinds ? 'Client & product work' : 'Projects'}</h2>
+        <p>{client.length === 1 ? '1 project' : `${client.length} projects`}</p>
+      </div>
+
+      <ProjectFeature project={client[0]} showBadge={false} />
+      <ProjectPair projects={client.slice(1)} />
+    </section>
+  )}
+</BaseLayout>

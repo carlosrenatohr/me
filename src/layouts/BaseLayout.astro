@@ -1,0 +1,140 @@
+---
+/**
+ * The only layout.
+ *
+ * Owns the document head, the skip link, the site header (desktop row plus the
+ * native <details> menu used below 900 px), the page container and the footer.
+ * Pages supply content only; they must not repeat any of this markup.
+ *
+ * Navigation model: five static routes, no client-side router of our own.
+ * <ClientRouter /> upgrades link clicks to in-place swaps so navigation feels
+ * like a single-page app while every route stays prerendered HTML.
+ */
+import '@/styles/base.css';
+import { ClientRouter } from 'astro:transitions';
+import NavLinks from '@/components/NavLinks.astro';
+import { canonicalUrl, SITE, type NavKey } from '@/config/site';
+import { getContactDetails } from '@/lib/contact';
+
+interface Props {
+  title: string;
+  description?: string;
+  /** Site-relative path, exactly as built (trailing slash included). */
+  path: string;
+  current?: NavKey;
+  ogType?: 'website' | 'article';
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description = SITE.description,
+  path,
+  current,
+  ogType = 'website',
+  noindex = false,
+} = Astro.props;
+
+const canonical = canonicalUrl(path);
+const contact = await getContactDetails();
+const year = new Date().getFullYear();
+---
+
+<!doctype html>
+<html lang={SITE.locale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content="en" />
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+
+    <ClientRouter />
+  </head>
+
+  <body>
+    <a class="skip" href="#main">
+      Skip to content
+    </a>
+
+    <header class="site-head">
+      <a class="wordmark" href="/">
+        Carlos Renato
+      </a>
+
+      <nav class="site-nav" aria-label="Primary">
+        <NavLinks current={current} />
+      </nav>
+
+      <details class="nav-compact">
+        <summary>Menu</summary>
+        <nav aria-label="Primary">
+          <NavLinks current={current} />
+        </nav>
+      </details>
+    </header>
+
+    <main id="main">
+      <slot />
+    </main>
+
+    <footer class="site-foot">
+      <div class="foot-grid">
+        <div>
+          <p class="foot-label">Get in touch</p>
+          {contact.email ? (
+            <a class="foot-mail" href={`mailto:${contact.email}`}>
+              {contact.email}
+            </a>
+          ) : (
+            <span class="foot-mail is-pending">[email to confirm]</span>
+          )}
+        </div>
+
+        <ul class="foot-links">
+          {contact.links.map((link) => (
+            <li>
+              <a
+                href={link.url}
+                target={link.external ? '_blank' : undefined}
+                rel={link.external ? 'noopener noreferrer' : undefined}
+              >
+                {link.label}
+              </a>
+            </li>
+          ))}
+          {contact.cvPath && (
+            <li>
+              <a href={contact.cvPath}>CV</a>
+            </li>
+          )}
+          {!contact.links.length && !contact.cvPath && (
+            <li class="is-pending">[professional links to confirm]</li>
+          )}
+        </ul>
+      </div>
+
+      <p class="colophon">Carlos Renato · {year}</p>
+    </footer>
+
+    <script is:inline>
+      // Deterministic capture state for review screenshots.
+      if (new URLSearchParams(location.search).has('static')) {
+        document.documentElement.classList.add('no-motion');
+      }
+    </script>
+  </body>
+</html>

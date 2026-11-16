@@ -1,0 +1,22 @@
+---
+/**
+ * Primary navigation links.
+ *
+ * Rendered twice by the layout: once as the desktop row and once inside the
+ * native <details> used below 900 px. Keeping one component means the two
+ * menus can never drift apart.
+ */
+import { NAV_ITEMS, type NavKey } from '@/config/site';
+
+interface Props {
+  current?: NavKey;
+}
+
+const { current } = Astro.props;
+---
+
+{NAV_ITEMS.map((item) => (
+  <a href={item.href} aria-current={current === item.key ? 'page' : undefined}>
+    {item.label}
+  </a>
+))}
