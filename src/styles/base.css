@@ -1,5 +1,6 @@
 @import './tokens.css';
 @import './primitives.css';
+@import './fonts.css';
 
 /* Global reset and document defaults. Page geometry lives in primitives.css:
    .site-head, main and .site-foot carry the gutter and the max width. */

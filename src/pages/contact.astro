@@ -3,6 +3,7 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { getContactDetails } from '@/lib/contact';
 import { ROUTES, SITE } from '@/config/site';
+import { publicAsset } from '@/config/assets';
 
 const contact = await getContactDetails();
 const hasLinks = contact.links.length > 0;
@@ -142,7 +143,7 @@ const description =
         ].map((page) => (
           <a class="cv-page" href={contact.cvPath} target="_blank" rel="noopener">
             <img
-              src={`/images/cv/${page.file}`}
+              src={publicAsset(`images/cv/${page.file}`)}
               alt={page.alt}
               width="1347"
               height="1743"

@@ -1,0 +1,72 @@
+************************************************************************
+*  SIL Open Font License v1.1
+*  http://scripts.sil.org/OFL
+*  Copyright (c) 2020, Google Inc. (https://github.com/google/fonts)
+*
+*  This Font Software is licensed under the SIL Open Font License,
+*  Version 1.1 published by SIL International, http://scripts.sil.org/OFL
+*
+*  This license is copied below, and is also available with a FAQ at:
+*  http://scripts.sil.org/OFL
+*
+*  This Font Software is provided under the terms of the SIL Open Font
+*  License, Version 1.1. This license is accompanied by the following
+*  copyright notice:
+*
+*    Copyright (c) 2020, Google Inc.
+*    https://github.com/google/fonts
+*
+*  Users are granted the rights set forth below. The rights granted
+*  are perpetual, irrevocable, nonexclusive, and worldwide. Examples
+*  of the rights granted follow.
+*
+*  1.  The right to use the Font Software for any purpose, including
+*      commercial and noncommercial purposes.
+*
+*  2.  The right to alter the Font Software, including the right to
+*      create derivative works based upon the Font Software.
+*
+*  3.  The right to redistribute unmodified copies of the Font
+*      Software.
+*
+*  4.  The right to redistribute modified copies of the Font Software,
+*      provided that the modified versions are distributed under the
+*      terms of this license.
+*
+*  5.  The right to use the Font Software as part of a larger
+*      work, including a larger work that contains other fonts.
+*
+*  The rights granted above are limited by the following conditions.
+*
+*  1.  The Font Software, and any modified versions, may not be sold
+*      for profit, nor may it be distributed in a manner that
+*      implies a warranty or endorsement by the copyright holder.
+*
+*  2.  Any redistribution of the Font Software must include this
+*      license file unchanged, including the copyright notice.
+*
+*  3.  Modified versions of the Font Software must be clearly
+*      marked as such, and must not be misrepresented as being the
+*      original version.
+*
+*  4.  The name of the copyright holder may not be used to endorse or
+*      promote products derived from the Font Software without
+*      explicit written permission.
+*
+*  5.  The Font Software is provided "AS IS" without warranty of any
+*      kind, express or implied, including, but not limited to, the
+*      implied warranties of MERCHANTABILITY and FITNESS FOR A
+*      PARTICULAR PURPOSE.
+*
+*  6.  The copyright holder is not liable for any claim, damages, or
+*      other liability, whether in contract, tort, or otherwise,
+*      arising from, out of, or in connection with the Font Software
+*      or the use or other dealings in the Font Software.
+*
+*  This license is the default license for the fonts in this package.
+*  It applies to all fonts in this package unless otherwise
+*  specified in the font's own metadata.
+*
+*  For the full text of the license, see
+*  http://scripts.sil.org/OFL.
+************************************************************************

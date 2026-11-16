@@ -7,14 +7,14 @@
   "location": "Managua, Nicaragua",
   "email": "carlosrenatohr@gmail.com",
   "phone": "+505 8759 7244",
-  "cvPath": "/cv.pdf",
+  "cvPath": "cv.pdf",
   "yearsExperience": "10+ years",
   "availability": "Open to new projects",
   "education": [
     {
       "credential": "BSc Computer Engineering",
       "institution": "Universidad Nacional de Ingeniería (UNI)",
-      "period": "2011 — 2016",
+      "period": "2011 - 2016",
       "location": "Managua, Nicaragua"
     }
   ],

@@ -13,7 +13,8 @@
 import '@/styles/base.css';
 import { ClientRouter } from 'astro:transitions';
 import NavLinks from '@/components/NavLinks.astro';
-import { canonicalUrl, SITE, type NavKey } from '@/config/site';
+import { canonicalUrl, ROUTES, SITE, type NavKey } from '@/config/site';
+import { ASSETS } from '@/config/assets';
 import { getContactDetails } from '@/lib/contact';
 
 interface Props {
@@ -49,7 +50,7 @@ const year = new Date().getFullYear();
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
     {noindex && <meta name="robots" content="noindex" />}
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href={ASSETS.favicon} />
 
     <meta property="og:type" content={ogType} />
     <meta property="og:site_name" content={SITE.name} />
@@ -71,7 +72,7 @@ const year = new Date().getFullYear();
     </a>
 
     <header class="site-head">
-      <a class="wordmark" href="/">
+      <a class="wordmark" href={ROUTES.home}>
         Carlos R. Hernandez
       </a>
 

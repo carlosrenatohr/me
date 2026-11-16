@@ -1,4 +1,5 @@
 import { getProfile } from './content';
+import { publicAsset } from '@/config/assets';
 
 /**
  * Contact details visible on public routes.
@@ -34,7 +35,9 @@ export async function getContactDetails(): Promise<ContactDetails> {
     email: profile.data.email,
     phone,
     phoneHref: phone ? `tel:${phone.replace(/[^+\d]/g, '')}` : undefined,
-    cvPath: profile.data.cvPath,
+    cvPath: profile.data.cvPath
+      ? publicAsset(profile.data.cvPath)
+      : undefined,
     location: profile.data.location,
     links: profile.data.links.map((link) => ({
       label: link.label,

@@ -9,7 +9,9 @@ export const SITE = {
   defaultTitle: 'Carlos Renato — Independent Software Engineer',
   description: 'Portfolio of Carlos Renato, an independent software engineer and product builder.',
   locale: 'en',
-  origin: import.meta.env.PUBLIC_SITE_URL ?? 'http://localhost:4321',
+  origin:
+    import.meta.env.PUBLIC_SITE_URL ??
+    'https://carlosrenatohr.github.io',
 } as const;
 
 /**
@@ -19,11 +21,14 @@ export const SITE = {
  * `/projects/index.html`, so `/projects` would cost a redirect on every
  * navigation. Pages, navigation and the sitemap all read from here.
  */
+
+const BASE = import.meta.env.PUBLIC_BASE_URL ?? '/';
+
 export const ROUTES = {
-  home: '/',
-  projects: '/projects/',
-  about: '/about/',
-  contact: '/contact/',
+  home: BASE,
+  projects: `${BASE}projects/`,
+  about: `${BASE}about/`,
+  contact: `${BASE}contact/`,
 } as const;
 
 export type NavKey = 'projects' | 'about' | 'contact';
