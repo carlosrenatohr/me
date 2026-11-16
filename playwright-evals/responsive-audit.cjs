@@ -6,6 +6,9 @@
 const { chromium } = require('playwright');
 
 const BASE = process.env.BASE || 'http://localhost:4321';
+// Astro's `base` (e.g. `/me`) is part of every internal href, so nav selectors have
+// to be built from it instead of assuming the site is served from the domain root.
+const PREFIX = new URL(BASE).pathname.replace(/\/$/, '');
 const ROUTES = ['/', '/projects/', '/about/', '/contact/'];
 const SIZES = [
   { name: 'mobile', width: 390, height: 844 },
@@ -116,7 +119,7 @@ const SIZES = [
     window.__spaMarker = 'kept';
     return performance.getEntriesByType('navigation').length;
   });
-  await page.click('.site-nav a[href="/about/"]');
+  await page.click(`.site-nav a[href="${PREFIX}/about/"]`);
   await page.waitForURL('**/about/');
   await page.waitForLoadState('networkidle');
   const after = await page.evaluate(() => ({
