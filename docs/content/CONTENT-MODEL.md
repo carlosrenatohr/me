@@ -5,7 +5,9 @@ raw files: pages go through `src/lib/content.ts`, which is the seam a future CMS
 replaces.
 
 Every collection carries `contentStatus` (`placeholder` | `verified`). Placeholder entries
-are excluded from public queries. Projects additionally require `status: published`.
+are excluded from public queries. Projects additionally require `status: published`, with one
+exception: `status: sample` publishes a demonstration entry that every surface labels as
+sample, so the case-study layout can be reviewed before real work exists.
 
 ## Profile — `src/content/profile/profile.json`
 
@@ -33,7 +35,7 @@ Filename = slug = URL. Template: `docs/content/templates/project-case-study.md`.
 | --- | --- |
 | `title`, `summary`, `category` | Identity and lede |
 | `kind` | `personal` (listed first) or `client` |
-| `status` | `draft` \| `published` |
+| `status` | `draft` \| `published` \| `sample` (renders, always labelled) |
 | `contentStatus` | `placeholder` \| `verified` |
 | `featured`, `featuredOrder` | Home feature slot and ordering |
 | `role`, `period`, `surfaces`, `technologies` | Spec strip |

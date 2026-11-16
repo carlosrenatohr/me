@@ -6,6 +6,29 @@ Versions are internal milestones of this portfolio, not public releases. Dates c
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). The project
 version in `package.json` matches the newest entry.
 
+## [0.6.0] — 2026-11-16
+
+Sample case studies, so the Work section can be reviewed with real pages instead of an empty
+index.
+
+### Added
+
+- `status: sample` on projects: renders Home, `/projects/` and a case-study route while keeping
+  `contentStatus: placeholder`. A badge in listings and a banner on the case study mark it; no
+  live URL is published for a sample.
+- Four sample entries — `signal-desk`, `schema-scout` (personal) and `harbor-ledger`,
+  `dispatch-board` (client) — with the full narrative, decisions and outcomes structure.
+- Five 1600×900 interface mockups in `public/images/projects/`, generated in the site's own
+  visual language and labelled as mockups in their alt text (23–40 KB each).
+- `sample-notice` on Home and Work; single-screenshot galleries now span the reading measure.
+
+### Fixed
+
+- Project covers and screenshots go through `publicAsset()`: with the site built under a base
+  path (`/me`), every `/images/...` reference 404'd and the pages rendered alt text only.
+- `playwright-evals/responsive-audit.cjs` derives the nav selector from `BASE`, so the
+  client-navigation check works when the site is not served from the domain root.
+
 ## [0.5.0] — 2026-11-15
 
 Contact channels and availability, from the owner's answers.

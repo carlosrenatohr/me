@@ -172,3 +172,18 @@ nothing outside that module imports `astro:content` directly.
 exist to show the field structure, the confidentiality path and the degraded case.
 `orbit-logistics.md` and `dredd.md` are real products with unfinished copy. Delete the
 fictional drafts once three real case studies are published.
+
+`status: sample` is the third state, and the only one that publishes content the owner did
+not write. It exists so the visual direction can be reviewed with real pages instead of an
+empty index. A sample entry:
+
+- renders on Home, `/projects/` and its own case-study route;
+- carries a sample badge in every listing and a banner on the case study;
+- publishes no live URL, because there is no product behind it;
+- uses `contentStatus: placeholder`, which is what keeps the distinction honest: nothing
+  about it claims to be verified.
+
+Current samples: `signal-desk.md`, `schema-scout.md` (personal) and `harbor-ledger.md`,
+`dispatch-board.md` (client). Their images live in `public/images/projects/<slug>/` and are
+interface mockups, not screenshots. To remove them once real work lands, delete the four
+Markdown files and their image folders; nothing else references them.

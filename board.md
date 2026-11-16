@@ -374,9 +374,9 @@ screenshots are his part. Decisions: `docs/decisions/ADR-005-content-shape.md`.
 - [ ] Owner: publish the first case study (copy + approved screenshots). Template and samples
   are ready; nothing else blocks it.
 
-**Owner answers applied (v0.5.0):** public email, phone `+505 8759 7244`, CV previewed inline
-from `public/cv.pdf` with the browser viewer (plus download), and an "Open to new projects"
-status line on the Home hero. GrowthOptix and Nativerse overlap on purpose (parallel work);
+**Owner answers applied (v0.5.0):** public email, phone `+505 8759 7244`, CV shown from
+`public/cv.pdf` with both pages rendered as linked WebP previews (plus download), and an
+"Open to new projects" status line on the Home hero. GrowthOptix and Nativerse overlap on purpose (parallel work);
 Nativerse is the owner's own brand and its projects are authored as `kind: personal`.
 
 **Tooling fix in the same pass:** `astro check` crashed on Astro 7.4.12
@@ -385,6 +385,25 @@ Nativerse is the owner's own brand and its projects are authored as `kind: perso
 `@emnapi/runtime@2.0.0-beta.2` the new compiler installs. Pinned `@astrojs/astro2tsx@0.1.4`
 via a pnpm override; `astro check` and `astro build` both pass again. The installed tree also
 had to be resynced — it was still on Astro 7.4.5 while the lockfile asked for 7.4.12.
+
+### Phase 03 — sample case studies (2026-11-16, v0.6.0)
+
+**Status: DONE.** The site is no longer an empty shell: four case studies render end to end,
+marked as sample content on every surface. This exists so the owner can review the real
+layout before his own copy and captures are ready.
+
+- [x] `status: sample` added to the project schema: it publishes the route, keeps
+  `contentStatus: placeholder`, and forces a badge/banner so it cannot pass for real work.
+- [x] Four sample entries: `signal-desk` and `schema-scout` (personal), `harbor-ledger` and
+  `dispatch-board` (client). Full context, contribution, approach, decisions and outcomes.
+- [x] Five interface mockups generated in the direction C language (1600×900, WebP, 23–40 KB)
+  under `public/images/projects/<slug>/`; alt text says "mockup", never "screenshot".
+- [x] `publicAsset()` applied to project covers and screenshots: the base path (`/me`) broke
+  every `/images/...` reference after the deployment commit.
+- [x] `playwright-evals/responsive-audit.cjs` builds nav selectors from `BASE` so it can run
+  under the base path; it passes at 390/834/1440 on all four routes.
+- [ ] Owner: replace the samples with real case studies (delete the four files and their
+  image folders), then re-run `P04-05` with real captures.
 
 ## Phase 04 — Quality assurance
 
@@ -415,8 +434,9 @@ independently verifiable.
 7. **P05-04 — final QA evidence** (screenshots at three widths, link check, metadata).
 8. **P05-05 — V2 CMS migration notes** (the `src/lib/content.ts` seam and the field contract).
 
-Owner decisions still open: final domain, whether the CV PDF may be published, and whether
-the email/phone on the CV may be public. Tracked in `docs/content/CONTENT-GAPS.md`.
+Owner decisions still open: portrait, the Approach paragraph in his own words, and the first
+real case study. Contact channels and the CV are resolved. Tracked in
+`docs/content/CONTENT-GAPS.md`.
 
 ## Phase 05 — Release
 
