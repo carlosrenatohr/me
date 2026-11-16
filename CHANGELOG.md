@@ -6,6 +6,29 @@ Versions are internal milestones of this portfolio, not public releases. Dates c
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). The project
 version in `package.json` matches the newest entry.
 
+## [0.5.0] — 2026-11-15
+
+Contact channels and availability, from the owner's answers.
+
+### Added
+
+- Phone `+505 8759 7244` on the profile and the Contact page, as a `tel:` link.
+- `public/cv.pdf` served through `cvPath`, with both pages rendered as WebP previews that
+  link to the PDF, plus a direct download. No embed library or third-party frame, and the
+  preview works in browsers without an inline PDF viewer.
+- Availability status line on the Home hero (coral dot, hairline pill), driven by
+  `profile.availability`.
+
+### Changed
+
+- Availability copy is "Open to new projects": a state, not a job-board phrase.
+- Contact grid is two columns so four channels sit evenly.
+
+### Note
+
+- GrowthOptix and Nativerse overlap in the CV on purpose: the work was parallel. Nativerse
+  is the owner's own brand; its projects are authored with `kind: personal`.
+
 ## [0.4.0] — 2026-11-15
 
 Content structure built from the owner's CV, plus the tooling fixes it exposed.

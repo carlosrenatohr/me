@@ -374,6 +374,11 @@ screenshots are his part. Decisions: `docs/decisions/ADR-005-content-shape.md`.
 - [ ] Owner: publish the first case study (copy + approved screenshots). Template and samples
   are ready; nothing else blocks it.
 
+**Owner answers applied (v0.5.0):** public email, phone `+505 8759 7244`, CV previewed inline
+from `public/cv.pdf` with the browser viewer (plus download), and an "Open to new projects"
+status line on the Home hero. GrowthOptix and Nativerse overlap on purpose (parallel work);
+Nativerse is the owner's own brand and its projects are authored as `kind: personal`.
+
 **Tooling fix in the same pass:** `astro check` crashed on Astro 7.4.12
 (`this.bridge.setLastError is not a function`). `@astrojs/language-server` resolved
 `@astrojs/astro2tsx@0.1.3`, which pins `@napi-rs/wasm-runtime@1.2.4` against the

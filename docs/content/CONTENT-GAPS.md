@@ -17,20 +17,25 @@ Rules: nothing in this list may be filled with plausible-sounding guesses. Entri
 ## Profile
 
 Supplied 2026-11-15 from `Carlos_Hernandez_CV (0).pdf` (dated 2026-11-12) and published:
-headline, short intro, biography, location (Managua, Nicaragua), email, LinkedIn, GitHub,
-`10+ years`, education (UNI, 2011—2016) and six roles.
+headline, short intro, biography, location (Managua, Nicaragua), `10+ years`, education
+(UNI, 2011—2016) and six roles.
+
+Resolved by the owner (2026-11-15):
+
+- [x] Public email `carlosrenatohr@gmail.com`.
+- [x] Phone `+505 8759 7244` published, as a `tel:` link on Contact.
+- [x] CV published as `public/cv.pdf` and previewed inline with the browser's PDF viewer
+  (`cvPath: /cv.pdf`). Replace that file when a newer CV is approved.
+- [x] GrowthOptix (Aug 2025—Aug 2026) and Nativerse (Mar 2026—present) overlap on purpose:
+  the work was parallel. GrowthOptix is the last employer; Nativerse is the owner's own
+  brand for independent work, and its projects are authored as `kind: personal`.
+- [x] Availability copy changed from "Open to new work" to "Open to new projects" and is
+  rendered as a status line on the Home hero.
 
 Still open:
 
-- [ ] Confirm the public email is `carlosrenatohr@gmail.com` and stays published.
-- [ ] Confirm whether the phone number on the CV may be published (currently omitted on purpose).
-- [ ] CV file (PDF) and whether it may be downloaded publicly — `cvPath` is empty, so Contact
-  shows the marked placeholder instead of a dead link.
 - [ ] Optional portrait: image file, alt text, and permission to publish.
 - [ ] Approved working philosophy for the About/Home statement band (still a marked placeholder).
-- [ ] `availability: "Open to new work"` — confirm it is current, or remove it.
-- [ ] CV lists GrowthOptix as Aug 2025—Aug 2026 and Nativerse as Mar 2026—present (two months
-  overlap). Confirm both dates before they are published as-is.
 
 ## Project 1 — Orbit Logistics / Hit Cargo
 
