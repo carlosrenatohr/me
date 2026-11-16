@@ -12,5 +12,5 @@ export default defineConfig({
   },
   site: 'https://carlosrenatohr.github.io',
   base: '/me',
-  trailingSlash: 'always'
+  trailingSlash: 'always',
 });

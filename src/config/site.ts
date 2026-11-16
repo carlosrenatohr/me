@@ -9,9 +9,7 @@ export const SITE = {
   defaultTitle: 'Carlos Renato — Independent Software Engineer',
   description: 'Portfolio of Carlos Renato, an independent software engineer and product builder.',
   locale: 'en',
-  origin:
-    import.meta.env.PUBLIC_SITE_URL ??
-    'https://carlosrenatohr.github.io',
+  origin: import.meta.env.PUBLIC_SITE_URL ?? 'https://carlosrenatohr.github.io',
 } as const;
 
 /**
