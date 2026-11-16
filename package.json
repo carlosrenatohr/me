@@ -1,6 +1,6 @@
 {
   "name": "carlos-renato-portfolio",
-  "version": "0.1.0",
+  "version": "0.4.0",
   "private": true,
   "type": "module",
   "description": "Dark editorial portfolio for Carlos Renato.",
@@ -17,7 +17,7 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^7.4.5"
+    "astro": "^7.4.12"
   },
   "devDependencies": {
     "@astrojs/check": "0.9.12",
@@ -26,5 +26,10 @@
     "prettier-plugin-astro": "1.1.2",
     "typescript": "6.0.3"
   },
-  "packageManager": "pnpm@10.33.0"
+  "packageManager": "pnpm@10.33.0",
+  "pnpm": {
+    "overrides": {
+      "@astrojs/astro2tsx": "0.1.4"
+    }
+  }
 }
