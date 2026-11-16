@@ -1,0 +1,84 @@
+MoMA Font License
+http://typotheque.com/momiasis
+Copyright (c) 2020, The Museum of Modern Art
+
+This Font Software is licensed under the SIL Open Font License,
+Version 1.1.
+This license is available with a FAQ at:
+http://scripts.sil.org/OFL
+
+TERMS AND CONDITIONS
+
+ Sections A through F are copyright (c) 2020 The Museum of Modern Art.
+ All rights reserved.
+
+A. Definitions
+
+ "Font Software" refers to the set of files released by the Copyright
+ Holder(s) under this license and clearly marked as such. The
+ specified fonts are referred to as "the Font".
+
+ "Licensed Work" refers to the works that result from the
+ copying, modification and/or distribution of the Font Software.
+
+ "Original Version" refers to the collection of files distributed by
+ the Copyright Holder(s) under this license.
+
+ "Copyright Holder(s)" refers to the original copyright holder(s) of
+ the Font.
+
+ "Registered Trademark(s)" refers to the mark or marks so designated
+ by the Copyright Holder(s) as having been registered with the
+ United States Patent and Trademark Office (or with the trademark
+ offices of an agency of other countries).
+
+B. Grant of Rights
+
+Licensee is hereby granted a non-exclusive, royalty-free, worldwide,
+perpetual license to use, study, copy, merge, embed, modify, and
+redistribute the Font Software, either in original or modified form,
+for commercial and/or noncommercial purposes.
+
+C. Conditions
+
+  1. Any copy of the Font Software, modified or unmodified, must
+     include the above copyright notice and this license.
+
+  2. The registered trademark notices in the Font Software may not be
+     used in any way, including by modification of the files, and
+     only for the purpose for which they were designated.
+
+  3. The name of the Copyright Holder(s) or of the licensed work
+     may not be used to endorse or promote products derived from
+     the Font Software without explicit written permission.
+
+  4. The Font, and any modified versions, must not be sold or
+     distributed under the name of any other copyright holder(s) or
+     trademark holder(s).
+
+D. Limitations
+
+  1. The Font may not be sold for profit.
+
+  2. The Font may not be used in any way that implies an
+     endorsement or certification by the Copyright Holder(s) of a
+     product derived from the Font Software.
+
+  3. The Font may not be used to create any work that is
+     distributed under a different license.
+
+E. Warranty
+
+  1. THE FONT IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND,
+     EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED
+     WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
+     PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE COPYRIGHT
+     HOLDER(S) BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+     WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+     FROM, OUT OF OR IN CONNECTION WITH THE FONT OR THE USE OR OTHER
+     DEALINGS IN THE FONT.
+
+F. Governing Law
+
+  1. This license is governed by the laws of the jurisdiction in
+     which the Copyright Holder(s) are located.

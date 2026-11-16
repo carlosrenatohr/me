@@ -157,73 +157,35 @@
 /* -------------------------------------------------------------------------- */
 /* Self-hosted fonts                                                        */
 /* -------------------------------------------------------------------------- */
-/* These four files are the exact variants Phase 02 needs. Vendor-loading    */
-/* them keeps the site offline-resilient, removes the Google Fonts request,  */
-/* and stops the network from shifting the skeleton while the serif loads. */
+/* Three variable faces cover every weight and optical size Phase 02 needs:
+   Newsreader roman + italic (wght 200–800, opsz 6–72) and Archivo
+   (wght 100–900). Vendor-loading them keeps the site offline-resilient,
+   removes the Google Fonts request, and lets `font-optical-sizing: auto`
+   adjust the serif from body copy up to the 94 px display headline.
+   Subset: latin, latin-ext, punctuation, currency and arrows. */
 
 @font-face {
   font-family: 'Newsreader';
   font-style: normal;
-  font-weight: 300;
+  font-weight: 200 800;
   font-display: swap;
-  src: url('/fonts/newsreader/numerals/newsreader-numerals-300.woff2') format('woff2');
-  /* Quotes preserved by adding space after colon */
+  src: url('/fonts/newsreader/newsreader.woff2') format('woff2');
 }
 
 @font-face {
   font-family: 'Newsreader';
   font-style: italic;
-  font-weight: 300;
+  font-weight: 200 800;
   font-display: swap;
-  src: url('/fonts/newsreader/numerals/newsreader-numerals-italic-300.woff2') format('woff2');
-  /* Quotes preserved by adding space after colon */
-}
-
-@font-face {
-  font-family: 'Newsreader';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('/fonts/newsreader/numerals/newsreader-numerals-400.woff2') format('woff2');
-  /* Quotes preserved by adding space after colon */
-  /* Arabic: 0,6..72,400 */
-}
-
-@font-face {
-  font-family: 'Newsreader';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url('/fonts/newsreader/numerals/newsreader-numerals-500.woff2') format('woff2');
-  /* Quotes preserved by adding space after colon */
-  /* Arabic: 0,6..72,500 */
+  src: url('/fonts/newsreader/newsreader-italic.woff2') format('woff2');
 }
 
 @font-face {
   font-family: 'Archivo';
   font-style: normal;
-  font-weight: 300;
+  font-weight: 100 900;
   font-display: swap;
-  src: url('/fonts/archivo/archivo-300.woff2') format('woff2');
-  /* Quotes preserved by adding space after colon */
-}
-
-@font-face {
-  font-family: 'Archivo';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('/fonts/archivo/archivo-400.woff2') format('woff2');
-  /* Quotes preserved by adding space after colon */
-}
-
-@font-face {
-  font-family: 'Archivo';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url('/fonts/archivo/archivo-500.woff2') format('woff2');
-  /* Quotes preserved by adding space after colon */
+  src: url('/fonts/archivo/archivo.woff2') format('woff2');
 }
 
 /* -------------------------------------------------------------------------- */
@@ -235,7 +197,7 @@
 /* -------------------------------------------------------------------------- */
 
 /* Google Fonts requests were removed in Phase 02. The site now self-hosts  */
-/* Newsreader (300/400/500 + italic) and Archivo (300/400/500) as .woff2   */
+/* Newsreader (variable, roman + italic) and Archivo (variable) as .woff2   */
 /* with font-display: swap. The fallbacks in src/styles/tokens.css cover    */
 /* the moment the files have not resolved. There is no third-party font CDN */
 /* and no layout shift from an external stylesheet.                        */
@@ -257,7 +219,7 @@ html {
 
 body {
   min-height: 100dvh;
-  font-family: var(--serif);
+  font-family: var(--font-serif);
   font-size: 1.0625rem;
   line-height: 1.7;
   font-optical-sizing: auto;
@@ -299,7 +261,7 @@ svg {
   padding: 0.75rem 1rem;
   background: var(--text);
   color: var(--bg);
-  font-family: var(--sans);
+  font-family: var(--font-sans);
   font-size: 0.8125rem;
 }
 
