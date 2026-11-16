@@ -16,18 +16,25 @@ Rules: nothing in this list may be filled with plausible-sounding guesses. Entri
 
 ## Profile
 
-- [ ] Professional headline (current value is a placeholder).
-- [ ] Short introduction, 1–2 sentences.
-- [ ] Longer biography.
-- [ ] Whether location is published at all, and which form (city only, region, omitted).
-- [ ] Email address for the contact page.
-- [ ] LinkedIn URL.
-- [ ] GitHub URL.
-- [ ] CV file (PDF) and whether it may be downloaded publicly.
+Supplied 2026-11-15 from `Carlos_Hernandez_CV (0).pdf` (dated 2026-11-12) and published:
+headline, short intro, biography, location (Managua, Nicaragua), email, LinkedIn, GitHub,
+`10+ years`, education (UNI, 2011—2016) and six roles.
+
+Still open:
+
+- [ ] Confirm the public email is `carlosrenatohr@gmail.com` and stays published.
+- [ ] Confirm whether the phone number on the CV may be published (currently omitted on purpose).
+- [ ] CV file (PDF) and whether it may be downloaded publicly — `cvPath` is empty, so Contact
+  shows the marked placeholder instead of a dead link.
 - [ ] Optional portrait: image file, alt text, and permission to publish.
-- [ ] Approved positioning statement; the draft in `docs/product/vision.md` is not final.
+- [ ] Approved working philosophy for the About/Home statement band (still a marked placeholder).
+- [ ] `availability: "Open to new work"` — confirm it is current, or remove it.
+- [ ] CV lists GrowthOptix as Aug 2025—Aug 2026 and Nativerse as Mar 2026—present (two months
+  overlap). Confirm both dates before they are published as-is.
 
 ## Project 1 — Orbit Logistics / Hit Cargo
+
+Seed: `src/content/projects/orbit-logistics.md` (`kind: personal`, everything marked DRAFT).
 
 - [ ] Exact public project name.
 - [ ] Role held and what Carlos personally designed and built.
@@ -36,6 +43,15 @@ Rules: nothing in this list may be filled with plausible-sounding guesses. Entri
 - [ ] Verifiable outcomes; no metrics may be invented.
 - [ ] Architectural details that are safe to disclose.
 - [ ] Whether the live product can be linked, and under which name.
+
+## Project 4 — DREDD
+
+Seed: `src/content/projects/dredd.md` (`kind: personal`). Real tool, unwritten case study.
+
+- [ ] Period and tooling used.
+- [ ] What a review run actually does, in the owner's words.
+- [ ] Approved screenshots of a review report.
+- [ ] Whether the workflow can be shown publicly at all.
 
 ## Project 2 — GrowthOptix
 
@@ -63,9 +79,10 @@ Rules: nothing in this list may be filled with plausible-sounding guesses. Entri
 
 ## Assets
 
-No images, logos, portraits or product screenshots exist in the repository. Every visual in
-Phase 01 exploration is a placeholder composed for layout testing, never presented as a real
-product screenshot.
+No product screenshots or portraits exist in the repository. Every visual in the design
+lab and the site is a placeholder plate composed for layout testing, never presented as a
+real product screenshot. Cover and `screenshots` are documented in
+`docs/content/PROJECT-AUTHORING.md` §4.
 
 ## Open questions
 
