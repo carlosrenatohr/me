@@ -27,9 +27,11 @@ sample, so the case-study layout can be reviewed before real work exists.
 | `portrait` | Optional `{ src, alt }` |
 | `links[]` | `label`, `url`, `kind` |
 
-## Project — `src/content/projects/<slug>.md`
+## Project — `src/content/projects/<slug>.json`
 
-Filename = slug = URL. Template: `docs/content/templates/project-case-study.md`.
+Filename = slug = URL. Template: `src/content/projects/_template.json` (excluded from the
+build). JSON is the authoring format because one object is one project: no frontmatter, and
+a future CMS or API can emit the same shape without a parser change.
 
 | Field | Notes |
 | --- | --- |
@@ -41,7 +43,7 @@ Filename = slug = URL. Template: `docs/content/templates/project-case-study.md`.
 | `role`, `period`, `surfaces`, `technologies` | Spec strip |
 | `cover` | Optional `{ src, alt }` — otherwise the abstract plate |
 | `screenshots[]` | `{ src, alt, caption? }`, rendered under "Screens" |
-| `context`, `contribution`, `approach` | Narrative, paragraph-separated |
+| `context`, `contribution`, `approach` | Narrative strings; `\n\n` separates paragraphs |
 | `solution[]` | `{ title, body }` — what the product does, rendered under "Solution" |
 | `aiRole` | What the model does and where the human stays in the loop; omitted when none |
 | `stackGroups[]` | `{ label, items[] }` — the stack by layer, for the case study |

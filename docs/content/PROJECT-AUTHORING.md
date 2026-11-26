@@ -6,16 +6,22 @@ still says `DRAFT`, and nothing reaches a public route unless `status: published
 
 Two starting points:
 
-- **A new case study** → `docs/content/templates/project-case-study.md`
+- **A new project** → `src/content/projects/_template.json`
 - **A new role** → `docs/content/templates/experience-role.md`
 
 ```bash
-cp docs/content/templates/project-case-study.md src/content/projects/my-project.md
-cp docs/content/templates/experience-role.md    src/content/experience/my-org.md
+cp src/content/projects/_template.json src/content/projects/my-project.json
+cp docs/content/templates/experience-role.md src/content/experience/my-org.md
 ```
 
-The project filename is the URL: `my-project.md` → `/projects/my-project/`. Renaming it
-later breaks the link.
+The project filename is the URL: `my-project.json` → `/projects/my-project/`. Renaming it
+later breaks the link. The template and files starting with `_` are excluded from the
+build, so the template is never published.
+
+Projects are JSON so adding one is a single file with no frontmatter to escape, which
+keeps the door open for a future CMS or API to emit the same objects. The schema in
+`src/content.config.ts` validates the shape during `pnpm check`; a typo fails the build
+instead of rendering an empty page.
 
 ---
 
@@ -41,15 +47,15 @@ testimonial or a screenshot that is not approved for publication.
 
 `kind` is not metadata decoration: it decides where a project appears.
 
-| `kind` | Listed under | Order |
-| --- | --- | --- |
-| `personal` | "Personal & side projects" | First, always |
-| `client` | "Client & product work" | After personal work |
+| `kind` | Order in the index |
+| --- | --- |
+| `personal` | First, always |
+| `client` | After personal work |
 
 Inside a group, `featuredOrder` (lower first) then title decides. On Home the first
 project with `featured: true` becomes the wide feature (falling back to the first
 published project) and the next two are the offset pair. Keep `featured` on exactly one
-project; on /projects/ every group leads with its own first entry.
+project. `/projects/` is one list, ordered personal first, with no separate headings.
 
 ---
 
@@ -59,11 +65,15 @@ These files are not filler: each one demonstrates a different authoring situatio
 
 | File | Kind | Shows |
 | --- | --- | --- |
-| `src/content/projects/orbit-logistics.md` | personal | A real product with real stack but unwritten narrative — every fact still needs the owner's words |
-| `src/content/projects/dredd.md` | personal | A personal tool where outcomes are qualitative, not metrics |
-| `src/content/projects/draft-operations-platform.md` | personal | The full field surface: quote, decisions, outcomes, confidentiality note |
-| `src/content/projects/draft-analytics-console.md` | client | Client work with no cover and no links |
-| `src/content/projects/draft-confidential-client.md` | client | How to publish a case study without naming the client |
+| `signal-desk.json` | personal | The full path: solution, decisions, outcomes, cover and screenshot |
+| `relay-yard.json` | personal | A real `aiRole`, with the boundary stated as a product decision |
+| `schema-scout.json` | personal | Concise narrative with five stack groups and one screenshot |
+| `harbor-ledger.json` | client | Client work where AI sits in one narrow job |
+| `dispatch-board.json` | client | Offline-first product; no AI, and the page says so by omission |
+| `yard-capacity.json` | client | A recent client system with no cover and no links |
+| `dredd.json` | personal | A real tool whose narrative is still `draft` — the honest unfinished state |
+| `orbit-logistics.json` | personal | A real product with real stack but unwritten copy |
+| `draft-*.json` | both | Fictional scaffolding: confidentiality path, degraded case, full field surface |
 
 Copy the closest sample rather than starting from an empty file — the template explains
 the fields, a sample shows how they read together.
@@ -118,7 +128,8 @@ Sections with no content are not rendered and do not appear in the contents rail
 partially written case study never shows a column of placeholders. The problem section is
 the exception: it always renders, with a marked placeholder when it is empty.
 
-A blank line between paragraphs starts a new paragraph in all of these.
+A blank line inside a JSON string (`\n\n`) starts a new paragraph in all of these. Keep the
+strings in one JSON line each: the file is data, not prose formatting.
 
 ### Screenshots
 
@@ -181,9 +192,9 @@ nothing outside that module imports `astro:content` directly.
 
 ## 7. Drafts and samples
 
-`draft-*.md` are fictional scaffolding and stay `draft` + `placeholder` forever: they
+`draft-*.json` are fictional scaffolding and stay `draft` + `placeholder` forever: they
 exist to show the field structure, the confidentiality path and the degraded case.
-`orbit-logistics.md` and `dredd.md` are real products with unfinished copy. Delete the
+`orbit-logistics.json` and `dredd.json` are real products with unfinished copy. Delete the
 fictional drafts once three real case studies are published.
 
 `status: sample` is the third state, and the only one that publishes content the owner did
@@ -196,7 +207,8 @@ empty index. A sample entry:
 - uses `contentStatus: placeholder`, which is what keeps the distinction honest: nothing
   about it claims to be verified.
 
-Current samples: `signal-desk.md`, `schema-scout.md` (personal) and `harbor-ledger.md`,
-`dispatch-board.md` (client). Their images live in `public/images/projects/<slug>/` and are
-interface mockups, not screenshots. To remove them once real work lands, delete the four
-Markdown files and their image folders; nothing else references them.
+Current samples: `signal-desk.json`, `schema-scout.json`, `relay-yard.json` (personal) and
+`harbor-ledger.json`, `dispatch-board.json`, `yard-capacity.json` (client). `signal-desk`
+and `schema-scout` carry images in `public/images/projects/<slug>/`, all interface mockups
+rather than screenshots; the rest render the abstract plate. To remove them once real work lands,
+delete the files and their image folders; nothing else references them.

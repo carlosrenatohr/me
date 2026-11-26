@@ -39,7 +39,7 @@ Still open:
 
 ## Project 1 — Orbit Logistics / Hit Cargo
 
-Seed: `src/content/projects/orbit-logistics.md` (`kind: personal`, everything marked DRAFT).
+Seed: `src/content/projects/orbit-logistics.json` (`kind: personal`, everything marked DRAFT).
 
 - [ ] Exact public project name.
 - [ ] Role held and what Carlos personally designed and built.
@@ -51,7 +51,7 @@ Seed: `src/content/projects/orbit-logistics.md` (`kind: personal`, everything ma
 
 ## Project 4 — DREDD
 
-Seed: `src/content/projects/dredd.md` (`kind: personal`). Real tool, unwritten case study.
+Seed: `src/content/projects/dredd.json` (`kind: personal`). Real tool, unwritten case study.
 
 - [ ] Period and tooling used.
 - [ ] What a review run actually does, in the owner's words.

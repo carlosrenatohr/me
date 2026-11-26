@@ -5,15 +5,18 @@
 - `/projects` Projects index
 - `/projects/[slug]` Project case study
 - `/ai` AI, engineering automation and how I would contribute to a team
-- `/about` About and experience
+- `/experience` Full professional record and education
+- `/about` Profile and approach, with a preview of the record
 - `/contact` Contact
 
 Writing/blog is optional and should only be included if approved articles exist.
 
 ## Home
 - Clear professional introduction and positioning.
+- Recent impact figures taken from the CV, each with the result it belongs to.
 - Selected projects with meaningful summaries, plus a link to the full index.
-- Short AI teaser that links to `/ai`.
+- Short AI teaser that links to `/ai` (DREDD named).
+- Three most recent roles with a link to `/experience`.
 - Short about preview.
 - Contact call to action.
 - Links to approved professional profiles and CV.
@@ -42,14 +45,23 @@ Writing/blog is optional and should only be included if approved articles exist.
 
 ## About
 - Professional biography.
-- Selected experience.
+- Three most recent roles, with the full record on `/experience`.
 - Technical focus areas.
 - Working philosophy.
 - Optional subtle portrait.
 
+## Experience
+- Every verified role, newest first: organization, role, dates, location, scope and concrete
+  contributions.
+- Earlier roles are included in the same chronology, not hidden.
+- Education from the profile.
+- Nothing is summarised into a claim the CV does not make.
+
 ## AI
 - How AI is used in production delivery, with the owner's stated starting year.
-- The systems built with it: review workflow, MCP servers, support chatbot.
+- DREDD as the featured system, with its review loop and the human decision at the end.
+- How the owner reads and analyses his own projects with a model.
+- The other systems built with it: MCP servers, support chatbot.
 - Tools in daily use, listed without implying endorsement.
 - Skills grouped by layer.
 - What the owner would own across a delivery cycle, with examples drawn from the CV.

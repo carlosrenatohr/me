@@ -432,6 +432,37 @@ Evidence: `pnpm build` → 9 pages; `pnpm check` → 25 files, 0 errors; `pnpm f
 `playwright-evals/responsive-audit.cjs` → all checks passed. Screenshots reviewed at 1440 and
 390 px for Home, Work, case study, AI and Contact.
 
+### Phase 03 — JSON projects, experience page, landing pass (2026-11-16, v0.8.0)
+
+**Status: DONE.** The owner asked for the portfolio to be easier to fill, for a page like the
+reference site's experience section, and for a landing that says more about him.
+
+- [x] **Projects are JSON.** `src/content/projects/<slug>.json` replaces Markdown: one object
+  per project, validated by the same schema, with `_template.json` documented and excluded
+  from the build. The four existing samples and the six drafts were converted; no prose was
+  lost (the Markdown body was never rendered).
+- [x] **Two new samples** that also serve as authoring references: `relay-yard.json` (personal,
+  a real `aiRole` with the boundary written as a product decision) and `yard-capacity.json`
+  (client, no model, concurrency solved by a database constraint).
+- [x] **`/experience`**: full chronology, six roles newest first, sticky period rail, grouped
+  chips, education and a closing band. About now previews the three most recent roles and
+  links to the record instead of duplicating it.
+- [x] **Navigation** reads Projects, AI, Experience, About, Contact. `/projects/` is titled
+  "Projects, in detail" and no longer calls itself "Selected work".
+- [x] **Home** gains a verified impact row (18 s → 1 ms, ~96% across 35K+ sync jobs, 340+
+  databases, ~1.7M events — all from the CV), a three-role experience strip, and the AI teaser
+  now names DREDD.
+- [x] **AI page**: DREDD is the feature, with the five-step review loop and the human approval
+  at the end, plus "How I read my own projects" (schema first, failure paths, evidence).
+- [x] **Craft pass**: sticky translucent header, course-style link underlines, aqua section
+  ticks, index rows that tint with a left accent, scroll reveal that degrades to static
+  markup without JavaScript or under reduced motion, anchor offsets for the sticky header.
+
+Evidence: `pnpm build` → 12 pages; `pnpm check` → 0 errors; `pnpm format:check` clean;
+`playwright-evals/responsive-audit.cjs` covers six routes and passes at 390/834/1440; the
+reveal was verified in Chromium after scrolling, and the mobile menu and index hover were
+inspected in screenshots.
+
 ## Phase 04 — Quality assurance
 
 **Status: IN PROGRESS**

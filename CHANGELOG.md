@@ -6,6 +6,37 @@ Versions are internal milestones of this portfolio, not public releases. Dates c
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). The project
 version in `package.json` matches the newest entry.
 
+## [0.8.0] — 2026-11-16
+
+Projects became data, the professional record got its own page, and the landing page states
+who the owner is before it lists work.
+
+### Added
+
+- `/experience`: every verified role newest first, with dates, location, scope, contributions,
+  technologies and education. The About page previews three roles and links to it.
+- Two sample case studies in the new format: `relay-yard` (personal, with a real AI role) and
+  `yard-capacity` (client, no model).
+- Landing: a verified impact row and a three-role experience strip.
+- AI page: DREDD as the featured system with its five-step review loop, and a section on how
+  the owner reads and analyses his own projects.
+
+### Changed
+
+- Projects are authored as JSON (`src/content/projects/<slug>.json`) with a documented,
+  build-excluded `_template.json`. The Markdown project files were converted.
+- Navigation is Projects / AI / Experience / About / Contact; the index is titled "Projects,
+  in detail" instead of "Selected work".
+- The header is sticky, section headings carry an aqua tick, index rows respond on hover, and
+  links underline on hover. Sections fade in on scroll only when JavaScript is available and
+  reduced motion is not requested.
+- Anchor targets and the case-study contents rail clear the sticky header.
+
+### Removed
+
+- `docs/content/templates/project-case-study.md`; the JSON template in the content folder is
+  now the single source for a new project.
+
 ## [0.7.0] — 2026-11-16
 
 The structure of the work and contact pages follows a reference portfolio that also states AI
