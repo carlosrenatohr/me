@@ -14,22 +14,25 @@ Writing/blog is optional and should only be included if approved articles exist.
 
 ## Home
 - Clear professional introduction and positioning.
-- Recent impact figures taken from the CV, each with the result it belongs to.
-- Selected projects with meaningful summaries, plus a link to the full index.
+- Featured products first: Orbit Logistics, HIT Cargo and DREDD, in that order.
+- Open-source experiments second, as compact rows; they never compete with the products.
+- Professional experience third: the three most recent roles, with a link to `/experience`.
+- Platform figures from the CV after the record, labelled as platform context, not solo output.
 - Short AI teaser that links to `/ai` (DREDD named).
-- Three most recent roles with a link to `/experience`.
-- Short about preview.
-- Contact call to action.
+- Approach statement and contact call to action.
 - Links to approved professional profiles and CV.
 - No fabricated availability claims.
 
 ## Projects index
-- Display approved, published projects.
-- One minimal card per project: category, title, summary, a short stack row, role,
-  period and the link into the case study.
-- No covers or galleries on the index: the media belongs to the case study.
-- Consistent project metadata.
-- Featured ordering controlled by content.
+- Display approved, published projects in three shelves: featured products, open source &
+  experiments, professional case studies.
+- The shelf and its order come from the `collection` field, never from `kind`, popularity or
+  stack size.
+- One minimal entry per project: category, title, summary, the fields that are published, and
+  the link into the case study.
+- No covers or galleries on the index: the media belongs to the case study. A featured product
+  without approved art renders as a typographic block, not as an empty plate.
+- Consistent project metadata; missing fields are omitted, never rendered as `[to confirm]`.
 - Avoid excessive filter UI unless the number of projects justifies it.
 
 ## Project case study
@@ -40,7 +43,9 @@ Writing/blog is optional and should only be included if approved articles exist.
 - Where AI sits in the product and where a person stays in the loop, when applicable.
 - Relevant architecture or workflow visuals.
 - Stack grouped by layer, in addition to the flat technology metadata.
+- Product status (live, in development, demonstration, archived) when known.
 - Verified outcomes or lessons, under "Impact".
+- An "Evidence" section naming what backs the page, followed by the confidentiality note.
 - Confidentiality-aware content.
 - Sections without content are omitted rather than filled with placeholders.
 
@@ -48,7 +53,7 @@ Writing/blog is optional and should only be included if approved articles exist.
 - Professional biography.
 - Three most recent roles, with the full record on `/experience`.
 - Technical focus areas.
-- Working philosophy.
+- A working approach stated from verified experience, not a generic philosophy placeholder.
 - Optional subtle portrait.
 
 ## Experience

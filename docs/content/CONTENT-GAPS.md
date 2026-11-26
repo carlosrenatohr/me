@@ -6,6 +6,20 @@ Purpose: track every fact the owner must supply or approve before it can be publ
 Rules: nothing in this list may be filled with plausible-sounding guesses. Entries marked
 `contentStatus: placeholder` are excluded from public queries by `src/lib/content.ts`.
 
+## Resolved — 2026-11-25 (0.11.0)
+
+The six fictional samples are retired and ten projects are published from public repositories,
+live deployments and the CV. Truth matrix and remaining limitations:
+`docs/PORTFOLIO-CONTENT-AUDIT.md`.
+
+- [x] Working approach for the About/Home statement band — replaced with the stated approach.
+- [x] Orbit / HIT Cargo at product level — HIT Cargo is fully evidenced (three repositories and a
+  live site); Orbit is published as an in-development entry with its role and product shape only.
+- [x] DREDD — published from the public workflow repository and the CV; dates omitted.
+
+Still open: Orbit architecture or demo, Buko, HIT Cargo dates and ownership boundaries,
+GrowthOptix disclosure depth, HIT screenshot approval, portrait.
+
 ## Phase 02 — Design foundation (this checklist)
 
 - [ ] Direction C approved as the foundation for the public site (owner-directed 2026-11-03).
@@ -39,6 +53,9 @@ Still open:
 
 ## Project 1 — Orbit Logistics / Hit Cargo
 
+Superseded by 0.11.0: HIT Cargo is published, Orbit is a short in-development entry. The list
+below is kept as the record of what was missing before the rebuild.
+
 Seed: `src/content/projects/orbit-logistics.json` (`kind: personal`, everything marked DRAFT).
 
 - [ ] Exact public project name.
@@ -50,6 +67,8 @@ Seed: `src/content/projects/orbit-logistics.json` (`kind: personal`, everything 
 - [ ] Whether the live product can be linked, and under which name.
 
 ## Project 4 — DREDD
+
+Resolved in 0.11.0 from the public workflow repository; dates remain omitted.
 
 Seed: `src/content/projects/dredd.json` (`kind: personal`). Real tool, unwritten case study.
 

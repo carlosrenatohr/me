@@ -13,7 +13,14 @@ The site was technically well built but almost invisible to search: no structure
 
 This pass fixed the crawl defects, added a `Person` + `WebSite` graph with page-level schema, added a 1200×630 social card, rewrote every title and description around one identity, and put samples and the placeholder work index out of the index until real work exists. No ranking, traffic or Core Web Vitals claim is made here: there is no Search Console access and no field data in this environment.
 
-**What is indexable now:** 6 routes (home, AI, skills, experience, about, contact). **Noindexed:** 6 sample case studies and the work index while it contains no real project. **Indexable before:** all 13.
+**What was indexable after this pass:** 6 routes (home, AI, skills, experience, about, contact). **Noindexed:** 6 sample case studies and the work index while it contained no real project. **Indexable before:** all 13.
+
+> **Update — 2026-11-25 (0.11.0).** This report is the record of the 0.10.0 technical pass and
+> stays as written. The product-first rebuild that followed deleted the six samples, published
+> ten verified projects and replaced the indexability rules described below: the sitemap now
+> lists 17 URLs, `/projects/` is indexable, and every published project carries `CreativeWork`.
+> The content decisions, truth matrix and remaining limitations are in
+> `docs/PORTFOLIO-CONTENT-AUDIT.md`.
 
 ---
 

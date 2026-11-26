@@ -6,6 +6,36 @@ Versions are internal milestones of this portfolio, not public releases. Dates c
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). The project
 version in `package.json` matches the newest entry.
 
+## [0.11.0] — 2026-11-25
+
+Products lead the portfolio, the six fictional samples are gone, and every published project
+says what backs it. Audit and truth matrix: `docs/PORTFOLIO-CONTENT-AUDIT.md`.
+
+### Added
+
+- Ten published projects in three shelves: Orbit Logistics, HIT Cargo and DREDD as featured
+  products; Mi Lexio, Ranita Leopardo, Nalu, Agent Harness and the Webhook Attribution Pipeline
+  as open-source experiments; GrowthOptix and BEON Tech Studio as professional case studies.
+- `collection` and `productStatus` fields on the project schema, plus `evidenceNote`.
+- An "Evidence" section on every case study, followed by its confidentiality note.
+- HIT Cargo case study with the repository's own panel screenshots, converted to WebP.
+- `docs/PORTFOLIO-CONTENT-AUDIT.md`: sources, truth matrix, decisions, validation and limitations.
+
+### Changed
+
+- Home order: featured products, open source, experience, platform context, AI, approach.
+- `/projects/` is grouped by shelf and is indexable again; the sitemap now lists 17 URLs.
+- Project pages show a product-status label and format periods as `Aug 2025 — Aug 2026`.
+- A featured product without approved art renders as a typographic block, not a full-screen
+  placeholder plate.
+- Profile headline and the About approach now use the agreed positioning.
+- GrowthOptix figures are labelled as platform-level and moved below the professional record.
+
+### Removed
+
+- The six fictional sample case studies, three internal draft placeholders and their image
+  folders, plus the homepage and index sample notices.
+
 ## [0.10.0] — 2026-11-25
 
 The site now states who it is to crawlers, and stops presenting demonstration work as delivered

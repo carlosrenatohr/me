@@ -6,9 +6,8 @@ import { canonicalUrl, projectPath, ROUTES } from '@/config/site';
  * Generated sitemap.
  *
  * Only routes that exist and are safe to index are listed: the static pages plus
- * the published, owner-verified case studies. Drafts and samples never appear —
- * a sample renders the layout but is not the owner's work, and it is noindex on
- * the page itself, so listing it here would be a contradiction.
+ * the published, owner-verified projects. Drafts and placeholders never appear,
+ * so a project under verification cannot be indexed before its evidence lands.
  * The origin comes from SITE.origin, so the sitemap follows PUBLIC_SITE_URL
  * without edits.
  */

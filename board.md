@@ -3,7 +3,7 @@
 Status values: `NOT STARTED`, `IN PROGRESS`, `BLOCKED`, `IN REVIEW`, `DONE`.
 
 Overall status: IN PROGRESS
-Current phase: 04 — Quality assurance and discoverability
+Current phase: 06 — Product-first content rebuild (in review)
 
 ## Phase 00 — Repository and tooling
 
@@ -536,25 +536,53 @@ study (that alone flips the work index and a detail page into the index); decide
 the six samples per the rebuild brief. **Known limitation:** a project site's `robots.txt` is not
 read from the origin root, so it is correct but not authoritative until a domain move.
 
+## Phase 06 — Product-first content rebuild
+
+**Status: IN REVIEW.** The owner's rebuild brief and addendum, executed on 2026-11-25 as v0.11.0.
+Audit, truth matrix and limitations: `docs/PORTFOLIO-CONTENT-AUDIT.md`.
+
+- [x] Verify every project claim against public repositories, deployments or the CV; record the
+  matrix and mark unsupported claims as omitted rather than guessed.
+- [x] Add `collection` (`featured` | `open-source` | `professional`) and `productStatus` to the
+  project schema; order the index by shelf instead of `kind`.
+- [x] Publish ten projects: Orbit Logistics, HIT Cargo and DREDD as featured products; Mi Lexio,
+  Ranita Leopardo, Nalu, Agent Harness and the Webhook Attribution Pipeline as experiments;
+  GrowthOptix and BEON Tech Studio as professional case studies.
+- [x] Retire the six fictional samples, the internal draft placeholders and their images.
+- [x] Keep Buko as a draft: no repository, deployment or description was found.
+- [x] Reorder Home so products lead and the professional record supports; move the GrowthOptix
+  figures below it and label them as platform context.
+- [x] Add a product-status label and an Evidence section to every case study; omit unpublished
+  fields instead of rendering `[to confirm]`.
+- [x] Replace the About working-philosophy placeholder with the stated approach.
+
+Evidence:
+
+```
+pnpm check        → 30 files: 0 errors, 0 warnings, 0 hints
+pnpm build        → 17 pages; sitemap 17 URLs (7 routes + 10 projects)
+responsive audit  → OK — all checks passed, 8 routes × 390/834/1440
+built HTML        → no sample copy, `[DRAFT]` or `[to confirm]`
+visual review     → home desktop/mobile, projects index, HIT Cargo, GrowthOptix
+```
+
+**Open owner actions:** Orbit evidence (demo/repo/approved architecture), Buko evidence,
+GrowthOptix disclosure depth, HIT screenshot approval.
+
 ## Next queue (ordered)
 
-Priority is the content structure first, then release hardening. Each item is small and
-independently verifiable.
+Priority is evidence and release hardening; the content structure is in review.
 
-1. **P03-07 — first published case study.** Owner copy + approved screenshots; unblocks
-   image verification and gives the Work page its real density.
-2. **P04-05 — image pipeline.** Cover 1600×900 under 300 KB, WebP/AVIF, `width`/`height` to
-   avoid layout shift, alt text reviewed. Only measurable with real files.
-3. **P04-07 — re-run the audit** on all five routes including one published case study.
-4. **P05-01 — environment and build documentation** (Node ≥ 22.23.4, pnpm, `PUBLIC_SITE_URL`).
-5. **P05-02 — deployment options** (static host; `astro preview` is not production).
-6. **P05-03 — production build and route verification** against the chosen host.
-7. **P05-04 — final QA evidence** (screenshots at three widths, link check, metadata).
-8. **P05-05 — V2 CMS migration notes** (the `src/lib/content.ts` seam and the field contract).
+1. **P06-01 — Orbit evidence.** A safe demo, repository or owner-approved architecture note; the
+   entry stays short until one exists.
+2. **P06-02 — Buko evidence.** Repository or description; otherwise the draft stays hidden.
+3. **P06-03 — project social images** for the three featured products, from real UI only.
+4. **P04-07 — re-run the audit** on all six routes, including the project pages.
+5. **P05-01…P05-05 — release documentation** and final QA evidence.
+6. **P06-04 — owner review** of the GrowthOptix disclosure and the HIT screenshots.
 
-Owner decisions still open: portrait, the Approach paragraph in his own words, and the first
-real case study. Contact channels and the CV are resolved. Tracked in
-`docs/content/CONTENT-GAPS.md`.
+Owner decisions still open: portrait, Orbit evidence, Buko, GrowthOptix disclosure depth and HIT
+screenshot approval. Tracked in `docs/content/CONTENT-GAPS.md`.
 
 ## Phase 05 — Release
 
