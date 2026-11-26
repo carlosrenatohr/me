@@ -13,6 +13,10 @@ const profileIsVerified = profile.data.contentStatus === 'verified';
 const hasExperience = primary.length + additional.length > 0;
 const education = profile.data.education;
 
+// About previews the work history; the full chronology lives on /experience/.
+const featuredRoles = primary.slice(0, 3);
+const extraRoles = Math.max(0, primary.length - featuredRoles.length + additional.length);
+
 const experienceMeta = hasExperience
   ? [profile.data.yearsExperience, `${primary.length + additional.length} roles`]
       .filter(Boolean)
@@ -80,29 +84,29 @@ const description =
   <section class="work" aria-labelledby="experience-title">
     <div class="section-rule">
       <h2 id="experience-title">Experience</h2>
-      <p>{experienceMeta}</p>
+      <p class="rule-meta">
+        {experienceMeta}
+        <a class="rule-link" href={ROUTES.experience}>
+          Full record <span aria-hidden="true">→</span>
+        </a>
+      </p>
     </div>
 
     {hasExperience ? (
       <>
         <div class="experience-grid">
-          {primary.map((experience) => (
+          {featuredRoles.map((experience) => (
             <ExperienceCard experience={experience} />
           ))}
         </div>
 
-        {additional.length > 0 && (
-          <div class="experience-earlier">
-            <div class="section-rule">
-              <h2 id="earlier-title">Earlier</h2>
-              <p>{additional.length} roles</p>
-            </div>
-            <div class="experience-grid">
-              {additional.map((experience) => (
-                <ExperienceCard experience={experience} />
-              ))}
-            </div>
-          </div>
+        {extraRoles > 0 && (
+          <p class="section-note">
+            <a class="text-link" href={ROUTES.experience}>
+              {extraRoles} earlier {extraRoles === 1 ? 'role' : 'roles'}, with the full detail{' '}
+              <span aria-hidden="true">→</span>
+            </a>
+          </p>
         )}
       </>
     ) : (

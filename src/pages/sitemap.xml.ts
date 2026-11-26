@@ -5,7 +5,7 @@ import { canonicalUrl, projectPath, ROUTES } from '@/config/site';
 /**
  * Generated sitemap.
  *
- * Only routes that exist and are safe to index are listed: the five static
+ * Only routes that exist and are safe to index are listed: the six static
  * pages plus the published, owner-verified case studies. Drafts never appear.
  * The origin comes from SITE.origin, so the sitemap follows PUBLIC_SITE_URL
  * without edits.
@@ -17,6 +17,7 @@ export const GET: APIRoute = async () => {
     ROUTES.home,
     ROUTES.projects,
     ROUTES.ai,
+    ROUTES.experience,
     ROUTES.about,
     ROUTES.contact,
     ...projects.map((project) => projectPath(project.slug)),
