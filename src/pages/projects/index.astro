@@ -6,9 +6,6 @@ import { getPublishedProjects, isSampleProject } from '@/lib/content';
 import { ROUTES, SITE } from '@/config/site';
 
 const projects = await getPublishedProjects();
-const personal = projects.filter((project) => project.data.kind === 'personal');
-const client = projects.filter((project) => project.data.kind === 'client');
-const bothKinds = personal.length > 0 && client.length > 0;
 const hasSamples = projects.some(isSampleProject);
 
 const countLabel = projects.length === 1 ? '1 project' : `${projects.length} projects`;
@@ -17,17 +14,19 @@ const description =
 ---
 
 <BaseLayout
-  title={`Work — ${SITE.name}`}
+  title={`Projects — ${SITE.name}`}
   description={description}
   path={ROUTES.projects}
   current="projects"
 >
   <section class="hero" aria-labelledby="page-title">
     <div class="hero-grid">
-      <h1 id="page-title">Selected work</h1>
+      <h1 id="page-title">
+        Projects, <em>in detail.</em>
+      </h1>
       <p class="hero-lede">
-        Every entry opens into the same structure: the problem, the solution, what I personally
-        owned, the decisions behind it, and what changed.
+        One structure for every entry: the problem, the solution, what I personally owned, the AI
+        role where there is one, the decisions behind it, and what changed.
       </p>
     </div>
   </section>
@@ -42,7 +41,7 @@ const description =
 
   <section class="work" aria-labelledby="projects-title">
     <div class="section-rule">
-      <h2 id="projects-title">{bothKinds ? 'Projects' : 'Selected work'}</h2>
+      <h2 id="projects-title">All projects</h2>
       <p>{countLabel}</p>
     </div>
 
