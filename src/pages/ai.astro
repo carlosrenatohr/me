@@ -9,10 +9,6 @@ const tools = ['Claude Code', 'Codex', 'OpenCode', 'Cursor', 'GitHub Copilot'];
 
 const built = [
   {
-    title: 'DREDD — a multi-agent review workflow',
-    body: 'A code-review system that coordinates parallel code and security reviews, runs automated checks, and validates the result against the project requirements before anything is called done. I designed it and have maintained it for over a year; it reviews changes the way I would, but faster and without skipping the boring parts.',
-  },
-  {
     title: 'MCP servers for real services',
     body: 'Servers that connect AI clients to application capabilities and existing services, so an assistant can read and act on the same system a person uses. One of them is a production integration consumed by an internal fine-tuned model.',
   },
@@ -66,6 +62,47 @@ const skills = [
   {
     label: 'Frontend & product',
     items: ['React', 'Astro', 'Next.js', 'Preact', 'TypeScript'],
+  },
+];
+
+// The loop DREDD runs, in the order it runs it. The last step is the point:
+// a review that cannot point at evidence is not a review.
+const loop = [
+  {
+    title: 'The brief is the contract',
+    body: 'Work starts from the requirement, not from the diff. Each agent receives the intent and the files it needs, so a change is measured against what it was supposed to do.',
+  },
+  {
+    title: 'Parallel reviewers, separate concerns',
+    body: 'Code and security reviews run as independent agents. Separating them keeps one loud finding from drowning the other, and makes each report reviewable on its own terms.',
+  },
+  {
+    title: 'Automated checks decide the obvious',
+    body: 'Build, types, tests and the security scan run before any opinion is offered. A finding that the compiler can make is not worth a paragraph.',
+  },
+  {
+    title: 'Findings are reconciled, not concatenated',
+    body: 'Duplicated and contradictory findings collapse into one item with its evidence attached. The output is a decision list, not four reports stapled together.',
+  },
+  {
+    title: 'A person signs the result',
+    body: 'The workflow can say “not verified”. It cannot say “merged”. Approval stays with the engineer, which is what keeps the speed from becoming a liability.',
+  },
+];
+
+// Reading my own projects with a model: the part I actually trust it with.
+const reading = [
+  {
+    title: 'Map the data before the change',
+    body: 'I ask for the tables, the joins and the direction of every write, then check the answer against the schema. When the map is wrong, the model is confidently wrong, and the schema is where that shows.',
+  },
+  {
+    title: 'Explain the failure path',
+    body: 'Retries, partial writes, duplicate deliveries. A model is useful at enumerating failure modes I have stopped noticing in my own code, precisely because it has no memory of writing it.',
+  },
+  {
+    title: 'Review the reasoning, keep the evidence',
+    body: 'Every conclusion has to name the file, the query or the test that supports it. If it cannot, it is a hypothesis, and hypotheses go to the terminal before they go to a commit.',
   },
 ];
 
@@ -137,10 +174,68 @@ const description =
     </div>
   </section>
 
+  <section class="work ai-feature" aria-labelledby="dredd-title">
+    <div class="section-rule">
+      <h2 id="dredd-title">DREDD</h2>
+      <p>Personal system · in use for over a year</p>
+    </div>
+
+    <div class="ai-feature-body">
+      <div class="ai-feature-lead">
+        <h3 class="ai-feature-title">
+          A review workflow that <em>cannot</em> declare itself right.
+        </h3>
+
+        <p>
+          DREDD is how I review my own work and the work AI produces for me: parallel code and
+          security reviews, automated checks, and a reconciliation pass that validates the result
+          against the brief before anything is called done.
+        </p>
+
+        <p class="statement-note">
+          I built it because the bottleneck was never writing code — it was reading it with enough
+          attention. A review that runs the same way every time, and can show its evidence, is worth
+          more than a faster reviewer having a better day.
+        </p>
+      </div>
+
+      <ol class="loop">
+        {loop.map((step, index) => (
+          <li class="loop-step">
+            <span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+            <div>
+              <h3>{step.title}</h3>
+              <p>{step.body}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="work" aria-labelledby="reading-title">
+    <div class="section-rule">
+      <h2 id="reading-title">How I read my own projects</h2>
+      <p>Three habits, no autopilot</p>
+    </div>
+
+    <ol class="solution-list">
+      {reading.map((item, index) => (
+        <li>
+          <span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+          <div>
+            <h3>{item.title}</h3>
+            <p>{item.body}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </section>
+
   <section class="work" aria-labelledby="built-title">
     <div class="section-rule">
-      <h2 id="built-title">What I have built</h2>
-      <p>3 systems</p>
+      <h2 id="built-title">Other systems</h2>
+      <p>{built.length} systems</p>
     </div>
 
     <ol class="solution-list">
