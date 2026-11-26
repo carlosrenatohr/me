@@ -20,7 +20,7 @@ live deployments and the CV. Truth matrix and remaining limitations:
 Still open: Orbit architecture or demo, Buko, HIT Cargo dates and ownership boundaries,
 GrowthOptix disclosure depth, HIT screenshot approval, portrait.
 
-## Addendum pass — 2026-11-25 (uncommitted)
+## Addendum pass — 2026-11-25 (deployed in 0dccae6)
 
 - [ ] Approve or reject each HIT Cargo screenshot in `docs/evidence/hit-cargo/`.
 - [ ] Reconcile the GrowthOptix role: the owner says Mid Backend Developer, `public/cv.pdf`

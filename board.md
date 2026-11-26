@@ -581,9 +581,9 @@ live audit        → OK — all checks passed, 8 routes × 390/834/1440
 **Open owner actions:** Orbit evidence (demo/repo/approved architecture), Buko evidence,
 GrowthOptix disclosure depth, HIT screenshot approval.
 
-### Phase 06 — addendum pass (2026-11-25, uncommitted)
+### Phase 06 — addendum pass (2026-11-25, deployed in `0dccae6`)
 
-**Status: IN REVIEW, NOT DEPLOYED.** The owner's addendum added historical context and withdrew
+**Status: DONE.** The owner's addendum added historical context and withdrew
 blanket approval for the HIT screenshots and the GrowthOptix figures.
 
 - [x] HIT Cargo business context checked against the public service pages in `hit-landing`.
@@ -596,9 +596,9 @@ blanket approval for the HIT screenshots and the GrowthOptix figures.
 - [x] Buko: full repository list (including private) and DNS checked; no evidence, remains draft.
 - [x] Sitemap still generates 17 canonical URLs; Search Console steps documented, not executed.
 
-### Phase 06 — identity and experience pass (2026-11-25, uncommitted)
+### Phase 06 — identity and experience pass (2026-11-25, deployed in `0dccae6`)
 
-**Status: IN REVIEW, NOT DEPLOYED.**
+**Status: DONE — deployed as `0dccae6`, Pages run `45757253043` green.**
 
 - [x] Production discrepancy checked independently: `master` is `d4a12fd`, the served artifact is
   timestamped 34 s later, the cold home has no sample content and the sitemap has 17 URLs. The
@@ -613,7 +613,8 @@ blanket approval for the HIT screenshots and the GrowthOptix figures.
 - [x] Interaction checks passed in Chromium at 1440 and 390 (accordion, portrait, keyboard, overflow,
   console).
 
-Evidence: `docs/PORTFOLIO-CONTENT-AUDIT.md` §1–2 and §11–16.
+Evidence: `docs/PORTFOLIO-CONTENT-AUDIT.md` §1–2 and §11–16; production E2E 97/97 with globally
+installed Playwright 1.65.1 (`NODE_PATH=$(npm root -g) node playwright-evals/prod-e2e.cjs`).
 
 Evidence: `pnpm check` and `pnpm build` pass; the generated HTML contains none of the withheld
 figures and no HIT screenshot references. Production still serves the 0.11.0 build until the owner

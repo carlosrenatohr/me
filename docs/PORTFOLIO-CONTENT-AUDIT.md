@@ -24,25 +24,26 @@ Every claim in the audit carries one of these states:
 
 ## 1. Technical state and production state
 
-- Branch deployed: `master`, commit `d4a12fd` — the rebuild plus its verification note.
-- The working tree is **dirty on purpose**: this pass is uncommitted, unpushed and undeployed, per the
-  execution constraints. Nothing here modified `master`, the Pages workflow or the production build.
-- `pnpm check`, `pnpm build`, `pnpm format:check` and the responsive audit pass locally (section 15).
-- The local build has 17 pages and 17 sitemap URLs. `/projects/draft-buko/` is not generated.
+- Branch deployed: `master`, commit `0dccae6` — this pass, on top of the rebuild at `d4a12fd`.
+- GitHub Actions run `45757253043` completed successfully (build and deploy jobs).
+- `pnpm check`, `pnpm build`, `pnpm format:check`, the responsive audit and the production E2E pass
+  (section 15).
+- The build has 17 pages and 17 sitemap URLs. `/projects/draft-buko/` is not generated.
+- The Pages workflow was not modified.
 
 ### Production verification (independent methods)
 
 | Method | Result |
 | --- | --- |
-| `gh api repos/carlosrenatohr/me/commits/master` | `d4a12fd822e318e0cb9d8f6130b8a1cc3832b6e8`, 2026-11-26T03:55:10Z |
+| `gh api repos/carlosrenatohr/me/commits/master` | `0dccae6` (previously `d4a12fd822e318e0cb9d8f6130b8a1cc3832b6e8`) |
 | `curl` with `Cache-Control: no-cache, no-store` and a unique query string, home | 200, 18 820 bytes, no `Sample content`, no Signal Desk / Schema Scout / Relay Yard |
 | Same request, `/projects/` | 200, 10 real entries: Orbit Logistics, HIT Cargo, DREDD, Mi Lexio, Ranita Leopardo, Nalu, Agent Harness, Webhook Attribution Pipeline, GrowthOptix, BEON Tech Studio |
 | Same request, `/sitemap.xml` | 200, 17 `<loc>` entries |
-| Response headers | `last-modified: Thu, 26 Nov 2026 03:55:44 GMT` (the successful Pages build of `d4a12fd`), `cache-control: max-age=600`, `age: 1` |
+| Response headers | `last-modified: Thu, 26 Nov 2026 04:46:34 GMT` (the Pages build of `0dccae6`), `cache-control: max-age=600` |
+| GitHub Actions | run `45757253043`: build ✓, deploy ✓ |
 
 The deployed artifact was built from the same commit above, so the repository state and the served
-pages agree. GitHub Pages has no deployment history API exposed to this account, but the artifact
-timestamp and the commit timestamp are 34 seconds apart, which is consistent with one build.
+pages agree.
 
 ## 2. Discrepancy with the external reading
 
@@ -61,9 +62,8 @@ Diagnosis: a stale read, not a failed deploy.
 No further deploy was made to "fix" this. Action if it reappears: re-check with a cache-busting URL
 and compare the `last-modified` header against `master` before touching the workflow.
 
-**Important caveat:** production still serves the **0.11.0 content** (HIT screenshots, GrowthOptix
-figures, "Platform context"). Those were withdrawn in this local pass but cannot disappear from
-production without an approved deploy.
+The deploy of `0dccae6` now serves the corrected content: the HIT screenshots and the GrowthOptix
+figures are absent from the generated HTML, and the archive and portrait are live.
 
 ## 3. Editorial hierarchy
 
@@ -334,8 +334,8 @@ One native `<details>` per page, closed by default, on both the home page and `/
 5. **Buko** — supply evidence or leave it as a draft.
 6. **HIT dates and ownership boundaries** — needed before the case study can claim a period or
    individual authorship of each surface.
-7. **Deploy** — this pass is local only; publishing it (and therefore removing the screenshots and
-   figures from production) needs explicit approval.
+7. **Deploy** — approved and executed (`0dccae6`, run `45757253043`). The screenshots and figures are
+   no longer served.
 8. **OG image** — regenerating `og/carlos-renato.jpg` with the new name requires image generation
    approval.
 
@@ -368,6 +368,7 @@ None of this was executed: it requires owner access and a deploy.
 - `src/styles/primitives.css` — accordion and portrait styles, reduced-motion inherited from the
   global rule.
 - `src/content/projects/draft-buko.json` — title without the `[DRAFT]` prefix (status still draft).
+- `playwright-evals/prod-e2e.cjs` — production E2E runner.
 - `docs/PORTFOLIO-CONTENT-AUDIT.md`, `CHANGELOG.md`, `board.md`,
   `docs/content/CONTENT-GAPS.md` — this record.
 
@@ -394,4 +395,18 @@ responsive audit  → run against the local build (section below)
 Responsive audit: 8 routes × 390 / 834 / 1440, plus SPA navigation marker. The accordion is closed in
 the audited state; it was opened manually in the browser check for layout and keyboard behaviour.
 
-**Not committed, pushed or deployed.** Production remains the 0.11.0 artifact described in section 1.
+Production E2E, run with globally installed Playwright 1.65.1 against
+`https://carlosrenatohr.github.io/me`:
+
+```
+npm install -g playwright && playwright install chromium
+NODE_PATH=$(npm root -g) node playwright-evals/prod-e2e.cjs
+→ 97/97 checks passed
+```
+
+Covered: 15 routes (status, one h1, title, canonical, description), no sample copy, archive closed
+and opened by mouse/Enter/Space with truthful counts, portrait state by click and keyboard,
+ClientRouter in-page navigation, 17 sitemap URLs all 200, retired sample 404, no overflow at
+390/834/1440 on home/index/about, reduced motion, and zero console errors.
+
+**Deployed.** Production serves `0dccae6`; this document is the only later change.

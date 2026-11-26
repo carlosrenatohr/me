@@ -8,7 +8,8 @@ version in `package.json` matches the newest entry.
 
 ## [Unreleased]
 
-Content correction following the owner's addendum. Not committed or deployed.
+Content correction following the owner's addendum. Deployed as `0dccae6` (Pages run
+`45757253043`).
 
 ### Changed
 
@@ -26,6 +27,8 @@ Content correction following the owner's addendum. Not committed or deployed.
   drafts appear as labelled, unlinked rows.
 - An interactive portrait on About: illustration first, photograph on hover, tap or keyboard, with a
   pinned state and `aria-pressed`.
+- A production E2E in `playwright-evals/prod-e2e.cjs`, run with globally installed Playwright
+  (97 checks: routing, metadata, archive, portrait, sitemap, overflow, reduced motion).
 
 ### Changed
 
