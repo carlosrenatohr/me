@@ -6,16 +6,22 @@
  * native <details> menu used below 900 px), the page container and the footer.
  * Pages supply content only; they must not repeat any of this markup.
  *
- * Navigation model: five static routes, no client-side router of our own.
+ * Navigation model: seven static routes, no client-side router of our own.
  * <ClientRouter /> upgrades link clicks to in-place swaps so navigation feels
  * like a single-page app while every route stays prerendered HTML.
  */
 import '@/styles/base.css';
 import { ClientRouter } from 'astro:transitions';
 import NavLinks from '@/components/NavLinks.astro';
-import { canonicalUrl, ROUTES, SITE, type NavKey } from '@/config/site';
+import { absoluteAsset, canonicalUrl, ROUTES, SITE, type NavKey } from '@/config/site';
 import { ASSETS } from '@/config/assets';
 import { getContactDetails } from '@/lib/contact';
+import { getProfile, getSkills } from '@/lib/content';
+import { personNode, serialiseGraph, websiteNode } from '@/lib/seo';
+// Emitted with a content hash, so the preload hints below have to come from the
+// same import the stylesheet uses instead of a hand-written /fonts/ path.
+import newsreaderFont from '@/assets/fonts/newsreader/newsreader.woff2?url';
+import archivoFont from '@/assets/fonts/archivo/archivo.woff2?url';
 
 interface Props {
   title: string;
@@ -25,6 +31,8 @@ interface Props {
   current?: NavKey;
   ogType?: 'website' | 'article';
   noindex?: boolean;
+  /** Page-specific JSON-LD nodes; the Person and WebSite nodes are always added. */
+  schema?: Array<Record<string, unknown>>;
 }
 
 const {
@@ -34,11 +42,23 @@ const {
   current,
   ogType = 'website',
   noindex = false,
+  schema = [],
 } = Astro.props;
 
 const canonical = canonicalUrl(path);
 const contact = await getContactDetails();
 const year = new Date().getFullYear();
+
+const [profile, skills] = await Promise.all([getProfile(), getSkills()]);
+// The tools the skills page marks as core. Structured data reads the same flag
+// the page does, so the two can never disagree about what is in daily use.
+const coreTools = [
+  ...new Set(
+    skills.flatMap((layer) => layer.data.items.filter((item) => item.core).map((item) => item.name))
+  ),
+];
+const structuredData = serialiseGraph([websiteNode(), personNode(profile, coreTools), ...schema]);
+const ogImage = absoluteAsset(SITE.ogImage.path);
 ---
 
 <!doctype html>
@@ -48,21 +68,38 @@ const year = new Date().getFullYear();
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <meta name="author" content={SITE.legalName} />
+    {noindex ? (
+      <meta name="robots" content="noindex, follow" />
+    ) : (
+      <meta name="robots" content="index, follow, max-image-preview:large" />
+    )}
     <link rel="canonical" href={canonical} />
-    {noindex && <meta name="robots" content="noindex" />}
     <link rel="icon" type="image/svg+xml" href={ASSETS.favicon} />
+    <meta name="theme-color" content="#060b1a" />
+
+    <link rel="preload" href={newsreaderFont} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={archivoFont} as="font" type="font/woff2" crossorigin />
 
     <meta property="og:type" content={ogType} />
     <meta property="og:site_name" content={SITE.name} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
-    <meta property="og:locale" content="en" />
+    <meta property="og:locale" content={SITE.locale} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:type" content={SITE.ogImage.type} />
+    <meta property="og:image:width" content={String(SITE.ogImage.width)} />
+    <meta property="og:image:height" content={String(SITE.ogImage.height)} />
+    <meta property="og:image:alt" content={SITE.ogImage.alt} />
 
-    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={SITE.ogImage.alt} />
 
+    <script type="application/ld+json" is:inline set:html={structuredData} />
     <ClientRouter />
   </head>
 
@@ -73,7 +110,7 @@ const year = new Date().getFullYear();
 
     <header class="site-head">
       <a class="wordmark" href={ROUTES.home}>
-        Carlos R. Hernandez
+        {SITE.name}
       </a>
 
       <nav class="site-nav" aria-label="Primary">

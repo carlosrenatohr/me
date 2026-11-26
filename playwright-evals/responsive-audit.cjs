@@ -9,7 +9,7 @@ const BASE = process.env.BASE || 'http://localhost:4321';
 // Astro's `base` (e.g. `/me`) is part of every internal href, so nav selectors have
 // to be built from it instead of assuming the site is served from the domain root.
 const PREFIX = new URL(BASE).pathname.replace(/\/$/, '');
-const ROUTES = ['/', '/projects/', '/ai/', '/experience/', '/about/', '/contact/'];
+const ROUTES = ['/', '/projects/', '/ai/', '/skills/', '/experience/', '/about/', '/contact/'];
 const SIZES = [
   { name: 'mobile', width: 390, height: 844 },
   { name: 'tablet', width: 834, height: 1112 },

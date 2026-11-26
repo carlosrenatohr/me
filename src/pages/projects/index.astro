@@ -3,21 +3,29 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import ProjectIndexItem from '@/components/ProjectIndexItem.astro';
 import { getPublishedProjects, isSampleProject } from '@/lib/content';
+import { collectionPageNode } from '@/lib/seo';
 import { ROUTES, SITE } from '@/config/site';
 
 const projects = await getPublishedProjects();
 const hasSamples = projects.some(isSampleProject);
 
+// Samples exist to prove the layout, not to be found in a search result. Until at
+// least one real case study is published, this index is a placeholder page and is
+// kept out of the index; it becomes indexable by itself once real work lands.
+const hasRealProjects = projects.some((project) => project.data.status === 'published');
+
 const countLabel = projects.length === 1 ? '1 project' : `${projects.length} projects`;
 const description =
-  'Products built and shipped, personal and client work: the problem, the role, the decisions and the verified outcomes.';
+  'Case studies from backend and integration work: the problem, the role, the architecture decisions and the verified outcomes.';
 ---
 
 <BaseLayout
-  title={`Projects — ${SITE.name}`}
+  title={`Projects — ${SITE.name}, Senior Software Engineer`}
   description={description}
   path={ROUTES.projects}
   current="projects"
+  noindex={!hasRealProjects}
+  schema={[collectionPageNode(projects)]}
 >
   <section class="hero" aria-labelledby="page-title">
     <div class="hero-grid">

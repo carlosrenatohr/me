@@ -41,18 +41,32 @@ const lede = profileIsVerified
   ? profile.data.shortIntro
   : 'Independent software engineer and product builder, working on the systems that hold a product together.';
 
-const workCount = projects.length === 1 ? '1 project' : `${projects.length} projects`;
+// Samples demonstrate the format; they are not the owner's work, so the count
+// names them instead of passing six demo entries off as six delivered projects.
+const publishedProjects = projects.filter((project) => project.data.status === 'published');
+const workCount = publishedProjects.length
+  ? publishedProjects.length === 1
+    ? '1 project'
+    : `${publishedProjects.length} projects`
+  : `${projects.length} sample projects`;
 ---
 
 <BaseLayout title={SITE.defaultTitle} description={SITE.description} path={ROUTES.home}>
   <section class="hero" aria-labelledby="hero-title">
     <div class="hero-grid">
-      {profileIsVerified && profile.data.availability && (
-        <p class="status">
-          <span class="status-dot" aria-hidden="true" />
-          {profile.data.availability}
-        </p>
-      )}
+      <div class="hero-top">
+        {profileIsVerified && profile.data.availability && (
+          <p class="status">
+            <span class="status-dot" aria-hidden="true" />
+            {profile.data.availability}
+          </p>
+        )}
+
+        {/* The headline is written as a statement, not a job title. This line
+            carries the name and the role, which is what a visitor checks first
+            and what search engines need to resolve the page to a person. */}
+        <p class="hero-role">{SITE.name} · Senior Software Engineer</p>
+      </div>
 
       <h1 id="hero-title">
         Building products. <br />
@@ -83,7 +97,7 @@ const workCount = projects.length === 1 ? '1 project' : `${projects.length} proj
           </dd>
         </div>
         <div>
-          <dt>Projects</dt>
+          <dt>Work</dt>
           <dd>{projects.length ? workCount : '[no published projects yet]'}</dd>
         </div>
         <div>

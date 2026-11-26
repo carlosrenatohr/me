@@ -5,6 +5,7 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Plate from '@/components/Plate.astro';
 import { getPublishedProjects, isSampleProject, type PublicProject } from '@/lib/content';
+import { breadcrumbNode, clampDescription, creativeWorkNode } from '@/lib/seo';
 import { projectPath, ROUTES, SITE } from '@/config/site';
 import { publicAsset } from '@/config/assets';
 
@@ -65,12 +66,19 @@ const sections = [
 ].filter((section) => section.present);
 ---
 
+<!--
+  A sample is a demonstration of the format, not the owner's work. Its page stays
+  reachable for review but must never be indexed as a delivered project, so it is
+  noindex and carries no case-study schema.
+-->
 <BaseLayout
-  title={`${data.title} — ${SITE.name}`}
-  description={data.summary}
+  title={`${data.title} — ${data.category} case study | ${SITE.name}`}
+  description={clampDescription(data.summary)}
   path={projectPath(project.slug)}
   current="projects"
   ogType="article"
+  noindex={sample}
+  schema={sample ? [] : [creativeWorkNode(project), breadcrumbNode(project)]}
 >
   <article class="case">
     {sample && (
@@ -246,6 +254,11 @@ const sections = [
                 </div>
               ))}
             </div>
+            <p class="section-note">
+              <a class="text-link" href={ROUTES.skills}>
+                See the full stack, layer by layer <span aria-hidden="true">→</span>
+              </a>
+            </p>
           </section>
         )}
 

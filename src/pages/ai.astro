@@ -18,53 +18,6 @@ const built = [
   },
 ];
 
-const skills = [
-  {
-    label: 'Languages & runtime',
-    items: ['TypeScript', 'Node.js', 'Python', 'PHP', 'JavaScript', 'C#'],
-  },
-  {
-    label: 'Backend & APIs',
-    items: [
-      'NestJS',
-      'ExpressJS',
-      'Laravel',
-      'ASP.NET Core',
-      'GraphQL',
-      'REST',
-      'Microservices',
-      'OAuth 2.0',
-      'JWT',
-      'Webhooks',
-    ],
-  },
-  {
-    label: 'Data & analytics',
-    items: [
-      'PostgreSQL',
-      'MySQL',
-      'SQL Server',
-      'MongoDB',
-      'BigQuery',
-      'Redis / Valkey',
-      'Drizzle',
-      'Entity Framework',
-    ],
-  },
-  {
-    label: 'Pipelines & messaging',
-    items: ['BullMQ', 'RabbitMQ', 'Amazon SQS', 'Event-driven architecture', 'Webhook ingestion'],
-  },
-  {
-    label: 'Cloud & infrastructure',
-    items: ['AWS (EC2, RDS, SQS, ECS)', 'GCP', 'Cloudflare Workers', 'Docker', 'CI/CD'],
-  },
-  {
-    label: 'Frontend & product',
-    items: ['React', 'Astro', 'Next.js', 'Preact', 'TypeScript'],
-  },
-];
-
 // The loop DREDD runs, in the order it runs it. The last step is the point:
 // a review that cannot point at evidence is not a review.
 const loop = [
@@ -146,11 +99,11 @@ const process = [
 ];
 
 const description =
-  'How Carlos Renato uses AI in production engineering: agentic code review, MCP servers, and the judgement that keeps the output verifiable.';
+  'How Carlos Renato uses AI in production: agentic code review with DREDD, MCP servers wired to real systems, and a human gate before anything ships.';
 ---
 
 <BaseLayout
-  title={`AI & engineering automation — ${SITE.name}`}
+  title={`AI Engineering — ${SITE.name}, Senior Software Engineer`}
   description={description}
   path={ROUTES.ai}
   current="ai"
@@ -280,21 +233,26 @@ const description =
 
   <section class="work" aria-labelledby="skills-title">
     <div class="section-rule">
-      <h2 id="skills-title">Skills</h2>
-      <p>The stack behind it</p>
+      <h2 id="skills-title">The stack behind it</h2>
+      <p>Six layers, one page</p>
     </div>
 
-    <div class="skills-grid">
-      {skills.map((group) => (
-        <div class="skill-group">
-          <h3>{group.label}</h3>
-          <ul>
-            {group.items.map((item) => (
-              <li class="chip">{item}</li>
-            ))}
-          </ul>
-        </div>
-      ))}
+    <div class="ai-teaser-body">
+      <p class="ai-teaser-lede">
+        The AI sits on a stack I still maintain by hand: the services, the data, the pipelines and
+        the platform they run on.
+      </p>
+
+      <div>
+        <p class="statement-note">
+          The full inventory lives on the skills page, grouped by the layer where each tool does its
+          work rather than by how it looks in a logo wall.
+        </p>
+
+        <a class="text-link" href={ROUTES.skills}>
+          See the stack <span aria-hidden="true">→</span>
+        </a>
+      </div>
     </div>
   </section>
 

@@ -190,6 +190,32 @@ main,
   box-shadow: 0 0 0 3px rgba(255, 106, 77, 0.18);
 }
 
+/* Masthead row: availability on one side, name and role on the other. The
+   headline below is a statement rather than a job title, so this is the only
+   place the home page says whose page it is. */
+.hero-top {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 2rem;
+  margin-bottom: clamp(1.5rem, 3vw, 2.25rem);
+}
+
+.hero-top .status {
+  margin-bottom: 0;
+}
+
+.hero-role {
+  font-family: var(--font-sans);
+  font-size: var(--type-label-slab);
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
 .hero-lede {
   grid-column: 8 / span 5;
   margin-top: clamp(2rem, 4vw, 3.75rem);
@@ -1474,31 +1500,6 @@ a.foot-mail:hover {
   margin-right: 0.4rem;
 }
 
-.skills-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 2rem 2.5rem;
-  margin-top: clamp(1.5rem, 3vw, 2.25rem);
-}
-
-.skill-group h3 {
-  font-family: var(--font-sans);
-  font-size: var(--type-label);
-  font-weight: 400;
-  letter-spacing: 0.09em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-
-.skill-group ul {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-  margin: 0.75rem 0 0;
-  padding: 0;
-  list-style: none;
-}
-
 .ai-note {
   max-width: 68ch;
   margin-top: clamp(1.5rem, 3vw, 2rem);
@@ -1752,8 +1753,7 @@ a.foot-mail:hover {
     grid-column: 2;
   }
 
-  .stack-groups,
-  .skills-grid {
+  .stack-groups {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -1832,8 +1832,7 @@ a.foot-mail:hover {
     margin-top: 0.35rem;
   }
 
-  .stack-groups,
-  .skills-grid {
+  .stack-groups {
     grid-template-columns: 1fr;
   }
 
@@ -2279,5 +2278,323 @@ html {
   .index-item {
     margin-inline: 0;
     padding-inline: 0;
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/* Skills page — the stack as a diagram                                       */
+/* -------------------------------------------------------------------------- */
+/* The page draws one vertical spine: each layer is a node on it, numbered from
+   the interface down to the runtime. The hero index mirrors the same order and
+   links into it, so the diagram is readable before the first scroll and
+   navigable without JavaScript. */
+
+.skills-hero h1 {
+  grid-column: 1 / span 7;
+}
+
+.skills-hero .hero-lede {
+  grid-column: 1 / span 5;
+}
+
+.stack-index {
+  grid-column: 9 / span 4;
+  grid-row: 2 / span 2;
+  align-self: end;
+}
+
+.stack-index-title {
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid var(--line);
+  font-family: var(--font-sans);
+  font-size: var(--type-label);
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.stack-index ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.stack-index a {
+  display: grid;
+  grid-template-columns: 2rem minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 0.75rem;
+  padding-block: 0.62rem;
+  border-bottom: 1px solid var(--line-soft);
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  color: var(--body);
+  transition:
+    color var(--duration-hover) var(--ease),
+    border-color var(--duration-hover) var(--ease);
+}
+
+.stack-index a:hover,
+.stack-index a:focus-visible {
+  color: var(--text);
+  border-bottom-color: var(--aqua);
+}
+
+.stack-index-num,
+.stack-index-count {
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+.stack-index-num {
+  transition: color var(--duration-hover) var(--ease);
+}
+
+.stack-index a:hover .stack-index-num,
+.stack-index a:focus-visible .stack-index-num {
+  color: var(--aqua);
+}
+
+/* One density band: the tools used most, set as a sentence rather than a row
+   of chips. The separator is drawn by CSS so the markup stays a plain list. */
+.core-line {
+  max-width: 62rem;
+  margin-top: clamp(1.5rem, 3vw, 2.25rem);
+  font-family: var(--font-serif);
+  font-size: clamp(1.4rem, 2.8vw, 2.15rem);
+  font-weight: 300;
+  line-height: 1.45;
+  letter-spacing: -0.012em;
+  color: var(--text);
+  text-wrap: pretty;
+}
+
+/* The separator hangs from the preceding word and carries its own break space,
+   so a wrapped line never starts with a dot. */
+.core-line span:not(:last-child)::after {
+  content: '\00a0· ';
+  color: var(--aqua);
+}
+
+.core-note,
+.stack-note {
+  max-width: 68ch;
+  margin-top: clamp(1.25rem, 2.5vw, 1.75rem);
+  font-family: var(--font-sans);
+  font-size: var(--type-note);
+  line-height: var(--type-note-lh);
+  color: var(--muted);
+}
+
+.stack-note a {
+  color: var(--blue-text);
+  border-bottom: 1px solid rgba(47, 107, 255, 0.45);
+  transition:
+    color var(--duration-hover) var(--ease),
+    border-color var(--duration-hover) var(--ease);
+}
+
+.stack-note a:hover {
+  color: var(--aqua);
+  border-bottom-color: var(--aqua);
+}
+
+.stack {
+  position: relative;
+  margin: clamp(1.75rem, 3.5vw, 2.75rem) 0 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--line);
+}
+
+/* The spine. Every layer node is centred on this 1 px line. */
+.stack::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 3px;
+  width: 1px;
+  background: var(--line-soft);
+}
+
+.stack-layer {
+  position: relative;
+  display: grid;
+  grid-template-columns: 9rem minmax(0, 1fr);
+  gap: clamp(1.25rem, 3vw, 3rem);
+  padding-block: clamp(1.75rem, 3.6vw, 2.75rem);
+  border-bottom: 1px solid var(--line-soft);
+  scroll-margin-top: 1.5rem;
+}
+
+.stack-rail {
+  position: relative;
+  padding-left: 1.75rem;
+}
+
+/* Node: a small diamond on the spine, outlined until the layer is hovered. */
+.stack-rail::before {
+  content: '';
+  position: absolute;
+  top: 0.42rem;
+  left: 0;
+  width: 7px;
+  height: 7px;
+  background: var(--bg);
+  border: 1px solid var(--muted);
+  transform: rotate(45deg);
+  transition:
+    background-color var(--duration-hover) var(--ease),
+    border-color var(--duration-hover) var(--ease);
+}
+
+.stack-layer:hover .stack-rail::before {
+  background: var(--aqua);
+  border-color: var(--aqua);
+}
+
+.stack-num {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.1em;
+  color: var(--aqua);
+}
+
+.stack-label {
+  display: block;
+  margin-top: 0.35rem;
+  font-family: var(--font-sans);
+  font-size: var(--type-label);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.stack-body h3 {
+  font-family: var(--font-serif);
+  font-size: clamp(1.55rem, 2.8vw, 2.1rem);
+  font-weight: 300;
+  line-height: 1.08;
+  letter-spacing: -0.018em;
+  color: var(--text);
+  text-wrap: balance;
+}
+
+.stack-summary {
+  max-width: 62ch;
+  margin-top: 0.7rem;
+  color: var(--body);
+}
+
+.stack-proof {
+  margin-top: 0.85rem;
+  font-family: var(--font-sans);
+  font-size: var(--type-note);
+  line-height: var(--type-note-lh);
+  color: var(--muted);
+}
+
+.stack-proof span {
+  margin-right: 0.5rem;
+  font-size: var(--type-label);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--aqua);
+}
+
+.stack-items {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 1.5rem 0 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--line-soft);
+}
+
+.stack-item {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  padding: 0.6rem 0.75rem 0.6rem 0;
+  border-bottom: 1px solid var(--line-soft);
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  color: var(--text);
+}
+
+.stack-item::before {
+  content: '';
+  flex: none;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--line);
+  translate: 0 -1px;
+}
+
+.stack-item.is-core::before {
+  background: var(--aqua);
+}
+
+@media (max-width: 1100px) {
+  .skills-hero h1 {
+    grid-column: 1 / -1;
+  }
+
+  .skills-hero .hero-lede {
+    grid-column: 1 / span 7;
+  }
+
+  .stack-index {
+    grid-column: 1 / -1;
+    grid-row: auto;
+    margin-top: clamp(2rem, 4vw, 3rem);
+  }
+
+  .stack-index ol {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0 1.5rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .stack-layer {
+    grid-template-columns: 1fr;
+    gap: 0.7rem;
+  }
+
+  .stack::before,
+  .stack-rail::before {
+    display: none;
+  }
+
+  .stack-rail {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    padding-left: 0;
+  }
+
+  .stack-label {
+    margin-top: 0;
+  }
+
+  .stack-items {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .stack-index ol {
+    grid-template-columns: 1fr;
+  }
+
+  .stack-items {
+    grid-template-columns: 1fr;
   }
 }
