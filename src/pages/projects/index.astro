@@ -2,16 +2,17 @@
 // Projects index — three shelves in the owner's order: featured products,
 // open-source experiments, then professional case studies.
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import ProjectCompact from '@/components/ProjectCompact.astro';
+import ProjectAccordion from '@/components/ProjectAccordion.astro';
 import ProjectFeature from '@/components/ProjectFeature.astro';
 import ProjectIndexItem from '@/components/ProjectIndexItem.astro';
 import ProjectPair from '@/components/ProjectPair.astro';
-import { getPublishedProjects, getProjectGroups } from '@/lib/content';
+import { getDraftProjects, getPublishedProjects, getProjectGroups } from '@/lib/content';
 import { collectionPageNode } from '@/lib/seo';
 import { ROUTES, SITE } from '@/config/site';
 
 const projects = await getPublishedProjects();
 const { featured, openSource, professional } = await getProjectGroups();
+const drafts = await getDraftProjects();
 
 const leadProduct = featured[0];
 const otherProducts = featured.slice(1);
@@ -21,7 +22,7 @@ const description =
 ---
 
 <BaseLayout
-  title={`Projects — ${SITE.name}, Senior Software Engineer`}
+  title={`Projects — ${SITE.name}, Product Engineer`}
   description={description}
   path={ROUTES.projects}
   current="projects"
@@ -57,14 +58,9 @@ const description =
     <ProjectPair projects={otherProducts} />
   </section>
 
-  {openSource.length > 0 && (
-    <section class="work" aria-labelledby="experiments-title">
-      <div class="section-rule">
-        <h2 id="experiments-title">Open source &amp; experiments</h2>
-        <p>{openSource.length} projects</p>
-      </div>
-
-      <ProjectCompact projects={openSource} />
+  {openSource.length + drafts.length > 0 && (
+    <section class="work" aria-label="More work and open source">
+      <ProjectAccordion projects={openSource} drafts={drafts} />
     </section>
   )}
 

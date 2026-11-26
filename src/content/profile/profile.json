@@ -1,8 +1,8 @@
 {
-  "name": "Carlos Renato Hernandez",
-  "headline": "Senior software engineer — backend systems, distributed integrations and data platforms",
-  "shortIntro": "I build, integrate and operate the systems that hold a product together: the APIs, the data pipelines, and the operational interfaces on top of them.",
-  "biography": "I have spent 10+ years building, integrating and operating production software. Most of that work sits between platforms: connecting services, designing reliable backend systems, and turning a messy business workflow into something maintainable. I take ownership from understanding the problem through delivery and production support, and I would rather ship a smaller system that holds than a large one that needs a team to keep it standing.",
+  "name": "Carlos R. Hernandez",
+  "headline": "Product Engineer",
+  "shortIntro": "I work close to the people who use a product: understanding how they work, figuring out what needs to change, and building the software with the team. My background is strongest in backend systems, APIs, integrations and data, but I stay involved from the first decisions through delivery and production support.",
+  "biography": "I'm a Product Engineer with 10+ years in software development. I've worked on products for businesses, built systems with client teams, and taken projects from an initial idea to software running in production. I like being close to both sides of the work: understanding the business problem and working through the technical details needed to solve it.\n\nI don't see planning and coordination as separate from engineering. I enjoy breaking a goal into workable steps, making trade-offs clear, keeping people aligned and helping the team deliver. I still prefer to be hands-on: designing APIs and data flows, connecting services, building interfaces where needed, and supporting the software once it's live.\n\nMost of my technical depth is in backend work: Node.js and TypeScript services, integrations between platforms that were never designed to agree, and the data model underneath. I also work on the frontend when the product needs it, and I've led small teams without leaving the code.",
   "contentStatus": "verified",
   "location": "Managua, Nicaragua",
   "email": "carlosrenatohr@gmail.com",

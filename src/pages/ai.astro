@@ -70,19 +70,18 @@ const process = [
     title: 'Draw the boundary',
     body: 'Decide what is a service, what is a job, what is a table, and what should not exist at all. A smaller system with clear edges is cheaper to change than a large one with a shared middle.',
     practice:
-      'Event-driven pipelines on BullMQ, RabbitMQ and Amazon SQS, feeding six attribution models across more than 300 organizations.',
+      'Event-driven pipelines on BullMQ, RabbitMQ and Amazon SQS, feeding several attribution models.',
   },
   {
     title: 'Build the integration, not the demo',
     body: 'OAuth flows, token lifecycle, retries, idempotency, backfills and the failure path nobody records in the ticket. The part that makes an integration survive its second month.',
     practice:
-      'Four ad-platform integrations with token lifecycle management, sustaining about 96% success across 35K+ sync jobs, plus webhook ingestion for five providers.',
+      'Advertising integrations with token lifecycle management, plus webhook ingestion for five providers.',
   },
   {
     title: 'Make it observable and affordable',
     body: 'A slow query is a product decision, not a database detail. Measure, reshape, and move the read path when the data belongs somewhere else.',
-    practice:
-      'Contact-profile reads went from about 18 s to about 1 ms by reshaping queries and moving the read path from MongoDB to BigQuery.',
+    practice: 'Contact-profile reads were reshaped and moved from MongoDB to BigQuery.',
   },
   {
     title: 'Review with evidence',
@@ -98,12 +97,11 @@ const process = [
   },
 ];
 
-const description =
-  'How Carlos Renato uses AI in production: agentic code review with DREDD, MCP servers wired to real systems, and a human gate before anything ships.';
+const description = `How ${SITE.name} uses AI in production: agentic code review with DREDD, MCP servers wired to real systems, and a human gate before anything ships.`;
 ---
 
 <BaseLayout
-  title={`AI Engineering — ${SITE.name}, Senior Software Engineer`}
+  title={`AI Engineering — ${SITE.name}, Product Engineer`}
   description={description}
   path={ROUTES.ai}
   current="ai"

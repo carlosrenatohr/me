@@ -1,6 +1,6 @@
 {
   "title": "HIT Cargo",
-  "summary": "A logistics platform for packages moving between the United States and Nicaragua: a static-first public site, an edge tracking API, background carrier ingestion and an internal operations panel whose access rules live in the database.",
+  "summary": "A logistics and import platform for packages moving from the United States, China and Panama to Nicaragua: a static-first public site, an edge tracking API, background carrier ingestion and an internal operations panel whose access rules live in the database.",
   "category": "Logistics operations",
   "kind": "personal",
   "collection": "featured",
@@ -31,7 +31,7 @@
     "Internal operations panel",
     "Reports and exports"
   ],
-  "context": "HIT Cargo moves packages between the United States and Nicaragua. Before a package is delivered, its state lives in upstream carrier portals that were never designed to serve as a public API: one of them is a Classic ASP application that allows a single active session per account.\n\nA customer lookup that depended on those portals would inherit their login screens, their availability and their session limits. The system separates the two problems: ingestion refreshes a normalized copy of the tracking data in the background, and the public site reads that copy.",
+  "context": "HIT Cargo is a transport and import agency moving packages from the United States, China and Panama to Nicaragua. Its services include air and sea cargo, a locker in Miami, customs nationalization and door-to-door delivery, and the business is explicit that it is the carrier and importer, not the seller of the products its customers buy.\n\nBefore a package is delivered, its state lives in upstream carrier portals that were never designed to serve as a public API: one of them is a Classic ASP application that allows a single active session per account. A customer lookup that depended on those portals would inherit their login screens, their availability and their session limits. The system separates the two problems: ingestion refreshes a normalized copy of the tracking data in the background, and the public site reads that copy.",
   "solution": [
     {
       "title": "A public site built for slow networks",
@@ -99,22 +99,6 @@
     "Most of the public site is static HTML, so the slow-network audience downloads less JavaScript.",
     "Manual status overrides, team tags, notes and CSV/PDF reports give the operations team one place to work."
   ],
-  "cover": {
-    "src": "images/projects/hit-cargo/dashboard.webp",
-    "alt": "HIT Cargo internal panel: a shipments list with guide numbers, provider, status, service type and the date received in Miami"
-  },
-  "screenshots": [
-    {
-      "src": "images/projects/hit-cargo/detail.webp",
-      "alt": "Shipment detail panel with the four-stage progress bar, the event history and provider notes",
-      "caption": "The shipment detail: stage, event history and provider notes in one place. Test data; real shipments are redacted."
-    },
-    {
-      "src": "images/projects/hit-cargo/reports.webp",
-      "alt": "Reports screen with totals by status, status-by-provider bars, service split and packages received per month",
-      "caption": "Reports for the accounting close, with CSV and PDF export."
-    }
-  ],
   "links": [
     {
       "label": "Live product",
@@ -137,6 +121,6 @@
       "kind": "repository"
     }
   ],
-  "confidentialityNote": "No credentials, carrier account identifiers, customer records or unredacted shipment data are published. The panel screenshots come from the repository's public README, which states that all data shown is test data.",
-  "evidenceNote": "Verified against the public repositories hit-landing, hit-ever and hit-panel, their READMEs and the live site on 2026-11-25. The product is real and operating; no shipment volume, uptime or revenue figure is published because none was measured for this page."
+  "confidentialityNote": "No credentials, carrier account identifiers, customer records, rates or unredacted shipment data are published. The panel screenshots are withheld pending the owner's approval and are not part of the public build.",
+  "evidenceNote": "Verified against the public repositories hit-landing, hit-ever and hit-panel, their READMEs, the service pages and SEO copy in hit-landing, and the live domain on 2026-11-25. The product is real and operating; no shipment volume, uptime or revenue figure is published. Screenshot inventory: docs/evidence/hit-cargo/README.md."
 }

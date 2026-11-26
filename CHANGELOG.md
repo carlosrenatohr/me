@@ -6,6 +6,41 @@ Versions are internal milestones of this portfolio, not public releases. Dates c
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). The project
 version in `package.json` matches the newest entry.
 
+## [Unreleased]
+
+Content correction following the owner's addendum. Not committed or deployed.
+
+### Changed
+
+- GrowthOptix role corrected to Mid Backend Developer, with the CV mismatch recorded as an open
+  owner action.
+- The GrowthOptix case study now covers the Gox Analytics service, the advertising integrations
+  and the 7-day post-click attribution work, grouped by service.
+- HIT Cargo context now reflects the public service catalogue (USA/China/Panama imports, air and
+  sea, Miami locker, customs, door-to-door) read from `hit-landing`.
+- Orbit records target users, the architecture-review stance and the unresolved public reference.
+
+### Added
+
+- A single closed accordion for the secondary projects on the home page and the projects index;
+  drafts appear as labelled, unlinked rows.
+- An interactive portrait on About: illustration first, photograph on hover, tap or keyboard, with a
+  pinned state and `aria-pressed`.
+
+### Changed
+
+- Public identity is now Product Engineer, with a first-person profile rewritten around building
+  products with the people who use them. Historical job titles are unchanged.
+- The display name is read from `SITE.name` and is now Carlos R. Hernandez everywhere it appears.
+- Page titles and descriptions follow the new identity and name.
+
+### Removed
+
+- All unvalidated GrowthOptix figures from the project page, the experience entry, the home page,
+  the skills proofs and the AI page.
+- The three HIT Cargo screenshots from `public/`; moved to `docs/evidence/hit-cargo/` pending
+  individual approval.
+
 ## [0.11.0] — 2026-11-25
 
 Products lead the portfolio, the six fictional samples are gone, and every published project

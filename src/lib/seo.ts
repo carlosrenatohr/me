@@ -28,6 +28,7 @@ export const WEBSITE_ID = `${HOME}#website`;
  * about the work rather than a keyword dump.
  */
 const KNOWLEDGE_AREAS = [
+  'Product engineering',
   'Backend engineering',
   'Distributed systems',
   'API design and integration',
@@ -114,8 +115,7 @@ export function profilePageNode(): Node {
     '@id': `${url}#page`,
     url,
     name: `About ${SITE.name}`,
-    description:
-      'Profile, professional record and education of Carlos Renato, a senior software engineer working on distributed systems and enterprise integrations.',
+    description: `Profile, professional record and education of ${SITE.name}, a product engineer working on backend systems, APIs and integrations.`,
     inLanguage: SITE.locale,
     isPartOf: { '@id': WEBSITE_ID },
     mainEntity: { '@id': PERSON_ID },

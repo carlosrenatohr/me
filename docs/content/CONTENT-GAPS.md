@@ -20,6 +20,20 @@ live deployments and the CV. Truth matrix and remaining limitations:
 Still open: Orbit architecture or demo, Buko, HIT Cargo dates and ownership boundaries,
 GrowthOptix disclosure depth, HIT screenshot approval, portrait.
 
+## Addendum pass — 2026-11-25 (uncommitted)
+
+- [ ] Approve or reject each HIT Cargo screenshot in `docs/evidence/hit-cargo/`.
+- [ ] Reconcile the GrowthOptix role: the owner says Mid Backend Developer, `public/cv.pdf`
+  still says Senior Software Engineer. Regenerate the CV or correct one of the two.
+- [ ] Validate the GrowthOptix figures (databases, documents, events, organizations, sync jobs,
+  latency) or keep them unpublished. The site no longer publishes any of them.
+- [ ] Supply Orbit evidence: reachable URL, repository or approved architecture notes.
+  `orbit.nativerse.space` did not resolve on 2026-11-25.
+- [ ] Supply Buko evidence or leave it as a draft.
+- [ ] Regenerate `public/og/carlos-renato.jpg`; the social card still shows the previous name.
+- [ ] Confirm the public name form “Carlos R. Hernandez” is also the one used on LinkedIn and the CV
+  header, or say which surface should differ.
+
 ## Phase 02 — Design foundation (this checklist)
 
 - [ ] Direction C approved as the foundation for the public site (owner-directed 2026-11-03).

@@ -1,299 +1,397 @@
-# Portfolio Content Audit — Product-First Rebuild
+# Portfolio Content Audit — evidence, hierarchy and experience pass
 
-**Date:** 2026-11-25
-**Scope:** project inventory, content truth, information architecture, positioning and the SEO
-changes that follow from them.
-**Companions:** `docs/MASTER_PROMPT_PORTFOLIO_REBUILD.md` (brief),
-`docs/PORTFOLIO_CONTENT_SOURCE_OF_TRUTH.md` (content source of truth),
-`docs/SEO-OPTIMIZATION-REPORT.md` (baseline and technical SEO),
-`CHANGELOG.md` (release record).
+**Date:** 2026-11-25 (content addendum + copy/experience pass)
+**Scope:** production state, evidence per project, editorial hierarchy, the secondary-projects
+accordion and the interactive portrait.
+**Companions:** `docs/MASTER_PROMPT_PORTFOLIO_REBUILD.md`,
+`docs/PORTFOLIO_CONTENT_SOURCE_OF_TRUTH.md`, `docs/SEO-OPTIMIZATION-REPORT.md`,
+`docs/evidence/hit-cargo/README.md`, `CHANGELOG.md`.
 
-This document records what was verified, what was changed and what is still an owner decision.
-It does not claim rankings, traffic or conversion results: none were measured.
+Every claim in the audit carries one of these states:
 
----
-
-## 1. Initial state and evidence
-
-Before this pass the public work section contained six fictional sample case studies (Signal
-Desk, Schema Scout, Relay Yard, Harbor Ledger, Dispatch Board, Yard Capacity) and three draft
-entries. The samples were `noindex` after the SEO pass but still occupied the homepage, the
-projects index and the case-study layout, and they were the only populated work section.
-
-Every project claim below was checked on 2026-11-25 against:
-
-| Source | Used for |
+| State | Meaning |
 | --- | --- |
-| `carlosrenatohr/hit-landing`, `hit-ever`, `hit-panel` READMEs and source tree | HIT Cargo architecture, stack, ingestion, access control |
-| `https://hit-cargo.com` (live) | HIT Cargo is an operating business |
-| `carlosrenatohr/dredd-ai-workflow` (README template, `review.sh`, `dredd-init`) | DREDD workflow, roles, metrics, provider-agnostic review |
-| `carlosrenatohr/agent-harness` README | Agent Harness purpose, gate, bounded loop, evals |
-| `carlosrenatohr/webhook-attribution-pipeline` README | Demonstration scope and disclosure |
-| `carlosrenatohr/dreading-pwa`, `dreading-api` READMEs; `dreading-pwa.pages.dev` (live) | Mi Lexio / daily-readings PWA |
-| `carlosrenatohr/rana-leopardo` README; `rana-leopardo.pages.dev` (live) | Ranita Leopardo |
-| `carlosrenatohr/nalu-app` README; `nalu-api.nativerse.workers.dev` (live) | Nalu |
-| `https://www.growthoptix.com/` (live) and the published CV | GrowthOptix platform context |
-| Public GitHub account and repository list | Which repositories exist, their descriptions and languages |
+| `REPO_CONFIRMED` | Read in code, README, configuration or a migration |
+| `OWNER_CONTEXT` | Provided by the owner; true for the owner, not independently verified |
+| `PUBLICLY_VERIFIED` | Checked on a live public surface during this pass |
+| `NEEDS_EVIDENCE` | No source found; not publishable |
+| `NEEDS_OWNER_APPROVAL` | Publishable only after an explicit decision |
+| `PRIVATE_DO_NOT_PUBLISH` | Must stay out of public content |
 
-Not verifiable in this environment: private repositories, carrier portals, employer source code,
-Search Console, analytics, and the `codebase-memory` MCP (not connected).
+`OWNER_CONTEXT` never becomes a public verified fact by repetition.
 
 ---
 
-## 2. Content truth matrix
+## 1. Technical state and production state
 
-| Claim | Source | Confidence | Public-safe | Action |
+- Branch deployed: `master`, commit `d4a12fd` — the rebuild plus its verification note.
+- The working tree is **dirty on purpose**: this pass is uncommitted, unpushed and undeployed, per the
+  execution constraints. Nothing here modified `master`, the Pages workflow or the production build.
+- `pnpm check`, `pnpm build`, `pnpm format:check` and the responsive audit pass locally (section 15).
+- The local build has 17 pages and 17 sitemap URLs. `/projects/draft-buko/` is not generated.
+
+### Production verification (independent methods)
+
+| Method | Result |
+| --- | --- |
+| `gh api repos/carlosrenatohr/me/commits/master` | `d4a12fd822e318e0cb9d8f6130b8a1cc3832b6e8`, 2026-11-26T03:55:10Z |
+| `curl` with `Cache-Control: no-cache, no-store` and a unique query string, home | 200, 18 820 bytes, no `Sample content`, no Signal Desk / Schema Scout / Relay Yard |
+| Same request, `/projects/` | 200, 10 real entries: Orbit Logistics, HIT Cargo, DREDD, Mi Lexio, Ranita Leopardo, Nalu, Agent Harness, Webhook Attribution Pipeline, GrowthOptix, BEON Tech Studio |
+| Same request, `/sitemap.xml` | 200, 17 `<loc>` entries |
+| Response headers | `last-modified: Thu, 26 Nov 2026 03:55:44 GMT` (the successful Pages build of `d4a12fd`), `cache-control: max-age=600`, `age: 1` |
+
+The deployed artifact was built from the same commit above, so the repository state and the served
+pages agree. GitHub Pages has no deployment history API exposed to this account, but the artifact
+timestamp and the commit timestamp are 34 seconds apart, which is consistent with one build.
+
+## 2. Discrepancy with the external reading
+
+The external reading reported six projects and `Sample content` entries (Signal Desk, Schema Scout,
+Relay Yard). That content was **removed in the rebuild** and does not appear in the current artifact.
+
+Diagnosis: a stale read, not a failed deploy.
+
+- The response advertises `cache-control: max-age=600`, so a reader or a third-party fetcher can hold
+  a ten-minute-old copy; a cached copy taken before the rebuild can survive much longer on the
+  reader's side.
+- A cold request (no-cache headers plus a new query string) returns the 10-entry page and a 17-URL
+  sitemap.
+- No sample route exists in `dist/`, and no sample string exists in the generated HTML.
+
+No further deploy was made to "fix" this. Action if it reappears: re-check with a cache-busting URL
+and compare the `last-modified` header against `master` before touching the workflow.
+
+**Important caveat:** production still serves the **0.11.0 content** (HIT screenshots, GrowthOptix
+figures, "Platform context"). Those were withdrawn in this local pass but cannot disappear from
+production without an approved deploy.
+
+## 3. Editorial hierarchy
+
+| Shelf | Order | Entry |
+| --- | --- | --- |
+| Featured products | 1 | Orbit Logistics |
+| Featured products | 2 | HIT Cargo |
+| Featured products | 3 | DREDD |
+| Open source & experiments | 1 | Mi Lexio |
+| Open source & experiments | 2 | Ranita Leopardo |
+| Open source & experiments | 3 | Nalu |
+| Open source & experiments | 4 | Buko (draft, unlisted) |
+| Open source & experiments | 5–6 | Agent Harness, Webhook Attribution Pipeline |
+| Professional experience | 1 | Nativerse |
+| Professional experience | 2 | GrowthOptix |
+| Professional experience | 3 | BEON Tech Studio |
+| Professional experience | 4+ | Remaining CV roles, newest first |
+
+Rules applied:
+
+- Orbit, HIT Cargo and DREDD keep the full editorial treatment; they are the first impression.
+- GrowthOptix stays a professional case study. It is **not** promoted to a featured product.
+- Orbit is not duplicated inside the Nativerse experience entry: Nativerse is the organisation, Orbit
+  is the product.
+- DREDD and Agent Harness remain separate projects with separate evidence.
+- Agent Harness and the Webhook demonstration stay published after the four owner-named experiments;
+  removing well-evidenced work to keep a four-item list would lose real evidence.
+- Buko keeps its slot in the owner's order but renders as a labelled draft row, with no route, no
+  link and no description.
+
+## 4. Recovered context and what it changed
+
+### Positioning and name
+
+- The public identity is now **Product Engineer**, with the historical job titles left untouched in
+  the experience entries. Backend depth is described as the strongest area, not as the whole profile.
+- The visible name is **Carlos R. Hernandez**, read once from `SITE.name` in `src/config/site.ts` and
+  reused by the wordmark, titles, descriptions, alt text and structured data. The legal/full name
+  stays `Carlos Renato Hernandez` in `SITE.legalName` and the `Person` node.
+- Copy changes are owner-directed (`OWNER_CONTEXT`). No new employer, date, metric or client is
+  introduced.
+
+### Orbit Logistics — featured #1
+
+- Product of the Nativerse ecosystem and the owner's priority project (`OWNER_CONTEXT`).
+- Subscription platform for freight-forwarding operations, with web applications, backend services
+  and role-based data access (`PUBLICLY_VERIFIED` against the published CV / Nativerse entry).
+- Architecture review favours comprehensibility, maintainability and predictable operating cost;
+  Hono, Drizzle and Cloudflare were discussed as candidates, never confirmed as stack
+  (`OWNER_CONTEXT`).
+- `https://orbit.nativerse.space` did not resolve on 2026-11-25, and no repository exists in the
+  account, public or private (`NEEDS_EVIDENCE`). The site publishes no link.
+
+### HIT Cargo — featured #2
+
+- Transport, consolidation and import agency for Nicaragua; carrier and logistics manager, not the
+  seller of the goods (`PUBLICLY_VERIFIED` through `hit-landing`).
+- Services: purchases/transport from the USA, Panama and China; air and sea; Miami locker; customs
+  nationalisation; door-to-door (`PUBLICLY_VERIFIED`).
+- Commercial context: digital presence, web and commercial communication, marketing, social media,
+  promotional material and customer procedures (`OWNER_CONTEXT`).
+- Repositories: `hit-landing` (public site), `hit-ever` (tracking API and ingestion), `hit-panel`
+  (operations panel). They are three surfaces, not one monolith (`REPO_CONFIRMED`).
+- Panel reads from InsForge/PostgreSQL rather than scraping on each request; ingestion is serialised
+  because upstream allows one session; writes go through RLS and `SECURITY DEFINER`
+  (`REPO_CONFIRMED`).
+- Start date, current production status per surface and individual-vs-team ownership remain
+  `NEEDS_EVIDENCE`.
+
+### GrowthOptix — professional #1
+
+- Marketing analytics and attribution platform; Gox Analytics is the behaviour/tracking service
+  inside the ecosystem (`OWNER_CONTEXT` + `PUBLICLY_VERIFIED` repository).
+- Areas: backend APIs, event tracking, session/user analytics, data processing, advertising
+  integrations, synchronisation, BigQuery analytics, dashboards (`OWNER_CONTEXT`).
+- Event model: `userId`, `sessionId`, `event`, `timestamp`, `metadata` (URL, referrer, device,
+  browser) (`OWNER_CONTEXT`); endpoints and aggregations over referrer, landing pages, device,
+  geography and sessions (`OWNER_CONTEXT`). Not published as an API contract.
+- Integrations: Google Ads (OAuth, GAQL, MCC), Meta Insights, Microsoft Advertising, LinkedIn Ads
+  (`OWNER_CONTEXT` + CV).
+- Meta `7d_click`: parallel BigQuery fields, separate processing, a feature flag for display and an
+  explicit split between platform-reported data and first-party events (`OWNER_CONTEXT`).
+- Confirmed stack for the Gox repository: Node.js, TypeScript, Express 5, MongoDB/Mongoose, Upstash
+  Redis, Docker, AWS Fargate/ECS, pnpm, JWT, Zod (`REPO_CONFIRMED`). NestJS, PostgreSQL, RabbitMQ,
+  SQS, GraphQL, BigQuery and the ad platforms are described per component, not as one stack.
+- **Role conflict:** the owner addendum states **Mid Backend Developer**; the published CV and the
+  copy brief refer to Senior Software Engineer. The site keeps Mid because it is the latest explicit
+  owner decision. `needs_owner_approval`.
+
+### DREDD — featured #3
+
+- Multi-agent review: independent code and security reviewers, automated checks, reconciliation of
+  duplicated or contradictory findings, human acceptance (`REPO_CONFIRMED` + CV).
+- Kept independent from Agent Harness (`REPO_CONFIRMED`). No prompts, internal instructions or
+  confidential workflows are published.
+
+### Mi Lexio, Ranita Leopardo, Nalu
+
+- Mi Lexio: Spanish daily-readings PWA, offline shell, own API; repositories `dreading-pwa` and
+  `dreading-api`, live at `dreading-pwa.pages.dev` (`PUBLICLY_VERIFIED`). The deployment is branded
+  "Lectura del día"; `milexio.nativerse.space` did not resolve.
+- Ranita Leopardo: Canvas game with a custom physics engine, six levels, no dependencies
+  (`REPO_CONFIRMED`; live at `rana-leopardo.pages.dev`).
+- Nalu: offline-first business tool (React, Express, Drizzle, D1, IndexedDB) for a real artisan
+  paleta business (`REPO_CONFIRMED`; live app).
+- Nalu was already published and verified before this pass; its position is preserved.
+
+### Buko
+
+Covered in section 10.
+
+## 5. Repository evidence found
+
+| Repository | Used for | State |
+| --- | --- | --- |
+| `hit-landing` | Service catalogue, public copy, SEO config | `REPO_CONFIRMED` / `PUBLICLY_VERIFIED` |
+| `hit-ever` | Tracking API, ingestion model | `REPO_CONFIRMED` |
+| `hit-panel` | Operations panel, RLS, screenshots (test data) | `REPO_CONFIRMED` |
+| `gox-analytics` | Gox stack and event service | `REPO_CONFIRMED` |
+| `gox-ads-api-demo`, `mix-marketing-modeling` | Archived; not used as evidence | — |
+| `dredd-ai-workflow`, `agent-harness` | Review workflow and phase gate | `REPO_CONFIRMED` |
+| `webhook-attribution-pipeline` | Sanitised demonstration with synthetic data | `REPO_CONFIRMED` |
+| `dreading-pwa`, `dreading-api` | Mi Lexio client and API | `REPO_CONFIRMED` |
+| `rana-leopardo` | Game | `REPO_CONFIRMED` |
+| `nalu-app` | Business tool | `REPO_CONFIRMED` |
+| `orbit` (any) | — | Not found, including private |
+| `buko` (any) | — | Not found, including private |
+
+`gh repo list` included private repositories. DNS probes for `orbit.nativerse.space`,
+`milexio.nativerse.space` and `nativerse.space` returned no resolution from this environment.
+
+## 6. Claims matrix
+
+| Claim | Source | State | Confidentiality risk | Approval |
 | --- | --- | --- | --- | --- |
-| HIT Cargo moves packages between the US and Nicaragua | Repos + live site | Verified | Yes | Publish |
-| HIT Cargo tracking reads InsForge/Postgres instead of scraping per request | `hit-ever` README | Verified | Yes | Publish |
-| Ingestion is serialized because the upstream allows one session | `hit-ever` README | Verified | Yes | Publish |
-| The panel is static and access is enforced by PostgreSQL RLS + `SECURITY DEFINER` | `hit-panel` README | Verified | Yes | Publish |
-| Panel screenshots show test data, not real shipments | `hit-panel` README | Verified | Yes, labelled | Publish with caption |
-| Orbit Logistics is a subscription platform for freight-forwarding operations with web apps, backend services and role-based data access | Published CV / Nativerse role | Verified at CV level | Yes | Publish as an in-development product entry |
-| Orbit tenancy model, modules, billing or RLS implementation | None found | Not supported | — | Omit |
-| DREDD coordinates parallel code and security reviews with severity and evidence | CV + `dredd-ai-workflow` templates | Verified | Yes | Publish |
-| DREDD start/end dates | CV says "over a year", no calendar dates | Not supported | — | Omit |
-| Agent Harness gate owns phase advancement and the loop is bounded | Repository README | Verified | Yes | Publish |
-| Webhook Attribution Pipeline is a sanitized, from-scratch demo with synthetic data | Repository README | Verified | Yes, with disclosure | Publish with disclosure |
-| Mi Lexio is a Spanish daily-readings PWA with offline reading and labelled generated reflections | `dreading-pwa` README + live deployment | Verified | Yes | Publish; naming caveat below |
-| Ranita Leopardo is a dependency-free Canvas game with its own physics and six levels | Repository README + live deployment | Verified | Yes | Publish |
-| Nalu is an offline-first business app using React, Express, Drizzle and D1 | Repository README + live app | Verified | Yes | Publish |
-| Buko exists and has a described purpose | No repository, deployment or brief detail found | Not supported | — | Keep as draft |
-| GrowthOptix platform figures (340+ databases, ~1.7M events, ~96% across 35K+ jobs) | Published CV | Verified, platform-level | Yes, attributed | Publish as platform context |
-| GrowthOptix contact-profile read 18 s → 1 ms | Published CV | Reported, methodology undocumented | Yes, with caveat | Publish with caveat; not used as a homepage stat |
-| BEON leadership, AWS, APIs and support chatbot | Published CV | Verified | Yes | Publish as an aggregate case study |
-| Employment dates, including the Upwork/724 Media overlap | Published CV | Verified | Yes | Preserve unchanged |
+| HIT Cargo is a transport/import agency, not the seller | `hit-landing` | `PUBLICLY_VERIFIED` | None | Not required |
+| HIT services: USA/China/Panama, air/sea, locker, customs, door-to-door | `hit-landing` pages | `PUBLICLY_VERIFIED` | None | Not required |
+| HIT tracking reads InsForge/Postgres; ingestion serialised | `hit-ever` README | `REPO_CONFIRMED` | Low (architecture only) | Not required |
+| Panel access enforced by RLS + `SECURITY DEFINER` | `hit-panel` README | `REPO_CONFIRMED` | Low | Not required |
+| HIT panel screenshots | `hit-panel/docs/screenshots` | `NEEDS_OWNER_APPROVAL` | Medium (possible customer data) | Required, per file |
+| HIT start date, ownership boundaries | none | `NEEDS_EVIDENCE` | — | — |
+| Orbit is a subscription logistics platform with web apps and RBAC | published CV / Nativerse entry | `PUBLICLY_VERIFIED` | Low | Not required |
+| Orbit architecture values comprehensibility and predictable cost | owner addendum | `OWNER_CONTEXT` | Low | Not required |
+| Orbit modules, users, tenancy, billing, stack | none | `NEEDS_EVIDENCE` | — | — |
+| `orbit.nativerse.space` | owner addendum + DNS probe | `NEEDS_EVIDENCE` (did not resolve) | — | — |
+| GrowthOptix role = Mid Backend Developer | owner addendum | `OWNER_CONTEXT`, conflicts with CV | Low | Required (role decision) |
+| Gox Analytics exists with the documented stack | `gox-analytics` | `REPO_CONFIRMED` | Low | Not required |
+| Advertising integrations and `7d_click` fields | owner addendum + CV | `OWNER_CONTEXT` | Low | Not required |
+| 340+ databases, 30M+ documents, ~1.7M events, 300+ organizations, 35K+ jobs, ~96%, 18 s → 1 ms | CV and earlier public copy | `NEEDS_EVIDENCE` | Medium (platform performance) | Required before any use |
+| DREDD reviewers, reconciliation, human gate | repo + CV | `REPO_CONFIRMED` | Low | Not required |
+| DREDD prompts, internal instructions | private context | `PRIVATE_DO_NOT_PUBLISH` | High | Never |
+| Mi Lexio readings PWA and API | repositories + live site | `PUBLICLY_VERIFIED` | Low | Not required |
+| Ranita Leopardo game and physics engine | repository + live site | `PUBLICLY_VERIFIED` | Low | Not required |
+| Nalu offline-first business tool | repository + live app | `PUBLICLY_VERIFIED` | Low | Not required |
+| Buko purpose, stack, contribution | owner list only | `NEEDS_EVIDENCE` | — | Required |
+| Name "Carlos R. Hernandez" | owner instruction | `OWNER_CONTEXT` | None | Applied |
 
----
+## 7. Missing evidence by project
 
-## 3. Projects added, retired and kept in draft
+| Project | Missing | Minimum to unblock |
+| --- | --- | --- |
+| Orbit Logistics | Working URL or demo, repository access, 2–3 identifiable flows, real stack, production status, personal commits | One reachable surface or approved architecture notes with file references |
+| HIT Cargo | Start date, production status per surface, personal-vs-team ownership, screenshot authenticity | Owner review of each capture; a per-component ownership statement |
+| GrowthOptix | Definition and measurement of every figure, component ownership, role reconciliation | A metrics sheet with source, period and method; a decision on the title |
+| DREDD | Dates, runnable example, reconciliation evidence | A sanitised run with demonstration data |
+| Mi Lexio | Definitive brand, milestone dates | Owner confirmation of the name |
+| Ranita Leopardo | Dates, current status | Repository history is enough for most claims |
+| Nalu | Dates, current status, owner's permission to name the business | Confirmation that the business can be referenced |
+| Buko | Everything | Repository, deployment or a written description |
 
-Published (10):
+## 8. HIT Cargo screenshots — pending approval
 
-| Shelf | Order | Project | Product status |
+Files live in `docs/evidence/hit-cargo/`, 1600×900 WebP, downloaded from `hit-panel`. They are not
+in `public/` and no page references them.
+
+| Capture | What it shows | State | Risk |
 | --- | --- | --- | --- |
-| Featured products | 1 | Orbit Logistics | In development |
-| Featured products | 2 | HIT Cargo | Live |
-| Featured products | 3 | DREDD | Live |
-| Open source & experiments | 1 | Mi Lexio | In development (early MVP) |
-| Open source & experiments | 2 | Ranita Leopardo | Live |
-| Open source & experiments | 3 | Nalu | Live |
-| Open source & experiments | 4 | Agent Harness | Live |
-| Open source & experiments | 5 | Webhook Attribution Pipeline | Demonstration |
-| Professional case studies | 1 | GrowthOptix | — |
-| Professional case studies | 2 | BEON Tech Studio | — |
+| `dashboard.webp` | Shipments list: guide numbers, provider, status, service type, date received, navigation | Pending approval | Guide numbers, provider names |
+| `detail.webp` | Shipment detail: four-stage progress, event history, provider notes, status override | Pending approval | Notes, real shipment identifiers |
+| `reports.webp` | Reports: totals by status, status by provider, service split, monthly volume, CSV/PDF export | Pending approval | Aggregate volumes, provider mix |
 
-Retired: the six fictional samples, their internal draft placeholders and their image folders.
-No sample content, mockup caption or `[DRAFT]` marker remains in the built HTML. Old sample URLs
-now return the host's 404; GitHub Pages serves static files, so a redirect is not possible without
-host-level configuration, and none was added.
+Before any approval: confirm the data is synthetic (not merely redacted), confirm the screens match
+the current production panel, and approve each file individually. The case page currently renders an
+abstract plate with an explicit "approved screenshot pending" caption.
 
-Draft: `draft-buko.json`. The owner brief lists Buko as an open-source experiment, but the public
-GitHub account, its repository list and the Nativerse subdomains contain no Buko repository or
-deployment. It stays hidden until the owner supplies a link or description.
+## 9. GrowthOptix metrics — pending validation
 
-### Decisions that go beyond the brief's ordering
+None of these is published. They remain `NEEDS_EVIDENCE` until the owner supplies definition,
+period, source and measurement method.
 
-- **Orbit leads as the owner requires, but as a short product entry.** No public repository or
-  demo exists, so a detailed architecture page would have to invent modules, tenancy or billing.
-  The source of truth explicitly allows a short in-progress entry in this case. The page states
-  the product shape, the role and the missing evidence.
-- **DREDD is third, and is not described with Agent Harness's implementation.** They share an
-  interest in gated workflows but the public evidence is different: DREDD is a review workflow
-  scaffolded per repository; Agent Harness is a portable CLI with a deterministic gate.
-- **Agent Harness and the Webhook demonstration stay published after the four named experiments.**
-  The addendum fixes the order of Mi Lexio, Ranita Leopardo, Nalu and Buko, and that order is
-  preserved. Removing two well-evidenced projects to keep the shelf at four would lose real work;
-  they appear after the four and keep the same compact treatment. Buko, when evidenced, takes
-  position 4 and pushes them down.
-- **Mi Lexio naming.** The owner brief names the product Mi Lexio. The public deployment is
-  branded "Lectura del día" and the code lives in the `dreading-*` repositories.
-  `milexio.nativerse.space` did not resolve on 2026-11-25, so that URL is not published; the
-  record states the naming relationship instead of implying two products.
+| Metric | Candidate | What must be confirmed |
+| --- | --- | --- |
+| Isolated databases | 340+ | What counts as one database, and the architecture that isolates them |
+| Documents | 30M+ | What the documents represent and the collection scope |
+| Events | ~1.7M | Period, event types, deduplication |
+| Organizations | 300+ | What an organization is and whether the count is current |
+| Sync jobs | 35K+ | Period, job definition, retry accounting |
+| Success rate | ~96% | Denominator, failure classes, period |
+| Contact-profile read | 18 s → 1 ms | Operation, dataset size, environment, whether it is a single query or a cache |
+| Advertising platforms | 4 | Confirmed by the integration list |
 
----
+Additional constraint: platform-level capacity must not be presented as an individual achievement.
+If figures return, they need explicit attribution ("platform-wide" vs "measured on the path I
+worked on").
 
-## 4. Experience and CV consistency
+## 10. Buko state
 
-The six experience entries already matched the published CV and were left factually unchanged:
-Nativerse (Mar 2026 — present), GrowthOptix (Aug 2025 — Aug 2026), BEON Tech Studio (Jul 2017 —
-Mar 2025), 724 Media (Nov 2016 — Jul 2017), Upwork (May 2015 — Jul 2017) and Spark Coders (May
-2014 — Apr 2015). The Upwork/724 Media overlap is preserved deliberately.
+`draft-buko.json` stays a draft. Evidence checks performed on 2026-11-25:
 
-The professional case studies now carry the same period strings and attribute platform-level
-figures to the platform rather than to one engineer. The 18 s → 1 ms claim is published with an
-explicit note that its measurement conditions are not documented, and it is no longer used as a
-homepage statistic.
+- Owner's full repository list, including private repositories: no Buko repository.
+- Public GitHub search: no matching project.
+- Nativerse subdomains: no Buko deployment.
+- No README, manifest, screenshot or commit referencing the name.
 
----
+The build does not generate a route, the sitemap does not list it, and no page links to it. The home
+and projects index show a single non-linked draft row at the end of the archive so the owner's order
+is preserved without publishing a description that does not exist.
 
-## 5. Positioning and information architecture
+## 11. Secondary projects accordion
 
-One identity across the site: **Senior Software Engineer — backend systems, distributed
-integrations and data platforms**, with AI-assisted engineering as a differentiator rather than
-the main identity.
+One native `<details>` per page, closed by default, on both the home page and `/projects/`.
 
-Home order: hero → featured products → open source & experiments → experience → platform context
-→ AI & automation → approach. Products lead; employment supports. The GrowthOptix statistics
-moved below the professional record and the section now says the figures describe the platform.
+- **Home and index:** Orbit, HIT Cargo and DREDD stay fully visible. Below them, "More work & open
+  source" is a single control with the real count ("3 published · 1 in draft").
+- **Closed state:** no thumbnails, no cards, no summaries — only the control, the count and the
+  one-line framing inside the panel once opened.
+- **Open state:** an ordered list of Mi Lexio, Ranita Leopardo, Nalu and the Buko draft row, each with
+  category, verified summary and its case-study link where one exists.
+- **Keyboard:** native `<summary>` responds to Enter and Space; no custom key handler, no
+  `aria-expanded` to maintain by hand.
+- **Screen readers:** `<details>`/`<summary>` expose the expanded state and the control role natively.
+- **Motion:** the panel fades and lifts 4 px on open; `prefers-reduced-motion` collapses all
+  durations to 0.01 ms.
+- **Indexability:** the accordion is a disclosure, not a router. Every published case study keeps its
+  URL, its internal links and its sitemap entry; closing the panel hides nothing from crawlers except
+  the visual list.
+- **No nested accordions.**
 
-Projects index: three labelled shelves instead of one list, in the owner's order. Featured
-products get the wide block; experiments use compact rows; professional case studies keep the
-index-row layout and an explicit confidentiality line.
+## 12. Interactive portrait
 
-Case-study pages gained a product-status label (`Live`, `In development`, `Demonstration`) and an
-**Evidence** section that names what backs the page, followed by the confidentiality note. Missing
-role, period, surface or stack rows are omitted instead of rendering `[to confirm]`.
+- Assets: `public/images/profile/carlos-renato-caricature.webp` (first frame) and
+  `carlos-renato-real.jpg` (photograph), same 3:4 crop, served through `publicAsset()` so the `/me/`
+  base path is preserved.
+- Placement: About → Profile, beside the biography. It does not compete with the featured products.
+- Default: illustration. A single native `<button>` carries `aria-label="Toggle between illustrated
+  and professional portrait"` and `aria-pressed`.
+- Hover (pointer devices only): previews the photograph; leaving the frame returns to the
+  illustration unless the state is pinned.
+- Click/tap: pins the photograph; a second activation returns to the illustration. Pinned state
+  survives hover-out.
+- Keyboard: the button receives focus, shows a 2 px aqua focus ring, and Enter/Space toggle it.
+- Both images carry distinct, descriptive `alt` text; the photograph is loaded eagerly (opacity
+  transition only) so the reveal does not flash.
+- The caption names the current state and the hint, and updates on toggle.
+- Container keeps a fixed 3:4 aspect ratio; no layout shift.
+- No JavaScript: the illustration renders and the button does nothing visually. The photograph is
+  hidden until activated; the illustration is the fallback.
+- The OG card still shows the older name text baked into the image; it needs regeneration before a
+  deploy if the name change must be reflected there.
 
-About: the working-philosophy placeholder was replaced with a stated approach drawn from the
-record — ownership through production, integration and data correctness, smaller bounded
-systems, and AI with a non-optional review gate.
+## 13. Approvals required
 
-A featured product without a real screenshot now renders as a typographic block instead of a
-full-screen abstract plate with an "Image placeholder" label. The pair row keeps the abstract
-plate, which is part of the established visual language, without the label.
+1. **HIT screenshots** — approve or reject each of the three files.
+2. **GrowthOptix role** — Mid Backend Developer (site) vs Senior Software Engineer (CV). Decide and
+   make the CV match.
+3. **GrowthOptix metrics** — validate each figure with definition and method, or keep them withdrawn.
+4. **Orbit** — supply evidence or approve the short entry as final.
+5. **Buko** — supply evidence or leave it as a draft.
+6. **HIT dates and ownership boundaries** — needed before the case study can claim a period or
+   individual authorship of each surface.
+7. **Deploy** — this pass is local only; publishing it (and therefore removing the screenshots and
+   figures from production) needs explicit approval.
+8. **OG image** — regenerating `og/carlos-renato.jpg` with the new name requires image generation
+   approval.
 
----
+## 14. Search Console and Bing — pending
 
-## 6. Technical SEO changes
+Sitemap: `https://carlosrenatohr.github.io/me/sitemap.xml`, 17 canonical URLs.
 
-Preserved from 0.10.0: the JSON-LD `@graph`, one shared `Person`, `WebSite`, unique
-titles/descriptions, canonical URLs, the 1200×630 social card, Twitter metadata, font preloads
-and the base-aware `/me/` paths.
+1. Add the URL-prefix property in Google Search Console.
+2. Verify with the HTML file or meta tag, rebuild and deploy (needs approval).
+3. Submit the sitemap; inspect `/projects/`, `/projects/orbit-logistics/`, `/projects/hit-cargo/` and
+   `/projects/dredd/`.
+4. Import the property into Bing Webmaster Tools and submit the same sitemap.
+5. Confirm the retired sample URLs return 404, not a redirect.
 
-Changed by this pass:
+None of this was executed: it requires owner access and a deploy.
 
-- `src/content.config.ts`: `collection` (`featured` | `open-source` | `professional`) and
-  `productStatus` (`live` | `in-development` | `demo` | `archived`) added; `evidenceNote` added.
-- `src/lib/content.ts`: ordering by shelf, and `getProjectGroups()` for the three-shelf index.
-- `/projects/` is indexable again because it now lists ten verified projects. The sitemap went
-  from 6 to 17 URLs: seven routes plus ten project pages.
-- Every published project carries `CreativeWork` + `BreadcrumbList`; no sample exists to need the
-  noindex branch.
-- Project meta descriptions are still clamped at a word boundary; project titles now name the
-  collection noun (`project` or `case study`).
-- `src/lib/seo.ts`: employer case studies no longer claim `Person` authorship; personal and
-  open-source work still does.
-- HIT Cargo images are the repository's own panel screenshots, converted to 1600×900 WebP
-  (189 KB total instead of 640 KB of PNG) and captioned as test data.
-- The responsive audit now includes `/projects/hit-cargo/`.
+## 15. Files changed in this pass
 
-Structured data still does not claim Orbit capabilities, DREDD dates or GrowthOptix ownership
-beyond the visible copy.
+- `src/config/site.ts` — display name `Carlos R. Hernandez`, Product Engineer title, description, OG
+  alt, job title.
+- `src/content/profile/profile.json` — headline, short intro and biography rewritten for the
+  Product Engineer positioning.
+- `src/pages/index.astro` — new hero copy, secondary projects accordion, metric-free approach note.
+- `src/pages/about.astro` — new profile copy, paragraph rendering, portrait beside the biography.
+- `src/pages/projects/index.astro` — accordion replaces the compact shelf.
+- `src/pages/experience.astro`, `skills.astro`, `ai.astro`, `contact.astro`, `src/lib/seo.ts` —
+  titles and descriptions read the config name and the new role.
+- `src/components/ProjectAccordion.astro`, `src/components/Portrait.astro` — new.
+- `src/lib/content.ts` — `getDraftProjects()` for the labelled draft row.
+- `src/styles/primitives.css` — accordion and portrait styles, reduced-motion inherited from the
+  global rule.
+- `src/content/projects/draft-buko.json` — title without the `[DRAFT]` prefix (status still draft).
+- `docs/PORTFOLIO-CONTENT-AUDIT.md`, `CHANGELOG.md`, `board.md`,
+  `docs/content/CONTENT-GAPS.md` — this record.
 
----
+Earlier addendum changes still in the working tree: HIT context without images, GrowthOptix without
+figures, Orbit context, the three captures under `docs/evidence/hit-cargo/`, and the deleted
+`public/images/projects/` folder.
 
-## 7. Skills and tools used
-
-- `commit` (house style): Conventional Commits, no attribution trailer, progressive commits.
-- SEO skill set installed in the previous pass (`seo-audit`, `keyword-research`,
-  `competitor-analysis`, `seo-report`, `ai-visibility-audit`, and others in `.agents/skills/`):
-  their methodology informed the earlier technical audit; their MCP data source is still not
-  connected, so no SERP, volume or backlink data is used here.
-- `impeccable` / `frontend-design` guidance: visual hierarchy and the product-first presentation.
-- Astro content collections, Zod, Prettier, Playwright.
-
-`codebase-memory` was requested but is not available as a connected tool in this environment, so
-verification used the public repositories and their READMEs instead.
-
----
-
-## 8. Files changed
-
-Content and model:
-
-- `src/content.config.ts`, `src/lib/content.ts`, `src/content/projects/_template.json`
-- `src/content/projects/*.json`: 10 published records, 1 draft (`draft-buko.json`)
-- `src/content/profile/profile.json`
-- deleted: six sample records, three draft placeholders and four sample image folders
-- `public/images/projects/hit-cargo/{dashboard,detail,reports}.webp`
-
-Presentation:
-
-- `src/pages/index.astro`, `src/pages/projects/index.astro`,
-  `src/pages/projects/[slug]/index.astro`, `src/pages/about.astro`
-- `src/components/ProjectCompact.astro` (new), `ProjectFeature.astro`,
-  `ProjectPair.astro`, `ProjectIndexItem.astro`
-- `src/styles/primitives.css`
-- `src/pages/sitemap.xml.ts` (comment), `playwright-evals/responsive-audit.cjs`
-
-Documentation:
-
-- `docs/PORTFOLIO-CONTENT-AUDIT.md` (this file)
-- `docs/content/CONTENT-MODEL.md`, `docs/content/PROJECT-AUTHORING.md`,
-  `docs/content/CONTENT-GAPS.md`
-- `docs/SEO-OPTIMIZATION-REPORT.md` (update note), `docs/product/requirements.md`,
-  `CHANGELOG.md`, `board.md`, `package.json`
-
----
-
-## 9. Validation
+## 16. Validation
 
 ```
-pnpm check        → 30 files: 0 errors, 0 warnings, 0 hints
-pnpm build        → 17 pages built
-sitemap.xml       → 17 canonical URLs (7 routes + 10 projects)
-robots.txt        → Sitemap: https://carlosrenatohr.github.io/me/sitemap.xml
-built HTML        → no "sample case study", "to confirm", "[DRAFT]" or "Sample content"
-meta robots       → index, follow, max-image-preview:large on every public page
-responsive audit  → OK — all checks passed, 8 routes × 390/834/1440
-SPA navigation    → title updates without a full reload
-screenshots       → home desktop/mobile, projects index, HIT Cargo, GrowthOptix reviewed
+pnpm check        → 32 files: 0 errors, 0 warnings, 0 hints
+pnpm build        → 17 pages
+format:check      → Prettier clean
+built HTML        → name "Carlos R. Hernandez", role "Product Engineer"
+built HTML        → one closed <details class="more-work">, Buko listed as draft
+built HTML        → portrait: caricature first, real photo behind the toggle
+built HTML        → no 340+/30M+/1.7M/300+/35K/96%/18 s/1 ms strings
+built HTML        → no HIT screenshot references
+Buko              → no route generated
+sitemap.xml       → 17 canonical URLs
+responsive audit  → run against the local build (section below)
 ```
 
-Visual review found and fixed two issues: the oversized placeholder plate on a coverless featured
-product, and raw `YYYY-MM` periods on project pages.
+Responsive audit: 8 routes × 390 / 834 / 1440, plus SPA navigation marker. The accordion is closed in
+the audited state; it was opened manually in the browser check for layout and keyboard behaviour.
 
----
-
-## 10. Known limitations and owner decisions
-
-1. **Orbit has no public implementation evidence.** The page is intentionally short. Publishing
-   architecture, modules or tenancy requires a demo, repository or owner-approved detail.
-2. **Buko is unpublished.** It needs a repository, deployment or description.
-3. **HIT Cargo dates and personal-vs-team ownership** are not established. The page states the
-   role at product level and publishes no date range.
-4. **DREDD dates** are omitted; the CV only says "over a year".
-5. **GrowthOptix disclosure.** Employer permission for the case-study depth is assumed from the
-   published CV; no employer code, customer or private schema is shown. Confirm if the 18 s → 1 ms
-   claim should be dropped entirely.
-6. **Screenshots** are the public repository's test-data captures. Confirm they remain approved.
-7. **Mi Lexio naming** is an owner-brief name, not the deployment brand.
-8. **Old sample URLs** 404. No redirect exists on GitHub Pages.
-9. **Search Console, Bing Webmaster and field Core Web Vitals** were not available.
-10. **Orbit leads visually with no image.** Approved product art or a safe demo screenshot would
-    strengthen the first screen.
-
----
-
-## 11. External steps that need owner access
-
-1. Submit `https://carlosrenatohr.github.io/me/sitemap.xml` in Google Search Console and Bing
-   Webmaster Tools; request indexing for `/projects/` and the three featured products.
-2. Check the Pages/URL inspection report for the retired sample URLs and confirm they are gone
-   rather than redirected.
-3. Connect analytics only if the owner wants measurement; the site ships none.
-4. If a custom domain is approved, update `SITE.origin` / `PUBLIC_SITE_URL` and re-submit.
-
----
-
-## 12. Roadmap
-
-**30 days**
-
-- Get Orbit evidence: a safe demo, a repository, or owner-approved architecture notes.
-- Add Buko evidence or keep it out of the portfolio.
-- Submit the sitemap and inspect indexing for the ten project pages.
-
-**60 days**
-
-- Add project-specific Open Graph images for the three featured products (real UI, not mockups).
-- Add a custom 404 that links to the six main routes.
-- Measure Core Web Vitals in the field if analytics is approved.
-
-**90 days**
-
-- Deepen HIT Cargo with a redacted architecture diagram that matches the code.
-- Decide whether professional case studies should expose more of the GrowthOptix read-path work,
-  subject to employer permission.
-- Re-run this audit after any new project is published; the `evidenceNote` rule is the gate.
+**Not committed, pushed or deployed.** Production remains the 0.11.0 artifact described in section 1.

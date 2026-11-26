@@ -130,6 +130,19 @@ export async function getPublishedProjects(): Promise<PublicProject[]> {
   return projects.map((project) => withSlug(project) as PublicProject).sort(byDisplayOrder);
 }
 
+/**
+ * Drafts, in display order. They are never routed or linked, but the work index
+ * lists them as unpublished so the owner's hierarchy stays visible without a
+ * description that has no evidence behind it.
+ */
+export async function getDraftProjects(): Promise<ProjectWithSlug[]> {
+  const projects = await getCollection('project');
+  return projects
+    .filter((project) => project.data.status === 'draft')
+    .sort(byDisplayOrder)
+    .map(withSlug);
+}
+
 export async function getFeaturedProjects(): Promise<PublicProject[]> {
   const projects = await getPublishedProjects();
   return projects.filter((project) => project.data.collection === 'featured');

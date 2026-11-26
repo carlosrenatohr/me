@@ -1,0 +1,90 @@
+---
+/**
+ * Secondary projects behind one native <details> control.
+ *
+ * The featured products carry the page; this archive starts closed so the
+ * experiments never compete with them, while every published case study keeps
+ * its own route, its link and its place in the sitemap. <details>/<summary>
+ * gives keyboard operation, the expanded state and screen-reader semantics
+ * without a client script.
+ *
+ * Drafts are listed last, without a link and clearly labelled: they preserve
+ * the owner's hierarchy without publishing an unverified description.
+ */
+import { projectPath } from '@/config/site';
+import type { ProjectWithSlug, PublicProject } from '@/lib/content';
+
+interface Props {
+  projects: PublicProject[];
+  drafts?: ProjectWithSlug[];
+  note?: string;
+}
+
+const { projects, drafts = [], note } = Astro.props;
+
+const STATUS_LABEL: Record<string, string> = {
+  live: 'Live',
+  'in-development': 'In development',
+  demo: 'Demo',
+  archived: 'Archived',
+};
+
+const publishedCount = `${projects.length} published`;
+const draftCount = drafts.length === 1 ? '1 in draft' : `${drafts.length} in draft`;
+const countLabel = drafts.length ? `${publishedCount} · ${draftCount}` : publishedCount;
+const total = projects.length + drafts.length;
+---
+
+<details class="more-work">
+  <summary class="more-summary">
+    <span class="more-summary-kicker">Open source &amp; experiments</span>
+    <span class="more-summary-title">More work &amp; open source</span>
+    <span class="more-summary-meta">{countLabel}</span>
+    <span class="more-summary-icon" aria-hidden="true"></span>
+  </summary>
+
+  <div class="more-body">
+    <p class="more-note">
+      {note ??
+        `${total} smaller builds, kept out of the featured row on purpose. These are the projects where I try an idea end to end: a physics engine, an offline-first shop tool, a readings PWA.`}
+    </p>
+
+    <ol class="more-list">
+      {projects.map((project, index) => (
+        <li class="more-row">
+          <span class="more-num" aria-hidden="true">
+            {String(index + 1).padStart(2, '0')}
+          </span>
+          <div class="more-copy">
+            <p class="eyebrow">{project.data.category}</p>
+            <h3>
+              <a href={projectPath(project.slug)}>{project.data.title}</a>
+            </h3>
+            <p class="more-summary-text">{project.data.summary}</p>
+          </div>
+          <span class="more-status">
+            {project.data.productStatus
+              ? STATUS_LABEL[project.data.productStatus]
+              : project.data.category}
+          </span>
+        </li>
+      ))}
+
+      {drafts.map((project, index) => (
+        <li class="more-row more-row-draft">
+          <span class="more-num" aria-hidden="true">
+            {String(projects.length + index + 1).padStart(2, '0')}
+          </span>
+          <div class="more-copy">
+            <p class="eyebrow">{project.data.category}</p>
+            <h3>{project.data.title.replace(/^\[DRAFT\]\s*/, '')}</h3>
+            <p class="more-summary-text">
+              Not published yet: the description, repository and contribution still need evidence.
+            </p>
+          </div>
+          <span class="more-status">Draft</span>
+        </li>
+      ))}
+    </ol>
+  </div>
+</details>

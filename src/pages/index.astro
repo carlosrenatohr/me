@@ -1,12 +1,13 @@
 ---
 // Home — direction C. Structure ported from design-lab/c-vibrant-editorial/index.html.
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import ProjectCompact from '@/components/ProjectCompact.astro';
+import ProjectAccordion from '@/components/ProjectAccordion.astro';
 import ProjectFeature from '@/components/ProjectFeature.astro';
 import ProjectPair from '@/components/ProjectPair.astro';
 import LocationPin from '@/components/LocationPin.astro';
 import {
   formatPeriod,
+  getDraftProjects,
   getExperience,
   getProfile,
   getProjectGroups,
@@ -17,6 +18,7 @@ import { ROUTES, SITE } from '@/config/site';
 const profile = await getProfile();
 const projects = await getPublishedProjects();
 const { featured, openSource } = await getProjectGroups();
+const drafts = await getDraftProjects();
 const experience = await getExperience();
 
 // The owner's hierarchy, not a popularity contest: the first featured product
@@ -27,27 +29,15 @@ const otherProducts = featured.slice(1);
 // The three most recent roles, from verified experience entries only.
 const recentRoles = experience.slice(0, 3);
 
-// Figures the CV states about the GrowthOptix platform. They are reproduced,
-// not recomputed, and they describe the platform rather than one person's output.
-// The CV's 18 s → 1 ms claim stays in the case study and on /ai, where its
-// measurement caveat travels with it.
-const impact = [
-  { value: '340+', label: 'Isolated databases unified behind one analytics API' },
-  { value: '~1.7M', label: 'Tracking events processed across six attribution models' },
-  { value: '~96%', label: 'Sync-job success across 35K+ jobs and four ad platforms' },
-];
-
 const profileIsVerified = profile.data.contentStatus === 'verified';
 
 // Approved concept copy. Once the owner supplies a verified short intro, the
 // lede reads from content instead.
 const lede = profileIsVerified
   ? profile.data.shortIntro
-  : 'Independent software engineer and product builder, working on the systems that hold a product together.';
+  : 'I work close to the people who use a product: understanding how they work, figuring out what needs to change, and building the software with the team.';
 
 const workCount = projects.length === 1 ? '1 project' : `${projects.length} projects`;
-const experimentCount =
-  openSource.length === 1 ? '1 experiment' : `${openSource.length} experiments`;
 ---
 
 <BaseLayout title={SITE.defaultTitle} description={SITE.description} path={ROUTES.home}>
@@ -62,15 +52,13 @@ const experimentCount =
         )}
 
         {/* The headline is written as a statement, not a job title. This line
-            carries the name and the role, which is what a visitor checks first
-            and what search engines need to resolve the page to a person. */}
-        <p class="hero-role">{SITE.name} · Senior Software Engineer</p>
+            carries the professional identity and place; the name lives in the
+            wordmark, the title and the structured data. */}
+        <p class="hero-role">Product Engineer · Managua, Nicaragua</p>
       </div>
 
       <h1 id="hero-title">
-        Building products. <br />
-        Solving problems. <br />
-        Making technology <em>useful.</em>
+        I build software <br /> for real <em>problems.</em>
       </h1>
 
       <p class="hero-lede">{lede}</p>
@@ -134,24 +122,9 @@ const experimentCount =
     <ProjectPair projects={otherProducts} />
   </section>
 
-  {openSource.length > 0 && (
-    <section class="work" id="experiments" aria-labelledby="experiments-title">
-      <div class="section-rule">
-        <h2 id="experiments-title">Open source &amp; experiments</h2>
-        <p class="rule-meta">
-          {experimentCount}
-          <a class="rule-link" href={ROUTES.projects}>
-            All projects <span aria-hidden="true">→</span>
-          </a>
-        </p>
-      </div>
-
-      <p class="section-note">
-        Smaller, self-contained builds: a game engine written from scratch, a readings PWA, a
-        business tool used by a real shop, and the developer tooling around AI-assisted work.
-      </p>
-
-      <ProjectCompact projects={openSource} />
+  {openSource.length + drafts.length > 0 && (
+    <section class="work" id="experiments" aria-label="More work and open source">
+      <ProjectAccordion projects={openSource} drafts={drafts} />
     </section>
   )}
 
@@ -178,26 +151,6 @@ const experimentCount =
         </li>
       ))}
     </ol>
-  </section>
-
-  <section class="work impact" id="impact" aria-labelledby="impact-title">
-    <div class="section-rule">
-      <h2 id="impact-title">Platform context</h2>
-      <p>GrowthOptix · 2025 — 2026</p>
-    </div>
-
-    <p class="section-note">
-      Figures stated in the CV describe the platform and the engineering work, not sole authorship.
-    </p>
-
-    <dl class="stat-row">
-      {impact.map((stat) => (
-        <div class="stat">
-          <dt>{stat.label}</dt>
-          <dd>{stat.value}</dd>
-        </div>
-      ))}
-    </dl>
   </section>
 
   <section class="work ai-teaser" id="ai" aria-labelledby="ai-title">
@@ -238,14 +191,8 @@ const experimentCount =
         </p>
 
         <p class="statement-note">
-          {profileIsVerified ? (
-            profile.data.biography
-          ) : (
-            <span class="is-pending">
-              [Biography placeholder — written from verified facts. No employment history, dates or
-              claims are published until the owner confirms them.]
-            </span>
-          )}
+          Most of my work is backend: APIs, integrations, data pipelines. I stay in the room from
+          the first product decision through delivery, and I still support what ships.
         </p>
 
         <div class="statement-links">

@@ -4,7 +4,7 @@
   "order": 3,
   "summary": "Schema first. Most of the performance work I do starts as a data-model decision and only later shows up as a faster page.",
   "contentStatus": "verified",
-  "proof": "Contact-profile reads: ~18 s → ~1 ms at GrowthOptix",
+  "proof": "Contact-profile read path moved from MongoDB to BigQuery at GrowthOptix",
   "items": [
     { "name": "PostgreSQL", "core": true },
     { "name": "BigQuery", "core": true },

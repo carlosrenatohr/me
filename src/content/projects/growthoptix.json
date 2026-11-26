@@ -1,6 +1,6 @@
 {
   "title": "GrowthOptix",
-  "summary": "Engineering work on a cookieless marketing-attribution platform: advertising and payment integrations, event-driven ingestion, identity resolution and the analytics APIs behind cross-platform reporting.",
+  "summary": "Backend engineering on a marketing-attribution platform: advertising and payment integrations, event-driven ingestion, identity resolution and the analytics APIs behind cross-platform reporting.",
   "category": "Marketing analytics",
   "kind": "client",
   "collection": "professional",
@@ -8,39 +8,44 @@
   "contentStatus": "verified",
   "featured": false,
   "featuredOrder": 1,
-  "role": "Senior Software Engineer",
+  "role": "Mid Backend Developer",
   "period": { "start": "2025-08", "end": "2026-08" },
   "technologies": [
     "NestJS",
     "TypeScript",
+    "Express",
     "BigQuery",
     "MongoDB",
     "PostgreSQL",
+    "Redis",
     "BullMQ",
     "RabbitMQ",
     "Amazon SQS",
     "GraphQL",
     "AWS",
-    "OAuth",
-    "MCP"
+    "OAuth"
   ],
   "surfaces": [
     "Advertising integrations",
-    "Event pipelines",
-    "Webhook ingestion",
-    "Analytics APIs",
+    "Event ingestion",
+    "Behavior analytics",
     "Identity resolution",
+    "Analytics APIs",
     "Reporting"
   ],
-  "context": "The platform unified advertising, payment and lifecycle data into attribution and reporting workflows for marketing teams. The engineering difficulty was not any single integration: it was the number of sources that describe the same customer differently, and the requirement that a report be defensible across all of them.\n\nProvider schemas change, OAuth tokens expire, webhooks arrive twice or out of order, and the same person appears under several identifiers. Each of those is a small problem alone; together they decide whether the numbers are trusted.",
+  "context": "The platform unified advertising, payment and lifecycle data into attribution and reporting workflows for marketing teams. The engineering difficulty was not any single integration: it was the number of sources that describe the same customer differently, and the requirement that a report be defensible across all of them.\n\nThe ecosystem also included Gox Analytics, a user-behavior analytics service built around a tracking script and an event API. Its event model carries a user and session identifier, the event name and timestamp, and contextual metadata such as URL, referrer, device and browser. Aggregations cover referrers, landing pages, device and geography, plus session and behavior metrics.",
   "solution": [
     {
       "title": "Advertising integrations end to end",
-      "body": "Google Ads, Meta Ads, Microsoft Ads and LinkedIn Ads integrations, including the OAuth token lifecycle, synchronisation jobs and the REST and GraphQL surfaces that expose the collected data."
+      "body": "Google Ads, Meta Ads, Microsoft Advertising and LinkedIn Ads integrations, including OAuth token lifecycle, synchronisation jobs and the REST and GraphQL surfaces that expose the collected data."
     },
     {
       "title": "Event-driven ingestion",
-      "body": "Pipelines on BullMQ, RabbitMQ and Amazon SQS process tracking events across six attribution models, with webhook ingestion for Calendly, Stripe, PayPal, Typeform and ThriveCart feeding the same pipeline."
+      "body": "Pipelines on BullMQ, RabbitMQ and Amazon SQS process tracking events for several attribution models, with webhook ingestion for Calendly, Stripe, PayPal, Typeform and ThriveCart feeding the same flow."
+    },
+    {
+      "title": "Attribution that keeps the source visible",
+      "body": "Meta's 7-day post-click attribution was stored as parallel fields in BigQuery, with a feature flag controlling whether the frontend shows it. Platform-reported attribution and the system's own first-party events stay distinguishable instead of overwriting each other."
     },
     {
       "title": "Identity resolution",
@@ -48,15 +53,41 @@
     },
     {
       "title": "Reporting without double counting",
-      "body": "Cross-platform reconciliation and a read path moved from MongoDB to BigQuery, so the analytics API answers profile queries from the store built for that shape of data."
+      "body": "Cross-platform reconciliation and a contact-profile read path moved from MongoDB to BigQuery, so the analytics API answers profile queries from the store built for that shape of data."
     }
   ],
-  "contribution": "As a Senior Software Engineer I contributed to the backend integrations, event pipelines, analytics APIs, webhook ingestion, identity-resolution workflows and cross-platform reconciliation. The platform was a team effort and the figures below describe the platform or the engineering work, not sole authorship of every component.",
-  "approach": "The consistent theme was making two sources agree before making them fast. A dashboard on top of double-counted data is worse than no dashboard: it is confidently wrong. Reconciliation came first, then the read path — moving contact-profile reads to BigQuery was worthwhile because the query had already been reshaped to ask a narrower question.\n\nOn the integration side, the work that decides whether something survives its second month is rarely the happy path. Token refresh, retries, idempotency and the failure that arrives twice are the actual deliverable.",
+  "contribution": "As a Mid Backend Developer I worked on the backend integrations, event pipelines, analytics APIs, webhook ingestion, identity-resolution workflows and cross-platform reconciliation. Within that work I contributed to the Gox Analytics event API and its aggregations (referrer, landing page, device, geography), the Google Ads, Meta Ads and Microsoft Advertising integrations, and the 7-day post-click attribution work in BigQuery. The platform was a team effort: I do not claim authorship of every component, and platform figures remain unpublished until they are validated.",
+  "approach": "The consistent theme was making two sources agree before making them fast. A dashboard on top of double-counted data is worse than no dashboard: it is confidently wrong. Reconciliation came first, then the read path — moving contact-profile reads to BigQuery was worthwhile because the query had already been reshaped to ask a narrower question.\n\nAttribution adds a second kind of disagreement: what the advertising platform reports versus what the product actually observed. Keeping both, instead of replacing one with the other, is what lets a report explain a difference instead of hiding it.\n\nOn the integration side, the work that decides whether something survives its second month is rarely the happy path. Token refresh, retries, idempotency and the failure that arrives twice are the actual deliverable.",
+  "stackGroups": [
+    {
+      "label": "Platform backend",
+      "items": ["NestJS", "TypeScript", "GraphQL", "PostgreSQL", "MongoDB"]
+    },
+    {
+      "label": "Pipelines",
+      "items": ["BullMQ", "RabbitMQ", "Amazon SQS", "Webhook ingestion"]
+    },
+    {
+      "label": "Data",
+      "items": ["BigQuery", "Redis", "AWS"]
+    },
+    {
+      "label": "Advertising",
+      "items": ["Google Ads API", "Meta Ads", "Microsoft Advertising", "OAuth"]
+    },
+    {
+      "label": "Gox Analytics service",
+      "items": ["Express", "MongoDB", "Redis", "Docker", "AWS ECS/Fargate", "pnpm"]
+    }
+  ],
   "technicalDecisions": [
     {
-      "title": "Move the profile read path to BigQuery",
-      "body": "Contact-profile reads were served from MongoDB, where the query shape fought the document model. Reshaping the query and moving the read to BigQuery turned an expensive scan into a narrow lookup. The CV reports the result as approximately 18 seconds to approximately 1 millisecond; the measurement conditions are not published here."
+      "title": "Reshape the query, then move the read path",
+      "body": "Contact-profile reads were served from MongoDB, where the query shape fought the document model. Narrowing the question and serving it from BigQuery turned an expensive scan into a lookup. The CV reports a large latency reduction; the measurement conditions are not documented, so no figure is published here."
+    },
+    {
+      "title": "Keep platform-reported and first-party attribution separate",
+      "body": "Storing 7-day post-click attribution as parallel fields, behind a feature flag, keeps Meta's reported view distinguishable from the events the product recorded. Overwriting one with the other would make every later comparison meaningless."
     },
     {
       "title": "Confidence scoring before merging identities",
@@ -68,20 +99,20 @@
     }
   ],
   "outcomes": [
-    "The CV reports a platform of 340+ isolated databases and 30M+ documents unified behind a BigQuery-backed analytics API.",
-    "Approximately 1.7M tracking events were processed across six attribution models and 300+ organizations.",
-    "Four advertising integrations sustained approximately 96% success across 35K+ synchronisation jobs, as stated in the CV.",
-    "Webhook ingestion covers Calendly, Stripe, PayPal, Typeform and ThriveCart.",
-    "Identity resolution scored approximately 1.1M touchpoints with a guard against false merges.",
-    "Cross-platform reconciliation removed double counting between data sources."
+    "Advertising integrations cover Google Ads, Meta Ads, Microsoft Advertising and LinkedIn Ads, with OAuth token lifecycle handled in the backend.",
+    "Webhook ingestion for Calendly, Stripe, PayPal, Typeform and ThriveCart feeds one attribution pipeline.",
+    "Identity resolution scores matches and refuses low-confidence merges.",
+    "Cross-platform reconciliation removed double counting between sources.",
+    "Contact-profile reads moved from MongoDB to a reshaped BigQuery query.",
+    "Behavior analytics covers referrers, landing pages, devices, geography and session metrics."
   ],
   "links": [
     {
       "label": "GrowthOptix",
-      "url": "https://growthoptix.com",
+      "url": "https://www.growthoptix.com/",
       "kind": "reference"
     }
   ],
-  "confidentialityNote": "No employer source code, customer payload, private data model, customer name or internal dashboard is published. The architecture above is described at the level of the published CV.",
-  "evidenceNote": "Every figure on this page is reproduced from the published CV and describes the platform or the engineering work; none is presented as an individually generated result. The 18 s → 1 ms claim is included with that caveat because its measurement conditions are not documented. Verified 2026-11-25."
+  "confidentialityNote": "No employer source code, customer payload, private data model, customer name or internal dashboard is published. The architecture above is described at the level of the published CV, the public Gox Analytics repository and the owner's account.",
+  "evidenceNote": "Role stated by the owner as Mid Backend Developer; the published CV lists Senior Software Engineer, so the CV PDF needs updating to match. Platform figures from the CV (databases, documents, events, organizations, sync jobs, latency) are withheld pending validation of what each one measures and which are attributable to this work. Gox Analytics stack verified against the public gox-analytics repository on 2026-11-25; the attribution and integration details are owner-provided."
 }

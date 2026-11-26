@@ -4,7 +4,7 @@
   "order": 4,
   "summary": "Event-driven work where the failure mode is a duplicate, a partial write or a silent gap — designed for before it reaches production.",
   "contentStatus": "verified",
-  "proof": "~1.7M events and 35K+ sync jobs at GrowthOptix",
+  "proof": "Event pipelines, webhook ingestion and ad-platform sync jobs at GrowthOptix",
   "items": [
     { "name": "BullMQ", "core": true },
     { "name": "RabbitMQ" },

@@ -1,0 +1,103 @@
+---
+/**
+ * Interactive portrait: the illustration is the resting state, the photograph
+ * is revealed on hover, focus by keyboard activation or a tap.
+ *
+ * One native <button> owns the interaction, so Enter and Space work without a
+ * key handler and `aria-pressed` reports the pinned state. Hover is a transient
+ * preview handled in CSS; a click pins the photograph so it survives the cursor
+ * leaving the frame.
+ */
+import { publicAsset } from '@/config/assets';
+import { SITE } from '@/config/site';
+
+const art = {
+  src: publicAsset('images/profile/carlos-renato-caricature.webp'),
+  alt: `Illustrated portrait of ${SITE.name}, arms crossed, in a navy shirt`,
+  width: 1086,
+  height: 1448,
+};
+
+const photo = {
+  src: publicAsset('images/profile/carlos-renato-real.jpg'),
+  alt: `Photograph of ${SITE.name}, arms crossed, in a navy shirt`,
+  width: 1536,
+  height: 2048,
+};
+---
+
+<div class="portrait">
+  <button
+    class="portrait-toggle"
+    type="button"
+    aria-pressed="false"
+    aria-label="Toggle between illustrated and professional portrait"
+  >
+    <img
+      class="portrait-image portrait-art"
+      src={art.src}
+      alt={art.alt}
+      width={art.width}
+      height={art.height}
+      loading="eager"
+      decoding="async"
+    />
+    <img
+      class="portrait-image portrait-photo"
+      src={photo.src}
+      alt={photo.alt}
+      width={photo.width}
+      height={photo.height}
+      loading="eager"
+      decoding="async"
+    />
+    <span class="portrait-corner" aria-hidden="true"></span>
+  </button>
+
+  <p class="portrait-caption">
+    <span class="portrait-state" data-portrait-state>
+      Illustrated portrait
+    </span>
+    <span aria-hidden="true"> · </span>
+    <span data-portrait-hint>Hover or tap for the photograph</span>
+  </p>
+</div>
+
+<script>
+  // Delegated from the document so the control keeps working after a
+  // ClientRouter navigation swaps the page without re-running this module.
+  const TOGGLE = '.portrait-toggle';
+  const LABEL = 'Toggle between illustrated and professional portrait';
+
+  function bind() {
+    if (document.documentElement.dataset.portraitBound === 'true') return;
+    document.documentElement.dataset.portraitBound = 'true';
+
+    document.addEventListener('click', (event) => {
+      const target = event.target;
+      if (!(target instanceof Element)) return;
+
+      const toggle = target.closest(TOGGLE);
+      if (!(toggle instanceof HTMLButtonElement)) return;
+
+      const pinned = toggle.getAttribute('aria-pressed') === 'true';
+      toggle.setAttribute('aria-pressed', String(!pinned));
+
+      const portrait = toggle.closest('.portrait');
+      const state = portrait?.querySelector('[data-portrait-state]');
+      const hint = portrait?.querySelector('[data-portrait-hint]');
+
+      if (state) state.textContent = pinned ? 'Illustrated portrait' : 'Photograph';
+      if (hint) {
+        hint.textContent = pinned
+          ? 'Hover or tap for the photograph'
+          : 'Tap to return to the illustration';
+      }
+
+      toggle.setAttribute('aria-label', `${LABEL}${pinned ? '' : ', photograph shown'}`);
+    });
+  }
+
+  bind();
+  document.addEventListener('astro:page-load', bind);
+</script>

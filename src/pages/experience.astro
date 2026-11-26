@@ -12,8 +12,7 @@ const { primary, additional } = await getExperienceGroups();
 const education = profile.data.education;
 const total = primary.length + additional.length;
 
-const description =
-  'Carlos Renato’s professional record: backend, API and integration roles across logistics, analytics and enterprise platforms, in Node.js, TypeScript and AWS.';
+const description = `${SITE.name}’s professional record: product, backend, API and integration roles across logistics, analytics and enterprise platforms.`;
 
 const roleCount = total === 1 ? '1 role' : `${total} roles`;
 
@@ -22,7 +21,7 @@ const rows = [...primary, ...additional];
 ---
 
 <BaseLayout
-  title={`Experience — ${SITE.name}, Senior Software Engineer`}
+  title={`Experience — ${SITE.name}, Product Engineer`}
   description={description}
   path={ROUTES.experience}
   current="experience"

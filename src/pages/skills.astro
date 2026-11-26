@@ -12,15 +12,14 @@ const tools = skills.flatMap((layer) => layer.data.items);
 const core = [...new Set(tools.filter((tool) => tool.core).map((tool) => tool.name))];
 
 const countLabel = `${tools.length} tools · ${skills.length} layers`;
-const description =
-  'The stack behind Carlos Renato’s work, layer by layer: TypeScript, Node.js, React, PostgreSQL, BigQuery, AWS and Cloudflare, from the interface down to the runtime.';
+const description = `The stack behind ${SITE.name}’s work, layer by layer: TypeScript, Node.js, React, PostgreSQL, BigQuery, AWS and Cloudflare, from the interface down to the runtime.`;
 
 /** Stable in-page anchor: the layer label, not the filename. */
 const anchor = (layer: string) => `layer-${layer.toLowerCase().replace(/\s+/g, '-')}`;
 ---
 
 <BaseLayout
-  title={`Skills & Stack — ${SITE.name}, Senior Software Engineer`}
+  title={`Skills & Stack — ${SITE.name}, Product Engineer`}
   description={description}
   path={ROUTES.skills}
   current="skills"
