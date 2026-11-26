@@ -5,6 +5,7 @@
 - `/projects` Projects index
 - `/projects/[slug]` Project case study
 - `/ai` AI, engineering automation and how I would contribute to a team
+- `/skills` The stack, grouped by system layer
 - `/experience` Full professional record and education
 - `/about` Profile and approach, with a preview of the record
 - `/contact` Contact
@@ -57,13 +58,23 @@ Writing/blog is optional and should only be included if approved articles exist.
 - Education from the profile.
 - Nothing is summarised into a claim the CV does not make.
 
+## Skills
+- Every tool and practice the published CV states, grouped by the layer where it does its
+  work, from the interface down to the language.
+- One line per layer explaining the point of view, plus where that layer has shipped.
+- A named core set, marked in the stack and never inferred beyond the CV.
+- The order of layers mirrors a running system, and the hero index links into each one.
+- Content driven by `src/content/skills/*.json`; adding a layer or a tool is a data edit.
+- AI tooling stays on `/ai` and is linked, not duplicated.
+- No proficiency bars, percentages or invented endorsements.
+
 ## AI
 - How AI is used in production delivery, with the owner's stated starting year.
 - DREDD as the featured system, with its review loop and the human decision at the end.
 - How the owner reads and analyses his own projects with a model.
 - The other systems built with it: MCP servers, support chatbot.
 - Tools in daily use, listed without implying endorsement.
-- Skills grouped by layer.
+- A pointer to the full stack on `/skills`; AI-specific tooling stays here.
 - What the owner would own across a delivery cycle, with examples drawn from the CV.
 - Every claim traceable to the published CV; no invented outcomes or client names.
 
@@ -79,9 +90,11 @@ Writing/blog is optional and should only be included if approved articles exist.
 - Semantic HTML and keyboard accessibility.
 - Visible focus states.
 - Reduced-motion support.
-- Per-page title and description.
-- Open Graph metadata.
+- Per-page title and description, unique across routes and within 60 / 160 characters.
+- Open Graph and Twitter card metadata, with an image that renders at 1200×630.
 - Canonical URL configurable independently of the final domain.
-- Sitemap and robots.txt.
+- Valid `Person` and `WebSite` structured data, plus a page node only where it is accurate.
+- Sitemap containing indexable routes only; robots.txt consistent with the deployed base path.
+- Demonstration content never indexed as the owner's work.
 - Optimized images and meaningful alt text.
 - Functional links and no dead navigation.

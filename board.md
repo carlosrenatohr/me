@@ -3,7 +3,7 @@
 Status values: `NOT STARTED`, `IN PROGRESS`, `BLOCKED`, `IN REVIEW`, `DONE`.
 
 Overall status: IN PROGRESS
-Current phase: 01 — Product and visual exploration
+Current phase: 04 — Quality assurance and discoverability
 
 ## Phase 00 — Repository and tooling
 
@@ -463,6 +463,24 @@ Evidence: `pnpm build` → 12 pages; `pnpm check` → 0 errors; `pnpm format:che
 reveal was verified in Chromium after scrolling, and the mobile menu and index hover were
 inspected in screenshots.
 
+### Phase 03 — skills stack page (2026-11-25, v0.9.0)
+
+**Status: DONE.** The owner asked for a skills page modelled on the reference site's section
+(`cesargaray.com/#skills`) but visually distinct: a diagram, not a card-and-chip grid.
+
+- [x] **Skills are data.** Six JSON files in `src/content/skills/`, one per layer, validated by
+  a new `skill` collection (`title`, `layer`, `order`, `summary`, `proof`, `items[]`).
+- [x] **`/skills`** draws one vertical spine with a node per layer, from the interface down to
+  the runtime; the hero index lists the same order and links into each layer.
+- [x] **Core set** (10 tools) is computed from `items[].core`, never hand-written, and rendered
+  as a typographic line; every layer carries a CV-backed `proof` line.
+- [x] **AI page** no longer duplicates the stack: it points to `/skills`.
+- [x] Navigation, sitemap and the responsive audit include the route.
+
+Evidence: `pnpm build` → 13 pages; `pnpm check` → 0 errors; `pnpm format:check` clean;
+`playwright-evals/responsive-audit.cjs` passes at 390/834/1440 on seven routes; the page was
+reviewed in screenshots at desktop, tablet and mobile.
+
 ## Phase 04 — Quality assurance
 
 **Status: IN PROGRESS**
@@ -475,6 +493,48 @@ inspected in screenshots.
   published yet; the plates are inline SVG)*
 - [ ] P04-07 Fix and re-check all critical/high findings  *(nothing open; run again after the
   first case study lands)*
+
+### Phase 04 — SEO, positioning and discoverability (2026-11-25, v0.10.0)
+
+**Status: IMPLEMENTED.** Audit, external research, keyword strategy, implementation and QA for
+search and recruiter discovery. Full record, sources and limitations:
+`docs/SEO-OPTIMIZATION-REPORT.md`.
+
+- [x] Audited the source and the generated output (13 pages), classifying findings by severity.
+  Critical: none. High: fictional samples indexable as real work; no structured data; no social
+  image; generic homepage metadata with no name in the body; `robots.txt` pointing at a sitemap
+  that does not exist.
+- [x] Researched how recruiters source engineers and what Google documents for personal-site
+  schema, with sources and dates. OpenSEO skills are installed but their MCP server is not
+  connected, so no paid keyword/SERP data was used and no ranking is claimed.
+- [x] Added one JSON-LD `@graph` per page: `WebSite` + a single `Person` (`sameAs`, `address`,
+  `knowsAbout` from the core skills flag, `alumniOf`), with `ProfilePage`, `CollectionPage`,
+  `ContactPage`, `CreativeWork` and `BreadcrumbList` where each applies.
+- [x] Generated a 1200×630 social card from the brand faces (`pnpm og`) and wired `og:image`,
+  `twitter:image`, `summary_large_image`, `author`, `theme-color` and `max-image-preview:large`.
+- [x] Rewrote every title and description around the brief's single identity; added the name and
+  role masthead line to the home hero; the work count now says `6 sample projects`.
+- [x] Fixed the `robots.txt` sitemap URL, excluded samples from the sitemap, made sample case
+  studies `noindex` and schema-free, and made the work index `noindex` until a real project lands.
+- [x] Removed the duplicated `@font-face` block and 384 KB of unused font copies; preloaded the
+  two above-the-fold faces.
+
+Evidence:
+
+```
+pnpm check        → 29 files: 0 errors, 0 warnings, 0 hints
+pnpm build        → 13 pages; sitemap now lists 6 indexable URLs (was 13)
+pnpm format:check → All matched files use Prettier code style!
+rendered SEO check → 13 pages, 0 failures (titles, descriptions, one h1, canonical,
+                     robots, og:image on disk, JSON-LD parses, breadcrumbs, internal links)
+responsive audit   → OK — all checks passed, 7 routes × 390/834/1440
+Chromium           → 3 font faces loaded, 0 console errors, 0 horizontal overflow
+```
+
+**Open owner actions:** verify Search Console and submit `/me/sitemap.xml`; publish one real case
+study (that alone flips the work index and a detail page into the index); decide whether to retire
+the six samples per the rebuild brief. **Known limitation:** a project site's `robots.txt` is not
+read from the origin root, so it is correct but not authoritative until a domain move.
 
 ## Next queue (ordered)
 

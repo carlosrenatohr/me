@@ -6,6 +6,64 @@ Versions are internal milestones of this portfolio, not public releases. Dates c
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). The project
 version in `package.json` matches the newest entry.
 
+## [0.10.0] — 2026-11-25
+
+The site now states who it is to crawlers, and stops presenting demonstration work as delivered
+work. Audit, research and results: `docs/SEO-OPTIMIZATION-REPORT.md`.
+
+### Added
+
+- Structured data: one JSON-LD `@graph` per page with `WebSite` and a single `Person` entity
+  (`sameAs`, `address`, `knowsAbout`, `alumniOf`), plus `ProfilePage`, `CollectionPage`,
+  `ContactPage`, `CreativeWork` and `BreadcrumbList` on the pages where each is accurate.
+- A 1200×630 Open Graph card (`public/og/carlos-renato.jpg`) generated from the site's own faces
+  and palette by `scripts/generate-og.mjs` (`pnpm og`).
+- `og:image`, `twitter:image` and their dimensions/alt text; `twitter:card` upgraded to
+  `summary_large_image`; `author`, `theme-color` and `max-image-preview:large`.
+- The home page names the owner and the role in a masthead line beside the availability pill.
+- `docs/SEO-OPTIMIZATION-REPORT.md`: the audit, external research with sources, keyword tiers,
+  before/after metadata, validation evidence, limitations and a 30/60/90 roadmap.
+
+### Changed
+
+- Titles and descriptions rewritten around one identity — Senior Software Engineer, backend
+  systems, distributed integrations and data platforms — unique per route, 47–60 and 70–164
+  characters.
+- The wordmark reads `Carlos Renato`, matching the title, the schema and the sitemap.
+- Contact: the CV band label is a real `h2` instead of a paragraph used as a label.
+- Long project summaries are clamped at a word boundary for the meta description.
+- Project Stack sections link to `/skills/`; About links to the stack.
+- Typography: removed the duplicated `@font-face` block and its `@import`, removed 384 KB of
+  unreferenced font copies from `public/fonts/`, and preloaded the two faces used above the fold.
+
+### Fixed
+
+- `robots.txt` advertised `https://carlosrenatohr.github.io/sitemap.xml`, which does not exist.
+  It now points at the base-aware `/me/sitemap.xml`.
+- The six fictional sample case studies are `noindex` and no longer in the sitemap; the work index
+  is `noindex` until it contains a real published project, and becomes indexable by itself then.
+- The home meta strip says `6 sample projects` instead of counting demonstration entries as
+  delivered work.
+
+## [0.9.0] — 2026-11-25
+
+The stack got a page of its own, drawn as a diagram instead of a logo wall, and became data.
+
+### Added
+
+- `/skills`: six layers from the interface down to the runtime, one vertical spine with a node
+  per layer, a hero index that links into each one, and a core-tool line drawn from the CV.
+- `src/content/skills/*.json`: one file per layer (`title`, `layer`, `order`, `summary`,
+  `proof`, `items[]`). The core set and the counts are computed by the page.
+- Navigation reads Projects / AI / Skills / Experience / About / Contact; the sitemap and the
+  responsive audit include the new route.
+
+### Changed
+
+- AI page: the duplicated skill grid is replaced by a short pointer to `/skills`.
+- The full stack is described by where each tool does its work, with CV-backed evidence per
+  layer, instead of chips grouped only by category.
+
 ## [0.8.0] — 2026-11-16
 
 Projects became data, the professional record got its own page, and the landing page states
