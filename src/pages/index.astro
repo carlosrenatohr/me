@@ -4,12 +4,31 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import ProjectFeature from '@/components/ProjectFeature.astro';
 import ProjectPair from '@/components/ProjectPair.astro';
 import LocationPin from '@/components/LocationPin.astro';
-import { getProfile, getPublishedProjects, isSampleProject } from '@/lib/content';
+import {
+  formatPeriod,
+  getExperience,
+  getProfile,
+  getPublishedProjects,
+  isSampleProject,
+} from '@/lib/content';
 import { ROUTES, SITE } from '@/config/site';
 
 const profile = await getProfile();
 const projects = await getPublishedProjects();
+const experience = await getExperience();
 const hasSamples = projects.some(isSampleProject);
+
+// The three most recent roles, from verified experience entries only.
+const recentRoles = experience.slice(0, 3);
+
+// Figures the CV states about the GrowthOptix platform. They are reproduced,
+// not recomputed: a stat without a source is the easiest thing to invent.
+const impact = [
+  { value: '18 s → 1 ms', label: 'Contact-profile read, after the read path moved to BigQuery' },
+  { value: '~96%', label: 'Sync-job success across 35K+ jobs and four ad platforms' },
+  { value: '340+', label: 'Isolated databases unified behind one analytics API' },
+  { value: '~1.7M', label: 'Tracking events processed across six attribution models' },
+];
 
 const featured = projects.find((project) => project.data.featured) ?? projects[0];
 const secondary = projects.filter((project) => project.slug !== featured?.slug).slice(0, 2);
@@ -64,7 +83,7 @@ const workCount = projects.length === 1 ? '1 project' : `${projects.length} proj
           </dd>
         </div>
         <div>
-          <dt>Selected work</dt>
+          <dt>Projects</dt>
           <dd>{projects.length ? workCount : '[no published projects yet]'}</dd>
         </div>
         <div>
@@ -77,13 +96,29 @@ const workCount = projects.length === 1 ? '1 project' : `${projects.length} proj
     </div>
   </section>
 
-  <section class="work" id="work" aria-labelledby="work-title">
+  <section class="work impact" id="impact" aria-labelledby="impact-title">
     <div class="section-rule">
-      <h2 id="work-title">Selected work</h2>
+      <h2 id="impact-title">Recent impact</h2>
+      <p>GrowthOptix · 2025 — 2026</p>
+    </div>
+
+    <dl class="stat-row">
+      {impact.map((stat) => (
+        <div class="stat">
+          <dt>{stat.label}</dt>
+          <dd>{stat.value}</dd>
+        </div>
+      ))}
+    </dl>
+  </section>
+
+  <section class="work" id="projects" aria-labelledby="projects-title">
+    <div class="section-rule">
+      <h2 id="projects-title">Selected projects</h2>
       <p class="rule-meta">
         {workCount}
         <a class="rule-link" href={ROUTES.projects}>
-          All work <span aria-hidden="true">→</span>
+          All projects <span aria-hidden="true">→</span>
         </a>
       </p>
     </div>
@@ -121,8 +156,8 @@ const workCount = projects.length === 1 ? '1 project' : `${projects.length} proj
 
     <div class="ai-teaser-body">
       <p class="ai-teaser-lede">
-        AI drafts, the review decides. I build the parts that make that safe: a multi-agent review
-        workflow, and MCP servers that connect models to the systems they are meant to act on.
+        AI drafts, the review decides. I build the parts that make that safe: DREDD, a multi-agent
+        review workflow, and MCP servers that connect models to the systems they act on.
       </p>
 
       <div>
@@ -136,6 +171,31 @@ const workCount = projects.length === 1 ? '1 project' : `${projects.length} proj
         </a>
       </div>
     </div>
+  </section>
+
+  <section class="work" id="experience" aria-labelledby="experience-title">
+    <div class="section-rule">
+      <h2 id="experience-title">Experience</h2>
+      <p class="rule-meta">
+        {profile.data.yearsExperience ?? 'Professional record'}
+        <a class="rule-link" href={ROUTES.experience}>
+          Full record <span aria-hidden="true">→</span>
+        </a>
+      </p>
+    </div>
+
+    <ol class="record-list">
+      {recentRoles.map((entry) => (
+        <li class="record-row">
+          <p class="record-period">{formatPeriod(entry.data.period)}</p>
+          <div class="record-body">
+            <p class="eyebrow">{entry.data.organization}</p>
+            <h3>{entry.data.role}</h3>
+            {entry.data.summary && <p class="record-summary">{entry.data.summary}</p>}
+          </div>
+        </li>
+      ))}
+    </ol>
   </section>
 
   <section class="statement band" id="about" aria-labelledby="about-title">
