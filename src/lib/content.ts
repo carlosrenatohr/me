@@ -55,12 +55,16 @@ function withSlug(project: Project): ProjectWithSlug {
   return { ...project, slug };
 }
 
-/** Personal and side projects lead the work index; client work follows. */
-const KIND_RANK: Record<Project['data']['kind'], number> = { personal: 0, client: 1 };
+/** Featured products lead the work index; experiments and professional work follow. */
+const COLLECTION_RANK: Record<Project['data']['collection'], number> = {
+  featured: 0,
+  'open-source': 1,
+  professional: 2,
+};
 
 function byDisplayOrder(a: Project, b: Project): number {
-  const kindRank = KIND_RANK[a.data.kind] - KIND_RANK[b.data.kind];
-  if (kindRank !== 0) return kindRank;
+  const collectionRank = COLLECTION_RANK[a.data.collection] - COLLECTION_RANK[b.data.collection];
+  if (collectionRank !== 0) return collectionRank;
 
   const orderA = a.data.featuredOrder ?? Number.MAX_SAFE_INTEGER;
   const orderB = b.data.featuredOrder ?? Number.MAX_SAFE_INTEGER;
@@ -128,7 +132,22 @@ export async function getPublishedProjects(): Promise<PublicProject[]> {
 
 export async function getFeaturedProjects(): Promise<PublicProject[]> {
   const projects = await getPublishedProjects();
-  return projects.filter((project) => project.data.featured);
+  return projects.filter((project) => project.data.collection === 'featured');
+}
+
+/** The work index in three shelves: products, experiments, professional case studies. */
+export async function getProjectGroups(): Promise<{
+  featured: PublicProject[];
+  openSource: PublicProject[];
+  professional: PublicProject[];
+}> {
+  const projects = await getPublishedProjects();
+
+  return {
+    featured: projects.filter((project) => project.data.collection === 'featured'),
+    openSource: projects.filter((project) => project.data.collection === 'open-source'),
+    professional: projects.filter((project) => project.data.collection === 'professional'),
+  };
 }
 
 export async function getProjectBySlug(slug: string): Promise<Project | undefined> {

@@ -1,0 +1,17 @@
+{
+  "title": "[DRAFT] Buko",
+  "summary": "DRAFT — no verified description yet. The owner brief lists Buko as one of the open-source experiments, but no public repository, deployment or README was found to support a description.",
+  "category": "Open-source experiment",
+  "kind": "personal",
+  "collection": "open-source",
+  "status": "draft",
+  "contentStatus": "placeholder",
+  "featured": false,
+  "featuredOrder": 4,
+  "role": "DRAFT — to be confirmed.",
+  "technologies": [],
+  "surfaces": [],
+  "contribution": "DRAFT — What was built, by whom, and where it lives.",
+  "confidentialityNote": "DRAFT — not published. Waiting for the repository, deployment or owner description.",
+  "evidenceNote": "Checked the public GitHub account, its repository list and the Nativerse subdomains on 2026-11-25: no Buko repository or deployment was found. Add the link and verified facts before publishing."
+}

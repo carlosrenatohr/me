@@ -5,9 +5,13 @@ raw files: pages go through `src/lib/content.ts`, which is the seam a future CMS
 replaces.
 
 Every collection carries `contentStatus` (`placeholder` | `verified`). Placeholder entries
-are excluded from public queries. Projects additionally require `status: published`, with one
-exception: `status: sample` publishes a demonstration entry that every surface labels as
-sample, so the case-study layout can be reviewed before real work exists.
+are excluded from public queries. Projects additionally require `status: published`; the
+`sample` state remains in the schema but no sample entry is published, and drafts never reach
+a public route or the sitemap.
+
+Projects are grouped by an explicit `collection` — `featured` products first, then
+`open-source`, then `professional` case studies — instead of by `kind`. The shelf is an owner
+decision, documented in `docs/content/PROJECT-AUTHORING.md`.
 
 ## Profile — `src/content/profile/profile.json`
 
@@ -36,10 +40,12 @@ a future CMS or API can emit the same shape without a parser change.
 | Field | Notes |
 | --- | --- |
 | `title`, `summary`, `category` | Identity and lede |
-| `kind` | `personal` (listed first) or `client` |
-| `status` | `draft` \| `published` \| `sample` (renders, always labelled) |
+| `kind` | `personal` or `client` — who owns the work |
+| `collection` | `featured` \| `open-source` \| `professional` — the shelf and its order |
+| `productStatus` | `live` \| `in-development` \| `demo` \| `archived`; omitted when unknown |
+| `status` | `draft` \| `published` \| `sample` (schema only; no sample is published) |
 | `contentStatus` | `placeholder` \| `verified` |
-| `featured`, `featuredOrder` | Home feature slot and ordering |
+| `featured`, `featuredOrder` | Ordering inside the shelf |
 | `role`, `period`, `surfaces`, `technologies` | Spec strip |
 | `cover` | Optional `{ src, alt }` — otherwise the abstract plate |
 | `screenshots[]` | `{ src, alt, caption? }`, rendered under "Screens" |
@@ -51,7 +57,8 @@ a future CMS or API can emit the same shape without a parser change.
 | `technicalDecisions[]` | `{ title, body }` → `D1…Dn` |
 | `outcomes[]` | → `O1…On` under "Impact"; verified only |
 | `links[]` | `live` \| `repository` \| `case-study` \| `reference` |
-| `confidentialityNote` | What is withheld and why |
+| `confidentialityNote` | What is withheld and why, rendered under "Evidence" |
+| `evidenceNote` | What backs the page: repositories, deployments, READMEs, the CV |
 
 ## Skills — `src/content/skills/<layer>.json`
 

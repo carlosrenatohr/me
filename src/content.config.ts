@@ -83,6 +83,17 @@ const project = defineCollection({
     category: z.string().min(1),
     kind: z.enum(['personal', 'client']).default('client'),
     /**
+     * Editorial shelf. The owner's hierarchy is explicit: featured products lead,
+     * open-source experiments follow, professional case studies close. It is data,
+     * not a guess from `kind` or from how many technologies an entry lists.
+     */
+    collection: z.enum(['featured', 'open-source', 'professional']).default('professional'),
+    /**
+     * Where the product itself stands, independent of whether this page is public.
+     * A page can be published and verified while the product is still in development.
+     */
+    productStatus: z.enum(['live', 'in-development', 'demo', 'archived']).optional(),
+    /**
      * `sample` publishes the layout with demonstration content: it must render the
      * page but never pass for the owner's work, so every surface that shows it is
      * labelled. Only `published` + `verified` counts as a real case study.
@@ -152,7 +163,10 @@ const project = defineCollection({
       .default([]),
     outcomes: z.array(z.string()).default([]),
     links: z.array(link).default([]),
+    /** What is withheld and why, in one sentence. */
     confidentialityNote: z.string().optional(),
+    /** What backs the page: repositories, deployments, READMEs, the CV. */
+    evidenceNote: z.string().optional(),
   }),
 });
 

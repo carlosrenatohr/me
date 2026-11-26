@@ -1,0 +1,59 @@
+{
+  "title": "Agent Harness",
+  "summary": "A portable, model-agnostic engineering harness over OpenCode: task specifications, deterministic phase gates, a bounded autonomous loop, role-isolated subagents, evaluations and run logs.",
+  "category": "Developer tooling",
+  "kind": "personal",
+  "collection": "open-source",
+  "status": "published",
+  "contentStatus": "verified",
+  "productStatus": "live",
+  "featured": false,
+  "featuredOrder": 5,
+  "role": "Solo — the harness design, the CLI, the gate, the subagent roles and the evaluation workflow.",
+  "technologies": ["TypeScript", "Node.js", "pnpm", "OpenCode", "Jest", "JSONL"],
+  "surfaces": ["CLI", "Per-repository scaffold", "Evaluation matrix", "Run logs"],
+  "context": "AI coding agents can produce a change quickly. The hard part is deciding whether the work is allowed to advance: an agent that declares its own output correct has not been reviewed, it has been asked.",
+  "solution": [
+    {
+      "title": "The gate owns phase advancement",
+      "body": "Authority to move from one phase to the next lives in deterministic code. The agent runs inside a phase; the gate decides whether the phase is finished, and it is the gate that commits and advances."
+    },
+    {
+      "title": "Bounded autonomy",
+      "body": "The loop is scoped to one pending phase with a written specification. There is no open-ended session that can wander across the repository, and a failing gate stops the run instead of retrying indefinitely."
+    },
+    {
+      "title": "Role-isolated subagents",
+      "body": "Review, implementation and other roles run with separate scopes and instructions, so one agent's context does not silently become another's permission."
+    },
+    {
+      "title": "Evals and observability",
+      "body": "A provider-by-task evaluation matrix and a readable JSONL log of each run make model behaviour comparable instead of anecdotal, and make a bad run possible to inspect afterwards."
+    }
+  ],
+  "contribution": "Solo project. I designed the workflow contract and wrote the CLI: repository detection and scaffolding, the phase state file, the gate, the subagent wiring, the evaluation runner and the log reader. The harness was built by its own loop, one gated phase per conventional commit.",
+  "approach": "The first temptation is to let the agent decide when it is done, because that is the cheapest loop to write. It is also the one that produces confident, unreviewed work. The harness inverts it: the model proposes, tests and type checks run, and only a green deterministic gate allows the phase to close.\n\nModel-agnosticism is a design constraint, not a feature list. Providers are configuration and the workflow contract is the stable part, which is what makes swapping a model an experiment rather than a rewrite.",
+  "technicalDecisions": [
+    {
+      "title": "Deterministic gate instead of agent self-assessment",
+      "body": "A gate that runs the project's own checks cannot be talked into passing. It costs the flexibility of “the agent knows best” and buys a result that means the same thing on every provider."
+    },
+    {
+      "title": "Specifications as the unit of work",
+      "body": "A phase starts from a written spec, so the loop has a definition of done that survives context loss. Without it, a long run optimises for looking finished."
+    }
+  ],
+  "outcomes": [
+    "Phase advancement is decided by project checks, not by the model's opinion of its own work.",
+    "Switching provider is one configuration line; the workflow and the gate stay the same.",
+    "Every run leaves a log and every phase leaves one conventional commit, so the history is auditable."
+  ],
+  "links": [
+    {
+      "label": "agent-harness — repository",
+      "url": "https://github.com/carlosrenatohr/agent-harness",
+      "kind": "repository"
+    }
+  ],
+  "evidenceNote": "Verified against the public agent-harness repository and its README on 2026-11-25. No productivity percentage or defect-reduction figure is published because none was measured."
+}

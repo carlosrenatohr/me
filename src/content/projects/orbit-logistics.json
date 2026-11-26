@@ -1,46 +1,33 @@
 {
   "title": "Orbit Logistics",
-  "summary": "DRAFT — Subscription platform for freight-forwarding operations: web applications, backend services and role-based access for the people who move cargo.",
-  "category": "Logistics operations",
+  "summary": "A subscription platform for freight-forwarding operations: web applications and backend services, backed by role-based access to operational data. Part of the Nativerse product ecosystem.",
+  "category": "Logistics SaaS",
   "kind": "personal",
-  "status": "draft",
-  "contentStatus": "placeholder",
+  "collection": "featured",
+  "status": "published",
+  "contentStatus": "verified",
+  "productStatus": "in-development",
   "featured": true,
   "featuredOrder": 1,
-  "role": "Founder and engineer — product direction, architecture, implementation and production operations.",
-  "period": {
-    "start": "DRAFT — confirm launch month"
-  },
-  "technologies": [
-    "TypeScript",
-    "NestJS",
-    "Astro",
-    "Preact",
-    "Cloudflare Workers",
-    "PostgreSQL",
-    "Row-level security"
-  ],
-  "surfaces": ["Operations panel", "Customer-facing web app", "Backend services and API"],
-  "context": "DRAFT — The freight-forwarding operation that existed before the platform: who tracked\nshipments, in what (spreadsheet, chat, paper), where the handoffs lost state, and what a\nmissed update cost the customer.\n\nKeep the scale you can defend (accounts, shipments per month, people per account).\n",
-  "contribution": "DRAFT — First person, bounded: the data model, the subscription and access model, the\noperational interface, the production setup. Say plainly what you did not build.\n",
-  "approach": "DRAFT — The first constraint, then the sequence. For example why role-based access had to\nexist before the first paying account, and which simpler version was rejected.\n",
-  "technicalDecisions": [
+  "role": "Founder and software engineer at Nativerse — product direction, architecture, implementation and production operations.",
+  "surfaces": ["Web applications", "Backend services and API", "Role-based data access"],
+  "context": "Freight-forwarding operations span customers, shipments, internal staff, status updates and business data. In small operations that work usually lives across spreadsheets, chat and a handful of disconnected tools, which makes the same shipment mean different things to the person selling it and the person moving it.\n\nOrbit is built inside Nativerse as a product rather than as one more per-client system: one subscription platform, web applications on top of backend services, and access scoped to the role of the person using it.",
+  "solution": [
     {
-      "title": "DRAFT decision — tenancy and access",
-      "body": "DRAFT — Why row-level security instead of filtering in application code, and what it cost."
+      "title": "One platform instead of per-client builds",
+      "body": "The product is offered as a subscription platform for freight-forwarding operations, so the operational model is shared and improved in one place rather than copied into every engagement."
     },
     {
-      "title": "DRAFT decision — where state lives",
-      "body": "DRAFT — What made the operational read path correct under concurrent updates."
+      "title": "Web applications over backend services",
+      "body": "The customer-facing and internal workflows are web applications backed by dedicated services, which keeps business rules out of the interface and gives both surfaces the same answer."
     },
     {
-      "title": "DRAFT decision — deployment surface",
-      "body": "DRAFT — Why the app runs where it runs, and what that removed from operations."
+      "title": "Role-based access to operational data",
+      "body": "Different people in a freight-forwarding business need different views of the same data. Access is modelled per role as part of the platform, not left to each screen to remember."
     }
   ],
-  "outcomes": [
-    "DRAFT — verified result: accounts, volume handled, time saved, or what stopped breaking. Owner-supplied numbers only."
-  ],
-  "links": [],
-  "confidentialityNote": "DRAFT — state exactly what is withheld (customer names, volumes, internal process detail) and why."
+  "contribution": "I founded Nativerse and lead Orbit's product direction, architecture, implementation and production operations. This page describes the product at the level the published CV supports; the implementation is not public while it is in development.",
+  "approach": "Orbit is a product bet, not a portfolio exercise: the same operational domain that HIT Cargo runs as a business is being turned into software other freight-forwarding businesses can subscribe to. That changes the constraints. A single-tenant tool can be shaped around one team's habits; a subscription platform has to make the workflow, the data model and the access rules explicit enough to survive a second and third customer.\n\nThe implementation is still in development. Rather than publish a feature inventory I cannot evidence, this page states what the product is and how it is positioned, and leaves the architectural detail to the moment there is a demo or code that can be shown safely.",
+  "confidentialityNote": "Orbit is in development and has no public repository or demo. No module list, tenancy model, billing detail or customer is published here; those claims wait for implementation evidence or owner approval.",
+  "evidenceNote": "Verified at the level of the published CV and the Nativerse role: a subscription platform for freight-forwarding operations with web applications, backend services and role-based data access. Deeper architecture is deliberately unpublished until it can be evidenced."
 }

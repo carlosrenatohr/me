@@ -1,0 +1,79 @@
+{
+  "title": "BEON Tech Studio",
+  "summary": "Seven years of backend architecture and API engineering across enterprise CMS, e-commerce and custom platforms for U.S. clients, plus the AWS infrastructure and team leadership around them.",
+  "category": "Enterprise platforms",
+  "kind": "client",
+  "collection": "professional",
+  "status": "published",
+  "contentStatus": "verified",
+  "featured": false,
+  "featuredOrder": 2,
+  "role": "Software Engineer / Backend Specialist",
+  "period": { "start": "2017-07", "end": "2025-03" },
+  "technologies": [
+    "Laravel",
+    "PHP",
+    "MySQL",
+    "React",
+    "TypeScript",
+    "AWS",
+    "EC2",
+    "RDS",
+    "Python",
+    "C#",
+    "ASP.NET Core",
+    "PayPal",
+    "Klaviyo",
+    "Twilio",
+    "Celigo",
+    "Shopify"
+  ],
+  "surfaces": [
+    "Enterprise CMS",
+    "E-commerce",
+    "Custom platforms",
+    "REST APIs",
+    "Production infrastructure",
+    "Client support tooling"
+  ],
+  "context": "Multiple client engagements, each with its own platform, release cadence and definition of done. The constant was the shape of the work: maintainable backend services, integrations with third-party systems, production infrastructure and delivery that had to survive contact with a real business.\n\nThis is an aggregate case study, not one product. Client identities and individual engagement details are withheld; the capabilities below are the ones the published CV states.",
+  "solution": [
+    {
+      "title": "Backend architecture per engagement",
+      "body": "Designed the backend for enterprise CMS, e-commerce and custom platforms, then built the REST APIs those products consumed. Each engagement had its own constraints; the approach — explicit data model, small services, boring deployments — carried across."
+    },
+    {
+      "title": "Production infrastructure on AWS",
+      "body": "Architected and managed AWS environments on EC2 and RDS for production deployments, including the operational work that does not appear in a feature list: releases, backups, access and the failure that happens at the wrong hour."
+    },
+    {
+      "title": "Integrations that had to keep working",
+      "body": "Payment gateways, email and CRM platforms, messaging and e-commerce connectors: PayPal, Klaviyo, Twilio, Celigo and Shopify across different engagements, each with its own authentication and retry behaviour."
+    },
+    {
+      "title": "Team leadership and delivery",
+      "body": "Led a team of four developers, mentoring on engineering practice and coordinating delivery across concurrent client projects, while staying hands-on with backend architecture."
+    }
+  ],
+  "contribution": "I was a backend engineer and, for part of the period, the technical lead on client engagements: backend architecture, REST APIs, AWS infrastructure, integrations, security and production reliability. I led four developers and built an early AI-driven support chatbot. I did not own the business, the client relationships or every system on each account.",
+  "approach": "Long client engagements teach a different lesson from product work: the code has to be maintainable by whoever inherits it, and the deployment has to be explainable to someone who was not there when it was built. That pushed the work toward explicit schemas, small services with clear boundaries, and infrastructure that a team could operate without heroics.\n\nThe security and reliability work was continuous rather than a project: closing vulnerabilities, fixing operational gaps and keeping older platforms supported while they still carried revenue.",
+  "technicalDecisions": [
+    {
+      "title": "Keep the boundary where the team can hold it",
+      "body": "On a client platform, the right service boundary is the one the team can operate. A theoretically cleaner split that nobody on call understands is a liability; a smaller number of well-understood services can be changed safely."
+    },
+    {
+      "title": "Treat integrations as production systems",
+      "body": "Payment, messaging and CRM connectors fail in ways that are invisible until a customer is affected. Retries, credentials, webhooks and reconciliation were part of the brief, not an afterthought."
+    }
+  ],
+  "outcomes": [
+    "Delivered backend architecture and APIs across concurrent enterprise client projects for seven years.",
+    "Ran production AWS infrastructure on EC2 and RDS for those platforms.",
+    "Led a team of four developers while remaining hands-on with architecture.",
+    "Shipped an early AI-driven support chatbot into a production system.",
+    "Closed security vulnerabilities and operational gaps in live client platforms."
+  ],
+  "confidentialityNote": "Client names, contract details, private schemas and employer-owned source code are withheld. Nothing here describes a single unified architecture across all engagements.",
+  "evidenceNote": "Verified against the published CV on 2026-11-25. The engagement is described as an aggregate; no client, metric or individual ownership beyond the CV is claimed."
+}

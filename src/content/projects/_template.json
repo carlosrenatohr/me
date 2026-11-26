@@ -3,7 +3,8 @@
     "Copy this file to <slug>.json in this folder. The filename is the URL: relay-yard.json → /projects/relay-yard/.",
     "Keep status: draft + contentStatus: placeholder while anything below is unfinished; the entry stays hidden.",
     "Publish with status: published and contentStatus: verified only after the owner confirms every claim.",
-    "status: sample publishes the page with demonstration content and labels it everywhere.",
+    "collection is the shelf: featured products first, then open-source, then professional case studies.",
+    "status: sample still renders a labelled demonstration, but no sample is published today.",
     "Delete any key you do not need. Empty arrays are fine; a section with no content is not rendered.",
     "Notes, receipts and pending questions belong in _notes, which the schema strips.",
     "Persist drafts with the same filename prefix (draft-<slug>.json) so the build never publishes them."
@@ -13,8 +14,10 @@
   "summary": "What hurts today, and what this does about it. One or two sentences; this is the lede on the case study and the card text everywhere else.",
   "category": "Domain eyebrow, e.g. Logistics operations",
   "kind": "personal",
+  "collection": "featured",
   "status": "draft",
   "contentStatus": "placeholder",
+  "productStatus": "in-development",
   "featured": false,
   "featuredOrder": 1,
 
@@ -73,6 +76,7 @@
   ],
 
   "confidentialityNote": "What is withheld and why. Delete if nothing is withheld.",
+  "evidenceNote": "What backs this page: repositories, deployments, READMEs, the CV. Rendered under Evidence.",
 
   "_notes": "Not rendered: what is still missing, who approved the screenshots, where each number came from."
 }

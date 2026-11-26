@@ -1,0 +1,142 @@
+{
+  "title": "HIT Cargo",
+  "summary": "A logistics platform for packages moving between the United States and Nicaragua: a static-first public site, an edge tracking API, background carrier ingestion and an internal operations panel whose access rules live in the database.",
+  "category": "Logistics operations",
+  "kind": "personal",
+  "collection": "featured",
+  "status": "published",
+  "contentStatus": "verified",
+  "productStatus": "live",
+  "featured": true,
+  "featuredOrder": 2,
+  "role": "Product and engineering across the public site, the tracking API, the ingestion workflow and the internal panel.",
+  "technologies": [
+    "Astro",
+    "Preact",
+    "TypeScript",
+    "Tailwind CSS",
+    "Cloudflare Workers",
+    "Hono",
+    "InsForge",
+    "PostgreSQL",
+    "Row-Level Security",
+    "Upstash Redis",
+    "Zod",
+    "Vitest"
+  ],
+  "surfaces": [
+    "Public website",
+    "Package tracking",
+    "Background ingestion",
+    "Internal operations panel",
+    "Reports and exports"
+  ],
+  "context": "HIT Cargo moves packages between the United States and Nicaragua. Before a package is delivered, its state lives in upstream carrier portals that were never designed to serve as a public API: one of them is a Classic ASP application that allows a single active session per account.\n\nA customer lookup that depended on those portals would inherit their login screens, their availability and their session limits. The system separates the two problems: ingestion refreshes a normalized copy of the tracking data in the background, and the public site reads that copy.",
+  "solution": [
+    {
+      "title": "A public site built for slow networks",
+      "body": "The site is Astro with island architecture: most of the page is plain HTML, and only the header, the tracking portal and the FAQ ship JavaScript. Preact keeps that interactive slice small. Many customers are on 3G or LTE in Nicaragua, so time to interactive is a product requirement, not a micro-optimization."
+    },
+    {
+      "title": "Tracking as a database read",
+      "body": "The public tracking route is served by a Cloudflare Worker reading InsForge/PostgreSQL. A lookup never opens a carrier session, so a customer request is not coupled to an external portal being awake or to an account already being logged in elsewhere."
+    },
+    {
+      "title": "Ingestion separated from the read path",
+      "body": "A background pipeline refreshes tracking data from two upstream carrier systems through three entry points: staggered cron jobs, a provider-email hook and manual backfills. Because the upstream allows one active session, every path funnels through one cached login and stays serialized."
+    },
+    {
+      "title": "An operations panel without its own backend",
+      "body": "The internal panel is a static Astro/Preact application that talks to InsForge directly with each staff member's JWT. Who can read or change a row is decided by PostgreSQL Row-Level Security, and writes go through SECURITY DEFINER functions rather than direct updates."
+    }
+  ],
+  "contribution": "I built and operate the platform end to end: the public Astro site, the Hono tracking API on Cloudflare Workers, the ingestion pipeline and its parsers, the InsForge schema and migrations, and the internal operations panel. The carrier portals and the accounting side of the business are external systems; I integrated with them and did not write them.",
+  "approach": "The first constraint was the customer's connection, and the second was the upstream portal. Both pushed in the same direction: the public path should be as boring as possible. Static content is served as static content, tracking is one indexed read, and the expensive, fragile work — logging into a legacy portal, paging through its history, parsing its HTML — happens in a job nobody is waiting on.\n\nThe upstream session limit then shaped the ingestion design. Parallelizing the scrape does not make it faster; concurrent logins evict each other, so the pipeline is deliberately serialized and chunked. Two cron schedules run as a backstop because the provider-email hook is the primary freshness mechanism, and splitting them keeps each invocation under the Worker subrequest limit.",
+  "stackGroups": [
+    {
+      "label": "Public site",
+      "items": ["Astro", "Preact", "Tailwind CSS", "Cloudflare Pages"]
+    },
+    {
+      "label": "Tracking API",
+      "items": ["Cloudflare Workers", "Hono", "TypeScript", "Zod"]
+    },
+    {
+      "label": "Data",
+      "items": ["InsForge", "PostgreSQL", "Row-Level Security", "SECURITY DEFINER functions"]
+    },
+    {
+      "label": "Ingestion",
+      "items": ["Cron triggers", "Cloudflare Email Routing", "Upstash Redis"]
+    },
+    {
+      "label": "Operations panel",
+      "items": ["Astro", "Preact", "Chart.js", "CSV/PDF export"]
+    }
+  ],
+  "technicalDecisions": [
+    {
+      "title": "Database-backed tracking instead of live portal calls",
+      "body": "The obvious implementation calls the carrier portal when a customer asks. It would make every lookup depend on a legacy login and a session that may already be in use. Reading a normalized row costs freshness — the background job decides how much — and removes the portal from the customer path entirely."
+    },
+    {
+      "title": "Serialized ingestion",
+      "body": "Running several scrapes at once is slower, not faster: the upstream tolerates one active session, so parallel logins invalidate each other. One cached session plus chunked batches is the only design that survives the constraint, even though it gives up the usual parallel backfill."
+    },
+    {
+      "title": "PostgreSQL RLS as the authorization boundary",
+      "body": "A static panel cannot hide a secret in the browser, so the permission model cannot live in client code. Policies decide which rows a role sees, and SECURITY DEFINER functions decide what a write may change. The admin key that scrapes carrier portals stays in the Worker and never reaches the panel."
+    },
+    {
+      "title": "A repository interface with an in-memory fallback",
+      "body": "The API reads through a TrackingRepository interface with an InsForge implementation and an in-memory seed. The whole API runs with zero external services for UI work and tests, which is what made a legacy-scraper integration testable at all."
+    }
+  ],
+  "outcomes": [
+    "A customer tracking lookup is a database read; it does not open a carrier-portal session.",
+    "The single-session constraint is isolated behind one throttled ingestion path instead of leaking into every request.",
+    "Internal data access is enforced by PostgreSQL policies and controlled functions, not by frontend checks.",
+    "Most of the public site is static HTML, so the slow-network audience downloads less JavaScript.",
+    "Manual status overrides, team tags, notes and CSV/PDF reports give the operations team one place to work."
+  ],
+  "cover": {
+    "src": "images/projects/hit-cargo/dashboard.webp",
+    "alt": "HIT Cargo internal panel: a shipments list with guide numbers, provider, status, service type and the date received in Miami"
+  },
+  "screenshots": [
+    {
+      "src": "images/projects/hit-cargo/detail.webp",
+      "alt": "Shipment detail panel with the four-stage progress bar, the event history and provider notes",
+      "caption": "The shipment detail: stage, event history and provider notes in one place. Test data; real shipments are redacted."
+    },
+    {
+      "src": "images/projects/hit-cargo/reports.webp",
+      "alt": "Reports screen with totals by status, status-by-provider bars, service split and packages received per month",
+      "caption": "Reports for the accounting close, with CSV and PDF export."
+    }
+  ],
+  "links": [
+    {
+      "label": "Live product",
+      "url": "https://hit-cargo.com",
+      "kind": "live"
+    },
+    {
+      "label": "hit-landing — public site",
+      "url": "https://github.com/carlosrenatohr/hit-landing",
+      "kind": "repository"
+    },
+    {
+      "label": "hit-ever — tracking API",
+      "url": "https://github.com/carlosrenatohr/hit-ever",
+      "kind": "repository"
+    },
+    {
+      "label": "hit-panel — operations panel",
+      "url": "https://github.com/carlosrenatohr/hit-panel",
+      "kind": "repository"
+    }
+  ],
+  "confidentialityNote": "No credentials, carrier account identifiers, customer records or unredacted shipment data are published. The panel screenshots come from the repository's public README, which states that all data shown is test data.",
+  "evidenceNote": "Verified against the public repositories hit-landing, hit-ever and hit-panel, their READMEs and the live site on 2026-11-25. The product is real and operating; no shipment volume, uptime or revenue figure is published because none was measured for this page."
+}

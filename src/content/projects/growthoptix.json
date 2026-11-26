@@ -1,0 +1,87 @@
+{
+  "title": "GrowthOptix",
+  "summary": "Engineering work on a cookieless marketing-attribution platform: advertising and payment integrations, event-driven ingestion, identity resolution and the analytics APIs behind cross-platform reporting.",
+  "category": "Marketing analytics",
+  "kind": "client",
+  "collection": "professional",
+  "status": "published",
+  "contentStatus": "verified",
+  "featured": false,
+  "featuredOrder": 1,
+  "role": "Senior Software Engineer",
+  "period": { "start": "2025-08", "end": "2026-08" },
+  "technologies": [
+    "NestJS",
+    "TypeScript",
+    "BigQuery",
+    "MongoDB",
+    "PostgreSQL",
+    "BullMQ",
+    "RabbitMQ",
+    "Amazon SQS",
+    "GraphQL",
+    "AWS",
+    "OAuth",
+    "MCP"
+  ],
+  "surfaces": [
+    "Advertising integrations",
+    "Event pipelines",
+    "Webhook ingestion",
+    "Analytics APIs",
+    "Identity resolution",
+    "Reporting"
+  ],
+  "context": "The platform unified advertising, payment and lifecycle data into attribution and reporting workflows for marketing teams. The engineering difficulty was not any single integration: it was the number of sources that describe the same customer differently, and the requirement that a report be defensible across all of them.\n\nProvider schemas change, OAuth tokens expire, webhooks arrive twice or out of order, and the same person appears under several identifiers. Each of those is a small problem alone; together they decide whether the numbers are trusted.",
+  "solution": [
+    {
+      "title": "Advertising integrations end to end",
+      "body": "Google Ads, Meta Ads, Microsoft Ads and LinkedIn Ads integrations, including the OAuth token lifecycle, synchronisation jobs and the REST and GraphQL surfaces that expose the collected data."
+    },
+    {
+      "title": "Event-driven ingestion",
+      "body": "Pipelines on BullMQ, RabbitMQ and Amazon SQS process tracking events across six attribution models, with webhook ingestion for Calendly, Stripe, PayPal, Typeform and ThriveCart feeding the same pipeline."
+    },
+    {
+      "title": "Identity resolution",
+      "body": "A resolution engine scores identity matches across touchpoints so a new device can be connected to a known contact, while a low-confidence match is refused rather than merging two people into one."
+    },
+    {
+      "title": "Reporting without double counting",
+      "body": "Cross-platform reconciliation and a read path moved from MongoDB to BigQuery, so the analytics API answers profile queries from the store built for that shape of data."
+    }
+  ],
+  "contribution": "As a Senior Software Engineer I contributed to the backend integrations, event pipelines, analytics APIs, webhook ingestion, identity-resolution workflows and cross-platform reconciliation. The platform was a team effort and the figures below describe the platform or the engineering work, not sole authorship of every component.",
+  "approach": "The consistent theme was making two sources agree before making them fast. A dashboard on top of double-counted data is worse than no dashboard: it is confidently wrong. Reconciliation came first, then the read path — moving contact-profile reads to BigQuery was worthwhile because the query had already been reshaped to ask a narrower question.\n\nOn the integration side, the work that decides whether something survives its second month is rarely the happy path. Token refresh, retries, idempotency and the failure that arrives twice are the actual deliverable.",
+  "technicalDecisions": [
+    {
+      "title": "Move the profile read path to BigQuery",
+      "body": "Contact-profile reads were served from MongoDB, where the query shape fought the document model. Reshaping the query and moving the read to BigQuery turned an expensive scan into a narrow lookup. The CV reports the result as approximately 18 seconds to approximately 1 millisecond; the measurement conditions are not published here."
+    },
+    {
+      "title": "Confidence scoring before merging identities",
+      "body": "Attribution improves when more touchpoints are connected, and a false merge is much worse than an unmatched event: it attributes one person's revenue to another. Scoring the match and refusing the weak ones keeps the engine honest."
+    },
+    {
+      "title": "One pipeline behind several event sources",
+      "body": "Webhooks from five providers normalize into one attribution flow instead of five bespoke paths. The cost is a shared contract that must be maintained; the gain is that reconciliation and reporting are written once."
+    }
+  ],
+  "outcomes": [
+    "The CV reports a platform of 340+ isolated databases and 30M+ documents unified behind a BigQuery-backed analytics API.",
+    "Approximately 1.7M tracking events were processed across six attribution models and 300+ organizations.",
+    "Four advertising integrations sustained approximately 96% success across 35K+ synchronisation jobs, as stated in the CV.",
+    "Webhook ingestion covers Calendly, Stripe, PayPal, Typeform and ThriveCart.",
+    "Identity resolution scored approximately 1.1M touchpoints with a guard against false merges.",
+    "Cross-platform reconciliation removed double counting between data sources."
+  ],
+  "links": [
+    {
+      "label": "GrowthOptix",
+      "url": "https://growthoptix.com",
+      "kind": "reference"
+    }
+  ],
+  "confidentialityNote": "No employer source code, customer payload, private data model, customer name or internal dashboard is published. The architecture above is described at the level of the published CV.",
+  "evidenceNote": "Every figure on this page is reproduced from the published CV and describes the platform or the engineering work; none is presented as an individually generated result. The 18 s → 1 ms claim is included with that caveat because its measurement conditions are not documented. Verified 2026-11-25."
+}

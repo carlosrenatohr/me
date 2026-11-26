@@ -1,0 +1,51 @@
+{
+  "title": "Webhook Attribution Pipeline",
+  "summary": "A runnable NestJS demonstration of multi-source webhook ingestion, event normalization, queue-based processing, identity resolution and revenue attribution with synthetic data.",
+  "category": "Technical demonstration",
+  "kind": "personal",
+  "collection": "open-source",
+  "status": "published",
+  "contentStatus": "verified",
+  "productStatus": "demo",
+  "featured": false,
+  "featuredOrder": 6,
+  "role": "Solo — the demonstration, written from scratch against providers' public webhook documentation.",
+  "technologies": ["NestJS", "TypeScript", "Redis", "BullMQ", "Zod", "Docker Compose", "Jest"],
+  "surfaces": ["Webhook ingestion API", "Queue processors", "Attribution records", "Seed demo"],
+  "context": "Marketing and commerce platforms emit events with different payload shapes and different identity signals. A reliable attribution workflow needs one event contract, asynchronous routing, a way to connect a new device to a known contact, and a safe place for events that cannot be matched.",
+  "solution": [
+    {
+      "title": "One normalized envelope",
+      "body": "Each source has a pure adapter that turns its raw payload into an `ExternalEventEnvelope`, validated with Zod. Everything downstream speaks that shape and nothing else."
+    },
+    {
+      "title": "Queues by concern",
+      "body": "An event router sends revenue events to a matching queue and lifecycle events to a separate processor, so one slow concern cannot block the other."
+    },
+    {
+      "title": "Identity bridging",
+      "body": "A touchpoint matches on `deviceId`; when the device is new but the email is known, the device is bridged onto the existing contact. Events with no identity are recorded as unmatched instead of failing the pipeline."
+    }
+  ],
+  "contribution": "Solo project. I wrote the demonstration end to end: the envelope contract, the Stripe, Calendly and ThriveCart adapters, the BullMQ wiring, the identity resolution and the attribution records, plus the seed sequence and tests that prove the flow.",
+  "approach": "This repository exists to show a production pattern without showing production code. It is a sanitized reimplementation written from scratch against public provider documentation, with in-memory stores and synthetic data. The demo sequence is the argument: a Calendly lead, a Stripe order on the same device, a ThriveCart order from a new device with the same email, and an order with no identity at all — ending in two attributed events, one bridged contact and one unmatched event.",
+  "technicalDecisions": [
+    {
+      "title": "Normalize at the edge of the system",
+      "body": "Provider payloads change and differ. Adapting once, at ingestion, keeps the number of shapes the rest of the pipeline must understand at one."
+    },
+    {
+      "title": "Retain unmatched events",
+      "body": "Dropping an event without an identity loses revenue that could be attributed later. Keeping it as unmatched makes the gap visible and reprocessable."
+    }
+  ],
+  "links": [
+    {
+      "label": "webhook-attribution-pipeline — repository",
+      "url": "https://github.com/carlosrenatohr/webhook-attribution-pipeline",
+      "kind": "repository"
+    }
+  ],
+  "confidentialityNote": "Public technical demonstration. This repository is a sanitized reimplementation of an architecture pattern used in production; it is not the original production code and uses synthetic data.",
+  "evidenceNote": "Verified against the public repository and its README on 2026-11-25. No customer scale, throughput or production performance is claimed for this demo."
+}

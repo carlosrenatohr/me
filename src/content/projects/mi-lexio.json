@@ -1,0 +1,54 @@
+{
+  "title": "Mi Lexio",
+  "summary": "A Spanish-language PWA for the Catholic daily readings: the readings and gospel for the day, a short reflection, offline reading and home-screen install, backed by its own API.",
+  "category": "Daily readings PWA",
+  "kind": "personal",
+  "collection": "open-source",
+  "status": "published",
+  "contentStatus": "verified",
+  "productStatus": "in-development",
+  "featured": false,
+  "featuredOrder": 1,
+  "role": "Solo — the client, its reading experience and the API platform behind it.",
+  "technologies": [
+    "JavaScript",
+    "PWA",
+    "Service Worker",
+    "Web Speech API",
+    "Web Share API",
+    "Laravel"
+  ],
+  "surfaces": ["Phone-first web app", "Installable PWA", "Readings API"],
+  "context": "The daily readings are published every day, and reading them on a phone usually means a page full of navigation, ads and layout shifts. The point of this project was a single calm screen: today's readings, the sections that belong to the day, and nothing else.",
+  "solution": [
+    {
+      "title": "Today, not a library",
+      "body": "One screen with tabbed sections for the first reading, psalm, second reading and gospel, plus date navigation for the days around it. The reading itself is the liturgical text; generated enrichment is labelled as generated."
+    },
+    {
+      "title": "Reads offline once opened",
+      "body": "A service worker caches the shell and the last reading, and the app installs to the home screen. Text-to-speech and the share sheet use the browser APIs, so listening and sharing cost no extra service."
+    }
+  ],
+  "contribution": "Solo project. I built the client and the API behind it: the reading model, the date handling, the offline shell and the enrichment fields the screen renders.",
+  "approach": "The client has no build step on purpose. It is a small static app that speaks to one API, which keeps the deploy cheap and the failure modes visible. The interesting constraint is the calendar: readings follow a liturgical day, not the user's device timezone, so the API decides what “today” means and the client only navigates around it.",
+  "links": [
+    {
+      "label": "dreading-pwa — client",
+      "url": "https://github.com/carlosrenatohr/dreading-pwa",
+      "kind": "repository"
+    },
+    {
+      "label": "dreading-api — readings platform",
+      "url": "https://github.com/carlosrenatohr/dreading-api",
+      "kind": "repository"
+    },
+    {
+      "label": "Live deployment",
+      "url": "https://dreading-pwa.pages.dev",
+      "kind": "live"
+    }
+  ],
+  "confidentialityNote": "Generated reflections are labelled in the product; the liturgical readings are not model output.",
+  "evidenceNote": "Verified against the public dreading-pwa and dreading-api repositories and the live deployment on 2026-11-25. The owner brief names the product Mi Lexio; the public deployment is branded “Lectura del día” and the code lives in the dreading repositories. Milexio had no resolvable deployment at verification time, so no such URL is published."
+}

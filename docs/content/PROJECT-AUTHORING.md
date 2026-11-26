@@ -43,19 +43,23 @@ testimonial or a screenshot that is not approved for publication.
 
 ---
 
-## 2. Why `kind` matters
+## 2. Why `collection` matters
 
-`kind` is not metadata decoration: it decides where a project appears.
+`collection` is the editorial shelf, and it decides where a project appears:
 
-| `kind` | Order in the index |
+| `collection` | Shelf |
 | --- | --- |
-| `personal` | First, always |
-| `client` | After personal work |
+| `featured` | Featured products, first — the owner's product work |
+| `open-source` | Open source and experiments, second — smaller and secondary |
+| `professional` | Professional case studies, last — employer work |
 
-Inside a group, `featuredOrder` (lower first) then title decides. On Home the first
-project with `featured: true` becomes the wide feature (falling back to the first
-published project) and the next two are the offset pair. Keep `featured` on exactly one
-project. `/projects/` is one list, ordered personal first, with no separate headings.
+Inside a shelf, `featuredOrder` (lower first) then title decides. `kind` still states whether
+the work is personal or client-owned, and `/projects/` renders the three shelves with their
+own headings. On Home the first featured product becomes the wide block, the rest share the
+offset pair, and the experiments render as compact rows.
+
+The order is the owner's decision, not a guess from `kind`, repo popularity or stack size.
+Do not reorder it to make a favourite project lead.
 
 ---
 
@@ -93,7 +97,9 @@ splits them into "primary" and "Earlier" and lists education from
 | `title` | Case-study headline, project title in lists | The product name |
 | `summary` | Lede and card text | Problem, then what the product does |
 | `category` | Eyebrow, "Next project" label | The domain |
-| `kind` | Which section of /projects/ | `personal` or `client` |
+| `kind` | Who owns the work | `personal` or `client` |
+| `collection` | Which shelf of /projects/ | `featured`, `open-source` or `professional` |
+| `productStatus` | Lifecycle label | `live`, `in-development`, `demo` or `archived`; omitted when unknown |
 | `status` | Publication gate | `draft` until the copy is final |
 | `contentStatus` | Publication gate | `placeholder` until every fact is verified |
 
@@ -122,7 +128,9 @@ splits them into "primary" and "Earlier" and lists education from
   labelled chips under "Stack". `technologies` stays flat because the work index and the
   spec strip read it. Without groups, the flat list renders as one group.
 - `outcomes` — rendered `O1…On` under "Impact". Verified results or lessons only.
-- `confidentialityNote` — one sentence naming what is withheld, shown under Impact.
+- `evidenceNote` — what backs the page (repositories, deployments, READMEs, the CV), rendered
+  under "Evidence" with the confidentiality note.
+- `confidentialityNote` — one sentence naming what is withheld, rendered under "Evidence".
 
 Sections with no content are not rendered and do not appear in the contents rail, so a
 partially written case study never shows a column of placeholders. The problem section is
@@ -192,23 +200,13 @@ nothing outside that module imports `astro:content` directly.
 
 ## 7. Drafts and samples
 
-`draft-*.json` are fictional scaffolding and stay `draft` + `placeholder` forever: they
-exist to show the field structure, the confidentiality path and the degraded case.
-`orbit-logistics.json` and `dredd.json` are real products with unfinished copy. Delete the
-fictional drafts once three real case studies are published.
+`status: sample` still exists in the schema as a demonstration state, but no sample entry is
+published. The six fictional case studies were retired when the verified projects landed: their
+files and image folders were deleted, so nothing references them.
 
-`status: sample` is the third state, and the only one that publishes content the owner did
-not write. It exists so the visual direction can be reviewed with real pages instead of an
-empty index. A sample entry:
+`draft-*.json` stays `draft` + `placeholder` and never renders. `draft-buko.json` records a
+owner-listed project that has no public repository or deployment yet: keep it hidden until the
+evidence exists, do not invent a description to fill the shelf.
 
-- renders on Home, `/projects/` and its own case-study route;
-- carries a sample badge in every listing and a banner on the case study;
-- publishes no live URL, because there is no product behind it;
-- uses `contentStatus: placeholder`, which is what keeps the distinction honest: nothing
-  about it claims to be verified.
-
-Current samples: `signal-desk.json`, `schema-scout.json`, `relay-yard.json` (personal) and
-`harbor-ledger.json`, `dispatch-board.json`, `yard-capacity.json` (client). `signal-desk`
-and `schema-scout` carry images in `public/images/projects/<slug>/`, all interface mockups
-rather than screenshots; the rest render the abstract plate. To remove them once real work lands,
-delete the files and their image folders; nothing else references them.
+A project is published only when every claim on the page has a source. `evidenceNote` is where
+that source is named, and it is part of the page, not an internal comment.

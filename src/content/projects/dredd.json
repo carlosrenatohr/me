@@ -1,35 +1,69 @@
 {
   "title": "DREDD",
-  "summary": "DRAFT — A multi-agent review workflow that runs parallel code and security reviews, automated checks and evidence-based validation against a project brief.",
-  "category": "Developer tooling",
+  "summary": "A multi-agent code-review workflow for AI-assisted engineering: independent code and security reviewers, automated checks, severity-tagged findings with evidence, and a human who still signs the result.",
+  "category": "Engineering workflow",
   "kind": "personal",
-  "status": "draft",
-  "contentStatus": "placeholder",
-  "featured": false,
-  "featuredOrder": 2,
-  "role": "Designer and maintainer — the workflow, the review agents and the validation rules.",
-  "period": {
-    "start": "DRAFT — confirm start month",
-    "end": "present"
-  },
-  "technologies": ["DRAFT — models and tooling used"],
-  "surfaces": ["Command-line workflow", "Review reports"],
-  "context": "DRAFT — The review bottleneck that made this necessary: what a single reviewer missed,\nhow often it missed it, and what it cost when a defect reached production.\n",
-  "contribution": "DRAFT — What you designed: agent roles, how their findings are reconciled, what counts as\nevidence, and where a human still decides.\n",
-  "approach": "DRAFT — The first version, what it got wrong (noise, duplicated findings, confident-but-wrong\nconclusions), and the rule you added to fix it.\n",
-  "technicalDecisions": [
+  "collection": "featured",
+  "status": "published",
+  "contentStatus": "verified",
+  "productStatus": "live",
+  "featured": true,
+  "featuredOrder": 3,
+  "role": "Designer and maintainer — the review workflow, the reviewer roles, the scaffolding CLI and the rules a finding has to satisfy.",
+  "technologies": ["Go", "Bash", "OpenCode", "Agent CLIs", "Git"],
+  "surfaces": ["Command-line workflow", "Review reports", "Per-repository scaffolding"],
+  "context": "AI-assisted implementation creates a review problem: the agent that wrote the change should not be the only authority judging it. Reading the diff carefully is the bottleneck, and attention is exactly what a long session erodes.\n\nDREDD started as a way to make that review run the same way every time, against the requirement rather than against the diff alone, and to make the result reviewable by someone else.",
+  "solution": [
     {
-      "title": "DRAFT decision — parallel reviewers",
-      "body": "DRAFT — Why independent review passes beat one long prompt, and how conflicts are resolved."
+      "title": "The brief is the contract",
+      "body": "A review is scoped to a task specification, not to whatever the diff happens to contain. Findings are judged against what the change was supposed to do, so scope creep and missing requirements are visible instead of implicit."
     },
     {
-      "title": "DRAFT decision — evidence over opinion",
-      "body": "DRAFT — What a finding must cite to survive, and what gets discarded."
+      "title": "Independent reviewers, separate concerns",
+      "body": "General code review and security review run as two agents with different checklists. A security checklist covers PII allowlists, default-deny access, secrets, CSP, SQL and RPC boundaries, authentication and session handling."
+    },
+    {
+      "title": "Findings carry evidence and severity",
+      "body": "Every finding returns a severity — high, medium or low — with file-and-line evidence and a concrete fix. High blocks, medium is a fix-up, low is an acknowledgement. The verdict is not negotiated with the author."
+    },
+    {
+      "title": "Metrics and a human decision",
+      "body": "Each run is logged, and a small metrics command summarises reviews by week and severity. The workflow can say a change is not verified; it cannot merge one. Approval stays with the engineer."
+    }
+  ],
+  "contribution": "I designed and maintain DREDD: the review protocol, the two reviewer roles and their checklists, the per-repository scaffold, the wrapper commands and the metrics. It is used on my own projects, including the HIT Cargo workspace, and I review its output the same way I review any other change.",
+  "approach": "The first version was a single long prompt asking a model to review a diff carefully. It produced plausible prose and inconsistent coverage: the same class of defect would be caught in one run and missed in the next, and a confident paragraph is hard to argue with.\n\nThe redesign moved structure into code and judgement into separate roles. A repository gets a `.dredd/` directory with the review recipes, a state file and a spec reference; the orchestrator sends the diff and the spec to one agent, or to both in parallel, and the output is a severity-tagged list instead of a narrative. Self-evaluation was added afterwards, with the improvement file curated by hand: a workflow that edits its own prompts after every run is a workflow nobody can audit.",
+  "technicalDecisions": [
+    {
+      "title": "Review against the spec, not the diff alone",
+      "body": "A diff can be internally consistent and still fail the requirement. Anchoring the review to a task specification turns “looks fine” into a checkable claim, and gives each finding a place to point when it says something is missing."
+    },
+    {
+      "title": "Separate code and security reviewers",
+      "body": "One reviewer with one checklist always privileges one concern. Splitting them means a loud style finding cannot drown a permission bug, and each report can be read on its own terms."
+    },
+    {
+      "title": "Severity is a rule, not a discussion",
+      "body": "Three levels with fixed consequences keep the loop bounded: high blocks the change, medium is fixed before the next phase, low is acknowledged. Without that, every finding becomes a debate and the review stops being a gate."
+    },
+    {
+      "title": "Self-improvement stays opt-in and human-curated",
+      "body": "Runs end with a self-evaluation, and a suggestion is only appended when it is substantive. The skill file itself is edited by a person, because automatic prompt rewriting would remove the only audit trail the workflow has."
     }
   ],
   "outcomes": [
-    "DRAFT — verified result or lesson from a year of daily use. No invented defect counts."
+    "Review coverage is consistent across changes: the same two checklists run regardless of how long the session has been going.",
+    "Findings arrive with file-and-line evidence, so a reviewer can verify them instead of trusting the summary.",
+    "The workflow is provider-agnostic: the reviewer agent and model are configuration, not part of the protocol.",
+    "Prompt improvements are proposed by the workflow but applied by hand, which keeps the process auditable."
   ],
-  "links": [],
-  "confidentialityNote": "DRAFT — say which parts of the workflow are private and why."
+  "links": [
+    {
+      "label": "dredd-ai-workflow",
+      "url": "https://github.com/carlosrenatohr/dredd-ai-workflow",
+      "kind": "repository"
+    }
+  ],
+  "confidentialityNote": "The public repository contains the workflow scaffold and templates. Project-specific specs, client rules, review logs and prompts from private repositories are not published.",
+  "evidenceNote": "Verified against the public dredd-ai-workflow repository — the `dredd-init` CLI, the review recipes, the reviewer checklists and the metrics — and against the workflow in use on the HIT Cargo workspace, on 2026-11-25."
 }

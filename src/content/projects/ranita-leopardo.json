@@ -1,0 +1,60 @@
+{
+  "title": "Ranita Leopardo",
+  "summary": "An Angry Birds-inspired HTML5 game set in Corn Island: a catapult, destructible structures and a physics engine written from scratch, with no framework, no dependency and no external image.",
+  "category": "HTML5 game",
+  "kind": "personal",
+  "collection": "open-source",
+  "status": "published",
+  "contentStatus": "verified",
+  "productStatus": "live",
+  "featured": false,
+  "featuredOrder": 2,
+  "role": "Solo — the physics, the renderer, the levels, the audio synthesis and the PWA shell.",
+  "technologies": ["Canvas API", "JavaScript ES2023", "WebAudio", "Service Worker", "PWA"],
+  "surfaces": ["Browser game", "Installable PWA", "Six levels"],
+  "context": "A game is a good excuse to write the parts a framework usually hides: collision detection, an impulse solver, a camera, particles and a deterministic loop. The setting is Corn Island, and everything on screen is drawn with vectors and Canvas.",
+  "solution": [
+    {
+      "title": "Custom 2D physics",
+      "body": "Bodies, broad-phase detection, AABB and SAT narrow-phase collision, manifolds resolved by clipping, and an impulse solver. Gravity, restitution and friction are the game's, not a library's."
+    },
+    {
+      "title": "A deterministic loop",
+      "body": "`requestAnimationFrame` with a fixed 1/60 s physics timestep and an accumulator, so the simulation behaves the same on a 60 Hz phone and a 144 Hz monitor."
+    },
+    {
+      "title": "Modular, dependency-free client",
+      "body": "Physics, rendering, camera, particles, lighting, scene, entities, UI and audio are separate modules under one namespace. Levels are JSON; the service worker makes the game installable and playable offline."
+    }
+  ],
+  "contribution": "Solo project, built from scratch. The level design followed the mechanics: six hand-tuned levels that introduce the slingshot, the destructible materials and the enemy types in order.",
+  "approach": "Writing the engine was the point, so the constraints were strict: no framework, no CDN, no external images, and it has to work by opening `index.html`. That rules out the usual shortcuts and forces the collision and render code to be small enough to debug by reading it. The trade-off is scope — this is a small game, not a general engine — and the code is organised so each subsystem can be understood alone.",
+  "technicalDecisions": [
+    {
+      "title": "SAT and clipping instead of pixel collision",
+      "body": "Polygon-based collision produces a contact normal and a penetration depth, which is what an impulse solver needs to push bodies apart believably. Pixel tests would have been easier to start and impossible to make stable."
+    },
+    {
+      "title": "Fixed timestep",
+      "body": "A variable timestep makes a slingshot shot depend on frame rate. The accumulator costs a little latency and buys reproducible levels, which is the difference between a puzzle and a lottery."
+    }
+  ],
+  "outcomes": [
+    "The game runs from a static folder with no build step and no network dependency.",
+    "Six levels share one deterministic simulation, so a solution that works once works again.",
+    "Installing it to the home screen works offline, including the audio synthesised in the browser."
+  ],
+  "links": [
+    {
+      "label": "rana-leopardo — repository",
+      "url": "https://github.com/carlosrenatohr/rana-leopardo",
+      "kind": "repository"
+    },
+    {
+      "label": "Play it",
+      "url": "https://rana-leopardo.pages.dev",
+      "kind": "live"
+    }
+  ],
+  "evidenceNote": "Verified against the public rana-leopardo repository and its live deployment on 2026-11-25. No player count, retention or performance figure is published."
+}

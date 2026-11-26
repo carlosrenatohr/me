@@ -1,0 +1,71 @@
+{
+  "title": "Nalu",
+  "summary": "An offline-first business assistant for a real artisan paleta business: purchases, sales, inventory by movement, profit with historical cost and reports that export to PDF or an image for WhatsApp.",
+  "category": "Small-business tool",
+  "kind": "personal",
+  "collection": "open-source",
+  "status": "published",
+  "contentStatus": "verified",
+  "productStatus": "live",
+  "featured": false,
+  "featuredOrder": 3,
+  "role": "Solo — product, frontend, API, data model and deployment.",
+  "technologies": [
+    "React",
+    "TypeScript",
+    "Vite",
+    "Tailwind CSS",
+    "Express",
+    "Drizzle ORM",
+    "Cloudflare D1",
+    "IndexedDB",
+    "Zod",
+    "Playwright"
+  ],
+  "surfaces": ["Mobile web app", "Installable PWA", "Reports and exports", "API"],
+  "context": "A small reseller buys paletas from suppliers, sells at home or at a stand, and tracks stock between the two. The record usually lives in a notebook, which makes the two questions that matter — what do I have, and what did I actually earn — hard to answer after the fact.",
+  "solution": [
+    {
+      "title": "Inventory as signed movements",
+      "body": "Stock is derived from purchases, sales, gifts, own consumption and losses rather than edited directly. Every change has a reason and a history, so the available quantity can always be explained."
+    },
+    {
+      "title": "Profit with historical cost",
+      "body": "Sales keep the cost that applied when the product was bought, so margin does not move retroactively when a supplier raises a price."
+    },
+    {
+      "title": "Works without a connection",
+      "body": "Sales, purchases and stock movements are recorded locally first and synchronised through an outbox when the network returns. The app installs to the home screen and reports export as PDF or a branded image."
+    }
+  ],
+  "contribution": "Solo project, built for a real business. I designed the data model, wrote the React client and the Express API, implemented the offline outbox and the reporting, and deployed it on Cloudflare Workers with D1.",
+  "approach": "The app is deliberately a learning project with production habits: strict TypeScript, a shared Zod contract between client and server, tests on both sides and end-to-end tests for the flows that matter. The offline decision came from the setting — a stand with unreliable mobile data — and it changes the data model: a sale has to be valid before the server has seen it.",
+  "technicalDecisions": [
+    {
+      "title": "Movements, not a stock counter",
+      "body": "A counter is one write and no explanation. Signed movements cost more rows and answer “why is it 12 and not 14”, which is the question the owner actually asks."
+    },
+    {
+      "title": "Outbox sync with explicit states",
+      "body": "Writes are queued locally and retried; the interface shows whether a sale has reached the server. Silent failure would be worse than a visible delay in a shop."
+    }
+  ],
+  "outcomes": [
+    "A sale can be recorded with no connection and reaches the server when the network returns.",
+    "Profit and margin are computed from historical cost instead of today's supplier price.",
+    "The business owner gets a report as an image that can be sent in the same chat the business already uses."
+  ],
+  "links": [
+    {
+      "label": "nalu-app — repository",
+      "url": "https://github.com/carlosrenatohr/nalu-app",
+      "kind": "repository"
+    },
+    {
+      "label": "Live app",
+      "url": "https://nalu-api.nativerse.workers.dev",
+      "kind": "live"
+    }
+  ],
+  "evidenceNote": "Verified against the public nalu-app repository and its live deployment on 2026-11-25. No revenue, customer count or usage figure is published."
+}
