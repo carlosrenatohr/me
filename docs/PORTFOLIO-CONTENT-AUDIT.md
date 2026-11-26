@@ -172,6 +172,8 @@ Changed by this pass:
   noindex branch.
 - Project meta descriptions are still clamped at a word boundary; project titles now name the
   collection noun (`project` or `case study`).
+- `src/lib/seo.ts`: employer case studies no longer claim `Person` authorship; personal and
+  open-source work still does.
 - HIT Cargo images are the repository's own panel screenshots, converted to 1600×900 WebP
   (189 KB total instead of 640 KB of PNG) and captioned as test data.
 - The responsive audit now includes `/projects/hit-cargo/`.
