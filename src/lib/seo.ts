@@ -137,7 +137,7 @@ export function collectionPageNode(projects: PublicProject[]): Node {
     url,
     name: 'Projects',
     description:
-      'Products built and shipped, personal and client work: the problem, the role, the decisions and the verified outcomes.',
+      'Featured products, open-source experiments and professional case studies: the problem, the role, the decisions and the evidence behind each one.',
     inLanguage: SITE.locale,
     isPartOf: { '@id': WEBSITE_ID },
     ...(published.length > 0
@@ -170,8 +170,11 @@ export function creativeWorkNode(project: PublicProject): Node {
     headline: data.title,
     description: data.summary,
     genre: data.category,
-    author: { '@id': PERSON_ID },
-    creator: { '@id': PERSON_ID },
+    // An employer's platform is not authored by the person writing the case study,
+    // so authorship is only claimed for personal and open-source work.
+    ...(data.collection === 'professional'
+      ? {}
+      : { author: { '@id': PERSON_ID }, creator: { '@id': PERSON_ID } }),
     inLanguage: SITE.locale,
     isPartOf: { '@id': WEBSITE_ID },
     ...(data.technologies.length > 0 ? { keywords: data.technologies.join(', ') } : {}),
