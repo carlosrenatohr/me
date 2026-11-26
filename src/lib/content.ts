@@ -49,7 +49,7 @@ function withSlug(project: Project): ProjectWithSlug {
   const slug =
     typeof legacySlug === 'string' && legacySlug.length > 0
       ? legacySlug
-      : project.id.replace(/\.(md|mdx)$/, '');
+      : project.id.replace(/\.(md|mdx|json)$/, '');
 
   return { ...project, slug };
 }

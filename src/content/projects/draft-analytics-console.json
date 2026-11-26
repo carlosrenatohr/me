@@ -1,0 +1,28 @@
+{
+  "title": "[DRAFT] Marketing analytics console",
+  "summary": "DRAFT summary — the problem in one line, the product in the next, and the reader does not need the word \"seamless\".",
+  "category": "Marketing analytics",
+  "status": "draft",
+  "contentStatus": "placeholder",
+  "featured": false,
+  "featuredOrder": 2,
+  "kind": "client",
+  "role": "DRAFT role — verification required.",
+  "period": {
+    "start": "DRAFT start"
+  },
+  "technologies": ["TypeScript", "Postgres"],
+  "surfaces": ["Reporting console"],
+  "contribution": "DRAFT — Same rule as the featured project: your decisions only, with the\nboundary of your scope stated.\n",
+  "approach": "DRAFT — Why the reporting model was the hard part, and which shortcut was\nrejected because it would have made the numbers wrong later.\n",
+  "technicalDecisions": [
+    {
+      "title": "DRAFT decision title",
+      "body": "DRAFT — One idea, one tradeoff."
+    }
+  ],
+  "outcomes": ["DRAFT outcome to replace with a verified result or lesson."],
+  "screenshots": [],
+  "links": [],
+  "confidentialityNote": "DRAFT entry — fictional, not a real client, project or result."
+}

@@ -1,0 +1,32 @@
+{
+  "title": "[DRAFT] Client intake system (confidential)",
+  "summary": "DRAFT summary — a case study that can be published without naming the client, the sector detail you cannot disclose, or the numbers you do not own.",
+  "category": "Client operations",
+  "status": "draft",
+  "contentStatus": "placeholder",
+  "featured": false,
+  "featuredOrder": 3,
+  "kind": "client",
+  "role": "DRAFT role — verified before publication.",
+  "period": {
+    "start": "DRAFT start",
+    "end": "DRAFT end"
+  },
+  "technologies": ["TypeScript", "Node.js"],
+  "surfaces": ["Intake form", "Review queue"],
+  "context": "DRAFT — Describe the class of problem without identifying the client. \"A\nprofessional-services firm\" is enough; the name is not the interesting part.\n",
+  "contribution": "DRAFT — Scope, decisions, limits.\n",
+  "approach": "DRAFT — What the simpler version would have failed at.\n",
+  "technicalDecisions": [
+    {
+      "title": "DRAFT decision title",
+      "body": "DRAFT — What it solved and what it cost."
+    }
+  ],
+  "outcomes": [
+    "DRAFT outcome — described qualitatively if the metric belongs to the client and cannot be published."
+  ],
+  "screenshots": [],
+  "links": [],
+  "confidentialityNote": "DRAFT entry — fictional. Real entries: state exactly what is withheld and why, in one sentence."
+}

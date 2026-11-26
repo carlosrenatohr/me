@@ -1,0 +1,78 @@
+{
+  "_howto": [
+    "Copy this file to <slug>.json in this folder. The filename is the URL: relay-yard.json → /projects/relay-yard/.",
+    "Keep status: draft + contentStatus: placeholder while anything below is unfinished; the entry stays hidden.",
+    "Publish with status: published and contentStatus: verified only after the owner confirms every claim.",
+    "status: sample publishes the page with demonstration content and labels it everywhere.",
+    "Delete any key you do not need. Empty arrays are fine; a section with no content is not rendered.",
+    "Notes, receipts and pending questions belong in _notes, which the schema strips.",
+    "Persist drafts with the same filename prefix (draft-<slug>.json) so the build never publishes them."
+  ],
+
+  "title": "Project name",
+  "summary": "What hurts today, and what this does about it. One or two sentences; this is the lede on the case study and the card text everywhere else.",
+  "category": "Domain eyebrow, e.g. Logistics operations",
+  "kind": "personal",
+  "status": "draft",
+  "contentStatus": "placeholder",
+  "featured": false,
+  "featuredOrder": 1,
+
+  "role": "Only what you personally owned.",
+  "period": { "start": "Mar 2026", "end": "present" },
+  "technologies": ["TypeScript", "PostgreSQL"],
+
+  "context": "The operating problem: who does the work today, where the handoffs break, and what the inconsistency costs. Blank line = new paragraph.",
+
+  "solution": [
+    {
+      "title": "Capability or module",
+      "body": "What it does for the person using it."
+    }
+  ],
+
+  "contribution": "First person and bounded: what you designed, built and decided, and what someone else owned.",
+  "approach": "The sequence of decisions, starting from the first constraint. Name the simpler option you rejected and why.",
+
+  "aiRole": "Delete this key when there is no model. Otherwise: what the model does, what it may never decide, and who confirms the result.",
+
+  "quote": "",
+
+  "stackGroups": [{ "label": "Backend", "items": ["TypeScript", "PostgreSQL"] }],
+
+  "technicalDecisions": [
+    {
+      "title": "Decision title",
+      "body": "What it solved, what it cost, and what would have broken without it."
+    }
+  ],
+
+  "outcomes": ["Verified result or lesson. Owner-supplied numbers only; qualitative is fine."],
+
+  "surfaces": ["Internal panel"],
+
+  "cover": {
+    "src": "/images/projects/project-name/cover.webp",
+    "alt": "What the image actually shows, not a mood"
+  },
+
+  "screenshots": [
+    {
+      "src": "/images/projects/project-name/screen-01.webp",
+      "alt": "Describe the screen and the state it shows",
+      "caption": "Optional: what the reader should notice."
+    }
+  ],
+
+  "links": [
+    {
+      "label": "Live product",
+      "url": "https://example.com",
+      "kind": "live"
+    }
+  ],
+
+  "confidentialityNote": "What is withheld and why. Delete if nothing is withheld.",
+
+  "_notes": "Not rendered: what is still missing, who approved the screenshots, where each number came from."
+}

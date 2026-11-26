@@ -1,0 +1,78 @@
+{
+  "title": "Yard Capacity",
+  "summary": "A slot-booking system for container yards: carriers reserve a gate window online, the yard sees its real capacity per hour instead of a flat daily number, and no-shows stop eating the schedule.",
+  "category": "Logistics operations",
+  "kind": "client",
+  "status": "sample",
+  "contentStatus": "placeholder",
+  "featured": false,
+  "featuredOrder": 4,
+  "role": "Backend and data model, plus the capacity rules the yard team configures.",
+  "period": {
+    "start": "Oct 2024",
+    "end": "Apr 2025"
+  },
+  "technologies": ["Hono", "Cloudflare Workers", "PostgreSQL", "Preact", "TypeScript", "Docker"],
+  "surfaces": ["Carrier booking site", "Yard operations board", "Capacity API"],
+  "context": "A yard booked appointments by phone and wrote them on a board. Capacity was a daily number — forty slots — which was true on average and false at every hour of the day: the first two hours took twenty trucks, the middle of the day took none, and a late carrier arrived to find the gate queue already past the street.\n\nThe operations team did not need a prettier board. It needed an honest answer to one question: can this truck be served at this hour, given what is already booked and what the yard can physically move?",
+  "solution": [
+    {
+      "title": "Hourly capacity, configured by the yard",
+      "body": "Capacity is defined per gate and per hour from a weekly template, with exceptions for holidays and maintenance. The number the carrier sees comes from the same rule the yard edits, so the two cannot drift."
+    },
+    {
+      "title": "Carrier self-service",
+      "body": "A carrier sees the windows still available for their container and books one without calling. Changing a booking releases the old window before the new one is taken, so a reschedule cannot silently consume capacity twice."
+    },
+    {
+      "title": "Operations board",
+      "body": "The yard works from one screen: arrivals due next, trucks in the gate queue, and the hours that are over capacity. The board is ordered by what needs a decision, not by booking time."
+    },
+    {
+      "title": "No-show tracking",
+      "body": "An appointment that passes its window without an arrival returns the slot and is recorded against the carrier. The count is visible to the yard, because repeat no-shows are an operations problem and not a data-entry accident."
+    }
+  ],
+  "contribution": "I owned the capacity model, the booking service and the API the board and the carrier site read from. A colleague built the yard's internal views and the finance export; the yard manager owned the capacity rules and approved every default in the template.",
+  "approach": "The tempting design was a queue: book in order, serve in order. It fails when a truck is stuck on the highway and holds the gate's schedule behind it. A reservation with a window keeps the yard's capacity honest and makes a missed window a known event instead of an invisible one.\n\nThe hard part was concurrency, not layout. Two carriers opening the last slot at the same moment must not both win, so the booking decision lives in a single serialised write per gate-hour with a unique constraint underneath it — the database is the arbiter, not the interface.",
+  "stackGroups": [
+    {
+      "label": "Backend",
+      "items": ["Hono", "Cloudflare Workers", "TypeScript"]
+    },
+    {
+      "label": "Data",
+      "items": ["PostgreSQL", "Unique constraints", "Drizzle"]
+    },
+    {
+      "label": "Interface",
+      "items": ["Preact", "Astro"]
+    },
+    {
+      "label": "Operations",
+      "items": ["Docker", "Scheduled jobs"]
+    }
+  ],
+  "technicalDecisions": [
+    {
+      "title": "Capacity as a stored rule, not a computed guess",
+      "body": "The yard edits hourly limits once and every surface reads the same row. Computing capacity from historical throughput was more impressive and less useful: the yard team could not explain the number when a carrier disputed it."
+    },
+    {
+      "title": "The database decides the last slot",
+      "body": "A unique constraint per gate and window makes double booking impossible even under a race. The interface shows availability optimistically and treats a rejected write as a normal outcome, with the reason attached."
+    },
+    {
+      "title": "Reschedule as release-then-book",
+      "body": "Moving an appointment is two writes in one transaction. The naive version updated the window in place and left the old hour counted as occupied until the next recalculation, which quietly under-sold the yard."
+    }
+  ],
+  "outcomes": [
+    "Carriers book without calling, and a disputed slot can be traced to the capacity rule that produced it.",
+    "The last slot is sold once: concurrent bookings resolve to one confirmation and one clear rejection.",
+    "No-show counts are visible per carrier instead of remembered by the gate staff.",
+    "The yard sets its own exception days without a deployment."
+  ],
+  "links": [],
+  "confidentialityNote": "Sample entry — the client, the yard and every number are fictional. A real version would name what is withheld under the engagement's agreement."
+}

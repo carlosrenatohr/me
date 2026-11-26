@@ -65,11 +65,18 @@ const profile = defineCollection({
 });
 
 /**
- * `kind` drives the order of the Work index: personal and side projects lead,
+ * `kind` drives the order of the Projects index: personal and side projects lead,
  * client work follows. It never changes the case-study layout.
+ *
+ * Projects are JSON so a new entry is one file with no prose to escape. Copy
+ * `_template.json`, rename it to the slug, and the route exists. The template is
+ * excluded by the glob so it never becomes a page.
  */
 const project = defineCollection({
-  loader: glob({ base: './src/content/projects', pattern: '**/*.{md,mdx}' }),
+  loader: glob({
+    base: './src/content/projects',
+    pattern: ['**/*.json', '!**/_template.json'],
+  }),
   schema: z.object({
     title: z.string().min(1),
     summary: z.string().min(1),
