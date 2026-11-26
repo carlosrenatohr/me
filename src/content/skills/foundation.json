@@ -1,0 +1,17 @@
+{
+  "title": "Languages & runtime",
+  "layer": "Foundation",
+  "order": 6,
+  "summary": "The base every other layer sits on. Chosen per problem, and kept small on purpose.",
+  "contentStatus": "verified",
+  "proof": "Production work since 2014",
+  "items": [
+    { "name": "TypeScript", "core": true },
+    { "name": "Node.js", "core": true },
+    { "name": "Python" },
+    { "name": "PHP" },
+    { "name": "JavaScript" },
+    { "name": "C#" },
+    { "name": "Go" }
+  ]
+}

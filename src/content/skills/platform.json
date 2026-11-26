@@ -1,0 +1,15 @@
+{
+  "title": "Cloud & operations",
+  "layer": "Platform",
+  "order": 5,
+  "summary": "Where it runs and how it stays up. Infrastructure treated as part of the product: deployments, secrets, and the cost of the query path.",
+  "contentStatus": "verified",
+  "proof": "AWS at BEON · Cloudflare Workers at Nativerse",
+  "items": [
+    { "name": "AWS (EC2, RDS, SQS, ECS)", "core": true },
+    { "name": "Cloudflare Workers", "core": true },
+    { "name": "Docker" },
+    { "name": "GCP" },
+    { "name": "CI/CD" }
+  ]
+}

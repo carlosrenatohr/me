@@ -1,0 +1,22 @@
+{
+  "title": "Services & APIs",
+  "layer": "Services",
+  "order": 2,
+  "summary": "The contract between systems. REST and GraphQL endpoints with authentication, token lifecycle, retries and the error paths that decide whether an integration survives its second month.",
+  "contentStatus": "verified",
+  "proof": "Ad-platform integrations at GrowthOptix · client platforms at BEON",
+  "items": [
+    { "name": "NestJS", "core": true },
+    { "name": "Hono" },
+    { "name": "ExpressJS" },
+    { "name": "Laravel" },
+    { "name": "ASP.NET Core" },
+    { "name": "GraphQL" },
+    { "name": "REST" },
+    { "name": "Microservices" },
+    { "name": "OAuth 2.0" },
+    { "name": "JWT" },
+    { "name": "Webhooks" },
+    { "name": "Row-level security" }
+  ]
+}

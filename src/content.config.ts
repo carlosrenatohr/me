@@ -157,6 +157,33 @@ const project = defineCollection({
 });
 
 /**
+ * Skills are JSON, one file per layer, so the page stays a view of the data: add a
+ * layer by copying a file and giving it the next `order`. `core` marks the tools that
+ * appear across most of the record; the page reads that flag, it is never inferred.
+ */
+const skill = defineCollection({
+  loader: glob({ base: './src/content/skills', pattern: '**/*.json' }),
+  schema: z.object({
+    title: z.string().min(1),
+    /** Short label for the stack index and the layer rail. */
+    layer: z.string().min(1),
+    order: z.number().int(),
+    summary: z.string().min(1),
+    contentStatus,
+    /** Where the layer has shipped, in the CV's terms. Omitted rather than guessed. */
+    proof: z.string().optional(),
+    items: z
+      .array(
+        z.object({
+          name: z.string().min(1),
+          core: z.boolean().default(false),
+        })
+      )
+      .min(1),
+  }),
+});
+
+/**
  * Experience is Markdown so a role can carry prose when the bullets are not enough;
  * `contributions` stays structured because the About page renders it as a list.
  */
@@ -176,4 +203,4 @@ const experience = defineCollection({
   }),
 });
 
-export const collections = { profile, project, experience };
+export const collections = { profile, project, skill, experience };

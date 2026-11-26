@@ -1,0 +1,171 @@
+---
+// Skills — the stack as a diagram, top of the system down to the runtime.
+// The groups and their tools come from `src/content/skills/*.json` (verified from
+// the CV); this page only decides how they relate, not what is claimed.
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getProfile, getSkills } from '@/lib/content';
+import { ROUTES, SITE } from '@/config/site';
+
+const [profile, skills] = await Promise.all([getProfile(), getSkills()]);
+
+const tools = skills.flatMap((layer) => layer.data.items);
+const core = [...new Set(tools.filter((tool) => tool.core).map((tool) => tool.name))];
+
+const countLabel = `${tools.length} tools · ${skills.length} layers`;
+const description =
+  'The stack behind Carlos Renato’s work, layer by layer: TypeScript, Node.js, React, PostgreSQL, BigQuery, AWS and Cloudflare, from the interface down to the runtime.';
+
+/** Stable in-page anchor: the layer label, not the filename. */
+const anchor = (layer: string) => `layer-${layer.toLowerCase().replace(/\s+/g, '-')}`;
+---
+
+<BaseLayout
+  title={`Skills & Stack — ${SITE.name}, Senior Software Engineer`}
+  description={description}
+  path={ROUTES.skills}
+  current="skills"
+>
+  <section class="hero skills-hero" aria-labelledby="skills-title">
+    <div class="hero-grid">
+      <p class="status">
+        <span class="status-dot" aria-hidden="true" />
+        {profile.data.availability ?? 'Available on request'}
+      </p>
+
+      <h1 id="skills-title">
+        The whole stack, <br /> not just the <em>top.</em>
+      </h1>
+
+      <p class="hero-lede">
+        Six layers, in the order a system is built and the order it fails: the interface, the
+        services, the data, the pipeline, the platform, and the language underneath. Everything
+        below comes from the published CV, grouped by where it does its work.
+      </p>
+
+      <nav class="stack-index" aria-label="Skill layers">
+        <p class="stack-index-title">Top to bottom</p>
+        <ol>
+          {skills.map((layer, index) => (
+            <li>
+              <a href={`#${anchor(layer.data.layer)}`}>
+                <span class="stack-index-num">{String(index + 1).padStart(2, '0')}</span>
+                <span class="stack-index-name">{layer.data.layer}</span>
+                <span class="stack-index-count">{layer.data.items.length}</span>
+              </a>
+            </li>
+          ))}
+        </ol>
+      </nav>
+
+      <dl class="hero-meta">
+        <div>
+          <dt>Layers</dt>
+          <dd>{skills.length}</dd>
+        </div>
+        <div>
+          <dt>Tools</dt>
+          <dd>{tools.length}</dd>
+        </div>
+        <div>
+          <dt>Core</dt>
+          <dd>{core.length} in daily use</dd>
+        </div>
+        <div>
+          <dt>Source</dt>
+          <dd>Published CV</dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="work" aria-labelledby="core-title">
+    <div class="section-rule">
+      <h2 id="core-title">What I reach for first</h2>
+      <p>{core.length} tools</p>
+    </div>
+
+    <p class="core-line">
+      {core.map((name) => (
+        <span>{name} </span>
+      ))}
+    </p>
+
+    <p class="core-note">
+      The tools that follow me between projects. The rest of the stack is below, layer by layer.
+    </p>
+  </section>
+
+  <section class="work" aria-labelledby="stack-title">
+    <div class="section-rule">
+      <h2 id="stack-title">The stack, top-down</h2>
+      <p>{countLabel}</p>
+    </div>
+
+    <ol class="stack">
+      {skills.map((layer, index) => (
+        <li class="stack-layer" id={anchor(layer.data.layer)}>
+          <div class="stack-rail">
+            <span class="stack-num">{String(index + 1).padStart(2, '0')}</span>
+            <span class="stack-label">{layer.data.layer}</span>
+          </div>
+
+          <div class="stack-body">
+            <h3>{layer.data.title}</h3>
+            <p class="stack-summary">{layer.data.summary}</p>
+
+            {layer.data.proof && (
+              <p class="stack-proof">
+                <span>In production</span>
+                {layer.data.proof}
+              </p>
+            )}
+
+            <ul class="stack-items" aria-label={`${layer.data.title} tools`}>
+              {layer.data.items.map((item) => (
+                <li class:list={['stack-item', { 'is-core': item.core }]}>
+                  {item.name}
+                  {item.core && (
+                    <span class="visually-hidden"> — used across most of the record</span>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </li>
+      ))}
+    </ol>
+
+    <p class="stack-note">
+      An aqua node marks a tool that appears across most of the record. AI tooling is documented
+      separately on <a href={ROUTES.ai}>the AI page</a>.
+    </p>
+  </section>
+
+  <section class="statement band" aria-labelledby="skills-cta-title">
+    <div class="statement-inner">
+      <h2 id="skills-cta-title" class="statement-label">
+        Next
+      </h2>
+
+      <div class="statement-body-wrap">
+        <p class="statement-body">
+          A tool only matters in the layer where it belongs. Most of the problems worth hiring for
+          live between two of them: the API and the data, the pipeline and the platform, the
+          interface and the query behind it.
+        </p>
+
+        <div class="statement-links">
+          <a class="text-link" href={ROUTES.experience}>
+            The record <span aria-hidden="true">→</span>
+          </a>
+          <a class="text-link" href={ROUTES.projects}>
+            Projects <span aria-hidden="true">→</span>
+          </a>
+          <a class="text-link" href={ROUTES.contact}>
+            Start a conversation <span aria-hidden="true">→</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

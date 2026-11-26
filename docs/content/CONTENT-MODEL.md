@@ -53,6 +53,24 @@ a future CMS or API can emit the same shape without a parser change.
 | `links[]` | `live` \| `repository` \| `case-study` \| `reference` |
 | `confidentialityNote` | What is withheld and why |
 
+## Skills — `src/content/skills/<layer>.json`
+
+One file per layer. The page renders them in `order`, so a new layer is a new file with the
+next number; a new tool is one entry in `items`.
+
+| Field | Notes |
+| --- | --- |
+| `title` | Full layer name, e.g. "Services & APIs" |
+| `layer` | Short label for the index and rail, e.g. "Services"; also the anchor |
+| `order` | Position in the stack, top (`1`) to runtime |
+| `summary` | One line of point of view, not a definition |
+| `contentStatus` | Only `verified` layers render |
+| `proof` | Optional: where the layer has shipped, in CV terms |
+| `items[]` | `{ name, core? }`; `core` marks the tools used across most of the record |
+
+The page computes the core list and the counts from the files; neither is written by hand.
+No proficiency levels, percentages or endorsements: the CV does not state them.
+
 ## Experience — `src/content/experience/<org>.md`
 
 Template: `docs/content/templates/experience-role.md`.
@@ -76,6 +94,7 @@ Period formatting (`2026-03` → `Mar 2026`, `present` → `Present`) lives in
 1. `kind: personal` before `kind: client`.
 2. `featuredOrder` ascending, then title.
 3. Experience: newest `period.start` first; the page splits `primary` from `additional`.
+4. Skills: `order` ascending; items keep the order written in the file.
 
 ## Content integrity
 

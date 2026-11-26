@@ -27,6 +27,7 @@ export type PublicProject = ProjectWithSlug & {
   };
 };
 export type Experience = CollectionEntry<'experience'>;
+export type Skill = CollectionEntry<'skill'>;
 
 function isPublicProject(project: Project): boolean {
   if (project.data.status === 'sample') return true;
@@ -138,6 +139,14 @@ export async function getProjectBySlug(slug: string): Promise<Project | undefine
   }
 
   return project;
+}
+
+/** Verified skill layers, top of the stack first. */
+export async function getSkills(): Promise<Skill[]> {
+  const entries = await getCollection('skill');
+  return entries
+    .filter((entry) => entry.data.contentStatus === 'verified')
+    .sort((a, b) => a.data.order - b.data.order);
 }
 
 /** Experience entries that are safe to publish, newest first. */

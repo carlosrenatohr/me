@@ -1,0 +1,18 @@
+{
+  "title": "Interface & product",
+  "layer": "Interface",
+  "order": 1,
+  "summary": "Where the system becomes a product: dashboards, operational panels and public pages built to stay readable when the data behind them is large.",
+  "contentStatus": "verified",
+  "proof": "Attribution reporting at GrowthOptix · Orbit Logistics · this site",
+  "items": [
+    { "name": "React", "core": true },
+    { "name": "Astro", "core": true },
+    { "name": "TypeScript" },
+    { "name": "Next.js" },
+    { "name": "Preact" },
+    { "name": "Vue.js" },
+    { "name": "Angular" },
+    { "name": "Bootstrap" }
+  ]
+}
