@@ -538,8 +538,9 @@ read from the origin root, so it is correct but not authoritative until a domain
 
 ## Phase 06 — Product-first content rebuild
 
-**Status: IN REVIEW.** The owner's rebuild brief and addendum, executed on 2026-11-25 as v0.11.0.
-Audit, truth matrix and limitations: `docs/PORTFOLIO-CONTENT-AUDIT.md`.
+**Status: DONE.** The owner's rebuild brief and addendum, executed on 2026-11-25 as v0.11.0 and
+deployed to GitHub Pages from `master` (`4ce2a19`, run `45751569576`). Audit, truth matrix and
+limitations: `docs/PORTFOLIO-CONTENT-AUDIT.md`.
 
 - [x] Verify every project claim against public repositories, deployments or the CV; record the
   matrix and mark unsupported claims as omitted rather than guessed.
@@ -564,6 +565,17 @@ pnpm build        → 17 pages; sitemap 17 URLs (7 routes + 10 projects)
 responsive audit  → OK — all checks passed, 8 routes × 390/834/1440
 built HTML        → no sample copy, `[DRAFT]` or `[to confirm]`
 visual review     → home desktop/mobile, projects index, HIT Cargo, GrowthOptix
+```
+
+Production verification, 2026-11-25 (`https://carlosrenatohr.github.io/me/`):
+
+```
+Pages workflow    → build 25s, deploy 13s, success
+routes            → 17/17 return 200; /projects/signal-desk/ returns 404
+sitemap / robots  → 17 canonical URLs; robots points at /me/sitemap.xml
+live HTML         → no sample markers; /projects/ indexable; canonical and og:image on the live origin
+live images       → dashboard/detail/reports .webp load at 1600×900
+live audit        → OK — all checks passed, 8 routes × 390/834/1440
 ```
 
 **Open owner actions:** Orbit evidence (demo/repo/approved architecture), Buko evidence,
