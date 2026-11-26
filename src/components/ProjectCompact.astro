@@ -1,0 +1,41 @@
+---
+/**
+ * A compact shelf for the open-source experiments: status, name, one line and a
+ * link to the project page. It reuses the experience row so the experiments read
+ * as secondary to the featured products instead of competing with them.
+ */
+import { projectPath } from '@/config/site';
+import type { PublicProject } from '@/lib/content';
+
+interface Props {
+  projects: PublicProject[];
+}
+
+const { projects } = Astro.props;
+
+const STATUS_LABEL: Record<string, string> = {
+  live: 'Live',
+  'in-development': 'In development',
+  demo: 'Demo',
+  archived: 'Archived',
+};
+---
+
+<ol class="record-list">
+  {projects.map((project) => (
+    <li class="record-row">
+      <p class="record-period">
+        {project.data.productStatus
+          ? STATUS_LABEL[project.data.productStatus]
+          : project.data.category}
+      </p>
+      <div class="record-body">
+        <p class="eyebrow">{project.data.category}</p>
+        <h3>
+          <a href={projectPath(project.slug)}>{project.data.title}</a>
+        </h3>
+        <p class="record-summary">{project.data.summary}</p>
+      </div>
+    </li>
+  ))}
+</ol>

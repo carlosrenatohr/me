@@ -1,22 +1,23 @@
 ---
-// Projects index — a list of entries that open into full case studies.
+// Projects index — three shelves in the owner's order: featured products,
+// open-source experiments, then professional case studies.
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import ProjectCompact from '@/components/ProjectCompact.astro';
+import ProjectFeature from '@/components/ProjectFeature.astro';
 import ProjectIndexItem from '@/components/ProjectIndexItem.astro';
-import { getPublishedProjects, isSampleProject } from '@/lib/content';
+import ProjectPair from '@/components/ProjectPair.astro';
+import { getPublishedProjects, getProjectGroups } from '@/lib/content';
 import { collectionPageNode } from '@/lib/seo';
 import { ROUTES, SITE } from '@/config/site';
 
 const projects = await getPublishedProjects();
-const hasSamples = projects.some(isSampleProject);
+const { featured, openSource, professional } = await getProjectGroups();
 
-// Samples exist to prove the layout, not to be found in a search result. Until at
-// least one real case study is published, this index is a placeholder page and is
-// kept out of the index; it becomes indexable by itself once real work lands.
-const hasRealProjects = projects.some((project) => project.data.status === 'published');
+const leadProduct = featured[0];
+const otherProducts = featured.slice(1);
 
-const countLabel = projects.length === 1 ? '1 project' : `${projects.length} projects`;
 const description =
-  'Case studies from backend and integration work: the problem, the role, the architecture decisions and the verified outcomes.';
+  'Product case studies and engineering work: logistics platforms, an AI review workflow, open-source experiments and backend work on marketing analytics and enterprise platforms.';
 ---
 
 <BaseLayout
@@ -24,7 +25,6 @@ const description =
   description={description}
   path={ROUTES.projects}
   current="projects"
-  noindex={!hasRealProjects}
   schema={[collectionPageNode(projects)]}
 >
   <section class="hero" aria-labelledby="page-title">
@@ -33,43 +33,58 @@ const description =
         Projects, <em>in detail.</em>
       </h1>
       <p class="hero-lede">
-        One structure for every entry: the problem, the solution, what I personally owned, the AI
-        role where there is one, the decisions behind it, and what changed.
+        Products I build and operate first, experiments second, and the professional engineering
+        work that supports both. Every entry states the problem, what I personally owned, the
+        decisions behind it and what the evidence actually shows.
       </p>
     </div>
   </section>
 
-  {hasSamples && (
-    <p class="sample-notice">
-      <strong>Sample content</strong>
-      These entries demonstrate the case study format. The layout, metadata and media pipeline are
-      real; the projects are not, and no live URL is published for any of them.
-    </p>
-  )}
-
-  <section class="work" aria-labelledby="projects-title">
+  <section class="work" aria-labelledby="featured-title">
     <div class="section-rule">
-      <h2 id="projects-title">All projects</h2>
-      <p>{countLabel}</p>
+      <h2 id="featured-title">Featured products</h2>
+      <p>{featured.length} products</p>
     </div>
 
-    {projects.length === 0 ? (
-      <div class="empty">
-        <p class="empty-body">
-          No published projects yet. Case studies appear here once the owner confirms the role,
-          dates, contribution and outcomes for each one.
-        </p>
-        <p class="empty-note">
-          [Content pending — verified entries go in <code>src/content/projects/</code> with
-          <code>status: published</code> and <code>contentStatus: verified</code>.]
-        </p>
-      </div>
+    {leadProduct ? (
+      <ProjectFeature project={leadProduct} priority showBadge={false} />
     ) : (
+      <div class="empty">
+        <p class="empty-body">No product has been published yet.</p>
+      </div>
+    )}
+
+    <ProjectPair projects={otherProducts} />
+  </section>
+
+  {openSource.length > 0 && (
+    <section class="work" aria-labelledby="experiments-title">
+      <div class="section-rule">
+        <h2 id="experiments-title">Open source &amp; experiments</h2>
+        <p>{openSource.length} projects</p>
+      </div>
+
+      <ProjectCompact projects={openSource} />
+    </section>
+  )}
+
+  {professional.length > 0 && (
+    <section class="work" aria-labelledby="professional-title">
+      <div class="section-rule">
+        <h2 id="professional-title">Professional case studies</h2>
+        <p>{professional.length} engagements</p>
+      </div>
+
+      <p class="section-note">
+        Work delivered as part of an employer or team. Platform-level figures are labelled as such;
+        client identities and employer source code stay private.
+      </p>
+
       <div class="index-list">
-        {projects.map((project, index) => (
+        {professional.map((project, index) => (
           <ProjectIndexItem project={project} index={index + 1} />
         ))}
       </div>
-    )}
-  </section>
+    </section>
+  )}
 </BaseLayout>

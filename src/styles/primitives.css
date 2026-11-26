@@ -399,6 +399,14 @@ main,
   margin-top: 1.75rem;
 }
 
+/* Without a cover the block is typographic: no oversized empty plate standing
+   in for a screenshot that does not exist yet. */
+.feature-plain .feature-body {
+  margin-top: 0;
+  padding-top: 1.75rem;
+  border-top: 1px solid var(--line);
+}
+
 .feature-title {
   grid-column: 1 / span 5;
 }

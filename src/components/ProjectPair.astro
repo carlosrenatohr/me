@@ -14,7 +14,6 @@ interface Props {
 }
 
 const { projects } = Astro.props;
-const pending = '[to confirm]';
 ---
 
 {projects.length > 0 && (
@@ -43,7 +42,6 @@ const pending = '[to confirm]';
                 label="Abstract placeholder plate for a secondary project"
               />
             )}
-            {!data.cover && <span class="media-note">Image placeholder</span>}
           </a>
 
           {sample && (
@@ -59,14 +57,18 @@ const pending = '[to confirm]';
           <p class="pair-summary">{data.summary}</p>
 
           <dl class="project-meta compact">
-            <div>
-              <dt>Role</dt>
-              <dd>{data.role ?? pending}</dd>
-            </div>
-            <div>
-              <dt>Stack</dt>
-              <dd>{data.technologies.length ? data.technologies.join(', ') : pending}</dd>
-            </div>
+            {data.role && (
+              <div>
+                <dt>Role</dt>
+                <dd>{data.role}</dd>
+              </div>
+            )}
+            {data.technologies.length > 0 && (
+              <div>
+                <dt>Stack</dt>
+                <dd>{data.technologies.slice(0, 5).join(', ')}</dd>
+              </div>
+            )}
           </dl>
         </article>
       );
